@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML Quadratic Blowup vs Billion Laughs Attack - xml</title>
+    <meta name="description" content="XML entity expansion attacks are Denial of Service (DoS) vulnerabilities that exploit standard XML parsers by forcing them to consume excessive CPU and memory resources. While both the Billion Laughs attack and the Quadratic Blowup attack misuse Document">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/xml-quadratic-blowup-vs-billion-laughs-attack">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="XML Quadratic Blowup vs Billion Laughs Attack - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/xml-quadratic-blowup-vs-billion-laughs-attack" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="XML entity expansion attacks are Denial of Service (DoS) vulnerabilities that exploit standard XML parsers by forcing them to consume excessive CPU and memory resources. While both the Billion Laughs attack and the Quadratic Blowup attack misuse Document" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="xml-quadratic-blowup-vs-billion-laughs-attack">XML Quadratic
+Blowup vs Billion Laughs Attack</h1>
+<p>XML entity expansion attacks are Denial of Service (DoS)
+vulnerabilities that exploit standard XML parsers by forcing them to
+consume excessive CPU and memory resources. While both the Billion
+Laughs attack and the Quadratic Blowup attack misuse Document Type
+Definition (DTD) entities to exhaust system memory, they differ
+significantly in their structural design, growth rates, and ability to
+bypass basic parser defenses.</p>
+<h2 id="the-billion-laughs-attack-exponential-growth">The Billion Laughs
+Attack: Exponential Growth</h2>
+<p>The Billion Laughs attack, also known as an XML entity expansion or
+XML bomb, relies on deeply nested, recursive entity references. In this
+attack, an initial entity containing a small string is defined, and
+subsequent entities reference the previous entity multiple times.</p>
+<p>For example, <code>&amp;lol1;</code> contains ten
+<code>&amp;lol;</code> references, <code>&amp;lol2;</code> contains ten
+<code>&amp;lol1;</code> references, and this pattern continues through
+<code>&amp;lol9;</code>. When the parser attempts to resolve the final
+entity, the expansion grows exponentially:</p>
+<p><span class="math display">\[\text{Size} = \text{Base String} \times
+10^n\]</span></p>
+<p>Because of this exponential multiplier (<span
+class="math inline">\(O(10^n)\)</span>), an XML payload as small as one
+kilobyte can expand into several gigabytes of data in memory, instantly
+crashing the parser or freezing the host system.</p>
+<h2 id="the-quadratic-blowup-attack-flat-repetitive-expansion">The
+Quadratic Blowup Attack: Flat, Repetitive Expansion</h2>
+<p>The Quadratic Blowup attack was designed specifically to bypass
+security controls implemented to prevent the Billion Laughs attack. Many
+XML parsers attempt to mitigate Billion Laughs by enforcing an entity
+recursion depth limit (e.g., allowing no more than a few levels of
+nested entities).</p>
+<p>Instead of nesting entities deeply, a Quadratic Blowup attack defines
+a single, extremely large entity (e.g., several thousand or hundred
+thousand characters) without recursion. The document then references
+this large entity repeatedly within a single element:</p>
+<p><span class="math display">\[\text{Size} = \text{Entity Size} \times
+\text{Number of References}\]</span></p>
+<p>Because both the payload size and the number of references scale
+linearly, the resulting memory consumption scales quadratically (<span
+class="math inline">\(O(N^2)\)</span>). A document under 1 MB can expand
+into tens or hundreds of gigabytes of memory while maintaining an entity
+nesting depth of only one level.</p>
+<h2 id="core-differences">Core Differences</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;">Billion Laughs Attack</th>
+<th style="text-align: left;">Quadratic Blowup Attack</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Expansion Mechanism</strong></td>
+<td style="text-align: left;">Deeply nested, recursive entity
+definitions</td>
+<td style="text-align: left;">Single large entity repeated many times
+without nesting</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Growth Rate</strong></td>
+<td style="text-align: left;">Exponential (<span
+class="math inline">\(O(k^n)\)</span>)</td>
+<td style="text-align: left;">Quadratic (<span
+class="math inline">\(O(N^2)\)</span>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Payload Structure</strong></td>
+<td style="text-align: left;">Small file with multiple layers of entity
+declarations</td>
+<td style="text-align: left;">Medium-sized file with large entity values
+and flat repetitions</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Bypass Capability</strong></td>
+<td style="text-align: left;">Blocked by entity depth/recursion
+limits</td>
+<td style="text-align: left;">Bypasses depth limits because it uses zero
+or shallow nesting</td>
+</tr>
+</tbody>
+</table>
+<h2 id="mitigation">Mitigation</h2>
+<p>Relying solely on entity depth limits is insufficient to protect XML
+parsers against both vulnerabilities. Comprehensive protection
+requires:</p>
+<ul>
+<li><strong>Disabling DTDs entirely:</strong> Setting features like
+<code>disallow-doctype-decl</code> to <code>true</code> completely
+neutralizes both attacks.</li>
+<li><strong>Disabling General Entity Resolution:</strong> If DTDs are
+required, configure the parser to ignore external and internal general
+entities.</li>
+<li><strong>Enforcing Global Size Limits:</strong> Limiting the maximum
+cumulative size of expanded entities and capping overall parser memory
+allocation prevents quadratic expansion from exhausting system
+resources.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

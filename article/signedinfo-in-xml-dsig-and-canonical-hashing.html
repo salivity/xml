@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignedInfo in XML-DSig and Canonical Hashing - xml</title>
+    <meta name="description" content="The SignedInfo element is the core component of an XML Digital Signature (XML-DSig) structure that binds the protected data, the cryptographic algorithms, and the digest values together. This article explains the role of the SignedInfo element within the">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/signedinfo-in-xml-dsig-and-canonical-hashing">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SignedInfo in XML-DSig and Canonical Hashing - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/signedinfo-in-xml-dsig-and-canonical-hashing" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The SignedInfo element is the core component of an XML Digital Signature (XML-DSig) structure that binds the protected data, the cryptographic algorithms, and the digest values together. This article explains the role of the SignedInfo element within the" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="signedinfo-in-xml-dsig-and-canonical-hashing">SignedInfo in
+XML-DSig and Canonical Hashing</h1>
+<p>The <code>SignedInfo</code> element is the core component of an XML
+Digital Signature (XML-DSig) structure that binds the protected data,
+the cryptographic algorithms, and the digest values together. This
+article explains the role of the <code>SignedInfo</code> element within
+the XML-DSig standard, how it functions as the actual payload of the
+digital signature, and why it must undergo canonicalization and hashing
+before the cryptographic signature is applied.</p>
+<h2 id="what-is-the-signedinfo-element">What is the SignedInfo
+Element?</h2>
+<p>In an XML-DSig structure, the <code>&lt;Signature&gt;</code> element
+encapsulates the entire digital signature. Within it,
+<code>&lt;SignedInfo&gt;</code> is the sub-element that defines
+precisely what is being signed and which algorithms are being used to
+perform the operation.</p>
+<p>A standard <code>&lt;SignedInfo&gt;</code> element contains three key
+child components:</p>
+<ul>
+<li><strong><code>&lt;CanonicalizationMethod&gt;</code>:</strong>
+Specifies the canonicalization algorithm (such as Canonical XML 1.0 or
+1.1, with or without comments) used to normalize the
+<code>&lt;SignedInfo&gt;</code> element itself before signing.</li>
+<li><strong><code>&lt;SignatureMethod&gt;</code>:</strong> Defines the
+cryptographic algorithm used to generate and verify the signature, such
+as RSA-SHA256 or ECDSA-SHA256.</li>
+<li><strong><code>&lt;Reference&gt;</code> Elements:</strong> Contains
+one or more references to the signed data objects. Each
+<code>&lt;Reference&gt;</code> includes:
+<ul>
+<li>A URI pointing to the target data (which can be inside or outside
+the XML document).</li>
+<li>Optional <code>&lt;Transforms&gt;</code> applied to the target
+data.</li>
+<li>A <code>&lt;DigestMethod&gt;</code> indicating the hashing algorithm
+used on the referenced data.</li>
+<li>A <code>&lt;DigestValue&gt;</code> containing the actual
+base64-encoded hash of the referenced data.</li>
+</ul></li>
+</ul>
+<p>Rather than signing the raw payload data directly, XML-DSig signs the
+<code>&lt;SignedInfo&gt;</code> element itself. Because
+<code>&lt;SignedInfo&gt;</code> securely contains the cryptographic
+digests (<code>&lt;DigestValue&gt;</code>) of the referenced payloads,
+any modification to the underlying data invalidates its digest, which in
+turn invalidates the signature over <code>&lt;SignedInfo&gt;</code>.</p>
+<h2 id="why-is-signedinfo-canonically-hashed">Why is SignedInfo
+Canonically Hashed?</h2>
+<p>Hashing and canonicalization serve two distinct, essential purposes
+in creating a reliable XML digital signature.</p>
+<h3 id="1-the-need-for-hashing">1. The Need for Hashing</h3>
+<p>Asymmetric cryptographic signing algorithms (like RSA or ECDSA) are
+computationally expensive and strictly limited by key size regarding the
+amount of data they can sign directly. Hashing reduces the
+<code>&lt;SignedInfo&gt;</code> XML structure to a small, fixed-length
+digest. The signer's private key then encrypts (signs) this digest
+rather than the full XML markup, ensuring high performance and
+cryptographic security.</p>
+<h3 id="2-the-critical-role-of-canonicalization-c14n">2. The Critical
+Role of Canonicalization (C14N)</h3>
+<p>XML documents can be syntactically altered without changing their
+semantic meaning. For example, intermediate network proxies, parsers, or
+serialization libraries might:</p>
+<ul>
+<li>Reorder attributes within an element.</li>
+<li>Convert character encodings (e.g., UTF-8 to UTF-16).</li>
+<li>Add, remove, or alter insignificant whitespace and line breaks
+(<code>\r\n</code> vs. <code>\n</code>).</li>
+<li>Normalize namespace prefixes and declarations.</li>
+<li>Convert empty elements from <code>&lt;tag&gt;&lt;/tag&gt;</code> to
+<code>&lt;tag/&gt;</code>.</li>
+</ul>
+<p>Cryptographic hash functions are extremely sensitive to binary
+changes. A change of a single byte or space creates an entirely
+different hash value, causing signature verification to fail even if the
+underlying XML data is logically unchanged.</p>
+<p>To prevent false signature validation failures, the
+<code>&lt;SignedInfo&gt;</code> element must be transformed into its
+<strong>canonical form</strong> (standardized XML representation) before
+it is hashed and signed. Canonicalization ensures that both the sender
+and the receiver generate the exact same byte stream from the
+<code>&lt;SignedInfo&gt;</code> element, regardless of how an XML parser
+formats or renders the physical document. Once canonicalized, the
+resulting deterministic byte sequence is hashed and cryptographically
+verified.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

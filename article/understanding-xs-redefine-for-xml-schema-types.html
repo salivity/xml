@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding xs:redefine for XML Schema Types - xml</title>
+    <meta name="description" content="The xs:redefine element in XML Schema Definition (XSD) allows a schema to incorporate declarations from an external schema document while simultaneously modifying the definitions of complex types, simple types, model groups, or attribute groups. This art">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/understanding-xs-redefine-for-xml-schema-types">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Understanding xs:redefine for XML Schema Types - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/understanding-xs-redefine-for-xml-schema-types" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The xs:redefine element in XML Schema Definition (XSD) allows a schema to incorporate declarations from an external schema document while simultaneously modifying the definitions of complex types, simple types, model groups, or attribute groups. This art" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="understanding-xsredefine-for-xml-schema-types">Understanding
+xs:redefine for XML Schema Types</h1>
+<p>The <code>xs:redefine</code> element in XML Schema Definition (XSD)
+allows a schema to incorporate declarations from an external schema
+document while simultaneously modifying the definitions of complex
+types, simple types, model groups, or attribute groups. This article
+explains the exact behavior, constraints, and semantics of
+<code>xs:redefine</code> when applied specifically to simple and complex
+type definitions.</p>
+<h2 id="core-mechanics-of-xsredefine">Core Mechanics of xs:redefine</h2>
+<p>When using <code>xs:redefine</code>, the redefining schema acts
+similarly to an <code>xs:include</code>, bringing external components
+into the target schema's namespace. However, child elements within
+<code>xs:redefine</code> can alter specific existing types.</p>
+<p>For type definitions (<code>xs:simpleType</code> and
+<code>xs:complexType</code>), the fundamental rule of
+<code>xs:redefine</code> is <strong>self-derivation</strong>: the new
+type definition must use the original type definition as its base type
+through either extension or restriction.</p>
+<h2 id="redefining-complex-types">Redefining Complex Types</h2>
+<p>When redefining an <code>xs:complexType</code>, the following rules
+apply:</p>
+<ol type="1">
+<li><strong>Self-Reference:</strong> The redefining
+<code>xs:complexType</code> must contain an <code>xs:extension</code> or
+<code>xs:restriction</code> whose <code>base</code> attribute references
+the exact name of the type being redefined.</li>
+<li><strong>Extension Behavior:</strong> If using
+<code>xs:extension</code>, the new elements or attributes are appended
+to the content model of the original type definition according to
+standard derivation rules.</li>
+<li><strong>Restriction Behavior:</strong> If using
+<code>xs:restriction</code>, the new definition must be a valid
+structural restriction of the original type, adhering to standard
+particle restriction rules (e.g., tightening occurrences, fixing values,
+or narrowing types).</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Original Schema (types.xsd) --&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:complexType</span> <span class="ot">name=</span><span class="st">&quot;AddressType&quot;</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:sequence</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">xs:element</span> <span class="ot">name=</span><span class="st">&quot;street&quot;</span> <span class="ot">type=</span><span class="st">&quot;xs:string&quot;</span>/&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">xs:element</span> <span class="ot">name=</span><span class="st">&quot;city&quot;</span> <span class="ot">type=</span><span class="st">&quot;xs:string&quot;</span>/&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">xs:sequence</span>&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:complexType</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Redefining Schema --&gt;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:redefine</span> <span class="ot">schemaLocation=</span><span class="st">&quot;types.xsd&quot;</span>&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:complexType</span> <span class="ot">name=</span><span class="st">&quot;AddressType&quot;</span>&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">xs:complexContent</span>&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">xs:extension</span> <span class="ot">base=</span><span class="st">&quot;AddressType&quot;</span>&gt;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                &lt;<span class="kw">xs:sequence</span>&gt;</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>                    &lt;<span class="kw">xs:element</span> <span class="ot">name=</span><span class="st">&quot;country&quot;</span> <span class="ot">type=</span><span class="st">&quot;xs:string&quot;</span>/&gt;</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                &lt;/<span class="kw">xs:sequence</span>&gt;</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>            &lt;/<span class="kw">xs:extension</span>&gt;</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">xs:complexContent</span>&gt;</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">xs:complexType</span>&gt;</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:redefine</span>&gt;</span></code></pre></div>
+<h2 id="redefining-simple-types">Redefining Simple Types</h2>
+<p>When redefining an <code>xs:simpleType</code>:</p>
+<ol type="1">
+<li><strong>Restriction Only:</strong> Simple types can only be
+redefined using <code>xs:restriction</code>. Extension is not supported
+for simple types because simple types cannot add new structural elements
+or attributes.</li>
+<li><strong>Base Attribute:</strong> The <code>base</code> attribute of
+the <code>xs:restriction</code> element must reference the name of the
+<code>xs:simpleType</code> being redefined.</li>
+<li><strong>Facet Tightening:</strong> The redefining simple type
+applies additional or more restrictive facets (such as
+<code>xs:maxLength</code>, <code>xs:pattern</code>, or
+<code>xs:enumeration</code>) to the original base type.</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Original Schema (types.xsd) --&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:simpleType</span> <span class="ot">name=</span><span class="st">&quot;ZipCodeType&quot;</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:restriction</span> <span class="ot">base=</span><span class="st">&quot;xs:string&quot;</span>/&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:simpleType</span>&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Redefining Schema --&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:redefine</span> <span class="ot">schemaLocation=</span><span class="st">&quot;types.xsd&quot;</span>&gt;</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:simpleType</span> <span class="ot">name=</span><span class="st">&quot;ZipCodeType&quot;</span>&gt;</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">xs:restriction</span> <span class="ot">base=</span><span class="st">&quot;ZipCodeType&quot;</span>&gt;</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">xs:pattern</span> <span class="ot">value=</span><span class="st">&quot;\d{5}(-\d{4})?&quot;</span>/&gt;</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">xs:restriction</span>&gt;</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">xs:simpleType</span>&gt;</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:redefine</span>&gt;</span></code></pre></div>
+<h2 id="pervasive-effect-global-substitution">Pervasive Effect (Global
+Substitution)</h2>
+<p>The alteration caused by <code>xs:redefine</code> is
+<strong>pervasive</strong>. Once a type is redefined:</p>
+<ul>
+<li>The new definition completely replaces the old definition throughout
+the entire schema composition.</li>
+<li>Any other elements or types within the included schema (or schemas
+that include it) that reference the modified type name will
+automatically resolve to the redefined version.</li>
+<li>The original definition ceases to exist independently in the schema
+processor's symbol space.</li>
+</ul>
+<h2 id="namespace-constraints">Namespace Constraints</h2>
+<ul>
+<li><strong>Same Namespace:</strong> The redefined schema must have the
+same <code>targetNamespace</code> as the redefining schema, or it must
+have no target namespace (chameleon schema approach).</li>
+<li><strong>Qualified Names:</strong> When referencing the base type
+inside the redefinition, the prefix must match the target namespace of
+the schema if one is defined.</li>
+</ul>
+<h2 id="key-differences-and-limitations">Key Differences and
+Limitations</h2>
+<ul>
+<li><strong>No Arbitrary Replacement:</strong> Unlike standard
+inheritance, you cannot redefine a type to derive from a completely
+different base type (e.g., redefining <code>MyType</code> by deriving
+from <code>xs:int</code> if it originally derived from
+<code>xs:string</code>).</li>
+<li><strong>Deprecation in XSD 1.1:</strong> Due to complexities and
+ambiguities in schema component model resolution,
+<code>xs:redefine</code> is deprecated in XSD 1.1 in favor of the more
+flexible and predictable <code>xs:override</code> element, which does
+not require self-derivation.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

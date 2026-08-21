@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XQuery Update Facility: Insert Delete Replace Rename - xml</title>
+    <meta name="description" content="The XQuery Update Facility extends XQuery to enable persistent modifications to XML documents without requiring full-document rewrites. Instead of altering nodes instantly, update expressions generate updating primitives that are collected into a Pending">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/xquery-update-facility-insert-delete-replace-rename">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="XQuery Update Facility: Insert Delete Replace Rename - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/xquery-update-facility-insert-delete-replace-rename" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The XQuery Update Facility extends XQuery to enable persistent modifications to XML documents without requiring full-document rewrites. Instead of altering nodes instantly, update expressions generate updating primitives that are collected into a Pending" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="xquery-update-facility-insert-delete-replace-rename">XQuery
+Update Facility: Insert Delete Replace Rename</h1>
+<p>The XQuery Update Facility extends XQuery to enable persistent
+modifications to XML documents without requiring full-document rewrites.
+Instead of altering nodes instantly, update expressions generate
+updating primitives that are collected into a Pending Update List (PUL)
+and applied together in a specific, safe execution order at the end of
+the query snapshot. The core of this mechanism relies on four primary
+expressions: <code>insert</code>, <code>delete</code>,
+<code>replace</code>, and <code>rename</code>.</p>
+<h3 id="the-insert-expression">The <code>insert</code> Expression</h3>
+<p>The <code>insert</code> expression adds new nodes into an existing
+XML tree. It supports directional and positional modifiers to define
+exactly where the source nodes should be placed relative to the target
+node.</p>
+<ul>
+<li><strong>Syntax forms:</strong>
+<ul>
+<li><code>insert node $source into $target</code>: Inserts the node as a
+child of the target element or document node, without a guaranteed
+position relative to existing children unless specified.</li>
+<li><code>insert node $source as first into $target</code>: Inserts the
+node as the first child of the target element.</li>
+<li><code>insert node $source as last into $target</code>: Inserts the
+node as the final child of the target element.</li>
+<li><code>insert node $source before $target</code>: Inserts the node as
+a sibling immediately preceding the target node.</li>
+<li><code>insert node $source after $target</code>: Inserts the node as
+a sibling immediately following the target node.</li>
+</ul></li>
+</ul>
+<p>If attributes are inserted into an element, the positional keywords
+(<code>before</code>, <code>after</code>, <code>first</code>,
+<code>last</code>) are ignored because attributes are unordered.</p>
+<h3 id="the-delete-expression">The <code>delete</code> Expression</h3>
+<p>The <code>delete</code> expression removes one or more nodes from an
+XML document.</p>
+<ul>
+<li><strong>Syntax:</strong>
+<ul>
+<li><code>delete node $target</code></li>
+<li><code>delete nodes $targets</code></li>
+</ul></li>
+</ul>
+<p>The target expression evaluates to a sequence of zero or more nodes.
+When executed, the targeted nodes (which can be elements, attributes,
+text nodes, comments, or processing instructions) are detached from
+their respective parent nodes. If a deleted element contains child
+nodes, the entire subtree is removed automatically.</p>
+<h3 id="the-replace-expression">The <code>replace</code> Expression</h3>
+<p>The <code>replace</code> expression updates XML content through two
+distinct operational modes: replacing an entire node or replacing only a
+node's value.</p>
+<ul>
+<li><p><strong>Replacing a Node
+(<code>replace node</code>):</strong></p>
+<ul>
+<li><code>replace node $target with $replacement</code></li>
+<li>This form removes the target node and inserts one or more
+replacement nodes in its exact position. If the target is an attribute,
+the replacement must also be an attribute; if the target is an element,
+comment, text node, or processing instruction, the replacement must not
+be an attribute.</li>
+</ul></li>
+<li><p><strong>Replacing Node Value
+(<code>replace value of node</code>):</strong></p>
+<ul>
+<li><code>replace value of node $target with $new-value</code></li>
+<li>This form preserves the identity and attributes of the target node
+while altering its internal content. For element nodes, all existing
+children are removed and replaced with a single text node containing the
+string value of <code>$new-value</code>. For attribute, text, comment,
+or processing instruction nodes, the string value of the node is updated
+directly.</li>
+</ul></li>
+</ul>
+<h3 id="the-rename-expression">The <code>rename</code> Expression</h3>
+<p>The <code>rename</code> expression modifies the QName (qualified
+name) of an element, attribute, or processing instruction without
+altering its node identity, attributes, or child content.</p>
+<ul>
+<li><strong>Syntax:</strong>
+<ul>
+<li><code>rename node $target as $new-name</code></li>
+</ul></li>
+</ul>
+<p>The target expression must resolve to a single element, attribute, or
+processing instruction node. The <code>$new-name</code> expression
+evaluates to an <code>xs:QName</code> (or an <code>xs:string</code>
+representing the name). The operation preserves the node's position,
+descendants, and attributes while updating only its name and associated
+namespace bindings.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

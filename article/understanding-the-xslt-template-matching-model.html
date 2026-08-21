@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding the XSLT Template Matching Model - xml</title>
+    <meta name="description" content="Extensible Stylesheet Language Transformations (XSLT) relies on a declarative, rule-based processing model rather than a procedural loop-based approach to transform XML documents. This article breaks down the mechanics of the template-matching engine, ex">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/understanding-the-xslt-template-matching-model">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Understanding the XSLT Template Matching Model - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/understanding-the-xslt-template-matching-model" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Extensible Stylesheet Language Transformations (XSLT) relies on a declarative, rule-based processing model rather than a procedural loop-based approach to transform XML documents. This article breaks down the mechanics of the template-matching engine, ex" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="understanding-the-xslt-template-matching-model">Understanding
+the XSLT Template Matching Model</h1>
+<p>Extensible Stylesheet Language Transformations (XSLT) relies on a
+declarative, rule-based processing model rather than a procedural
+loop-based approach to transform XML documents. This article breaks down
+the mechanics of the template-matching engine, exploring how source
+trees are traversed, how XPath patterns determine template selection,
+and how recursive execution drives the generation of target output
+structures.</p>
+<h3 id="the-declarative-nature-of-xslt">The Declarative Nature of
+XSLT</h3>
+<p>Unlike imperative programming languages that dictate step-by-step
+instructions (such as <code>for</code> or <code>while</code> loops),
+XSLT is declarative. Developers define rules using templates, and the
+XSLT processor decides when and how to apply them based on the structure
+of the input XML tree.</p>
+<h3 id="the-source-tree-and-context-node">The Source Tree and Context
+Node</h3>
+<p>An XML document is parsed into an in-memory node tree consisting of
+document root nodes, element nodes, attribute nodes, text nodes, and
+comment nodes. During transformation, the processor maintains a "context
+node"—the specific node currently being evaluated.</p>
+<h3 id="defining-rules-with-xsltemplate">Defining Rules with
+<code>xsl:template</code></h3>
+<p>The core mechanism of XSLT transformation is the
+<code>&lt;xsl:template&gt;</code> element paired with the
+<code>match</code> attribute:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xsl:template</span> <span class="ot">match=</span><span class="st">&quot;pattern&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Output instructions and transformations --&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xsl:template</span>&gt;</span></code></pre></div>
+<p>The <code>match</code> attribute contains an XPath pattern. Whenever
+the processor selects a node from the XML source tree that satisfies
+this pattern, the corresponding template is instantiated to produce
+output.</p>
+<h3 id="recursive-processing-with-xslapply-templates">Recursive
+Processing with <code>xsl:apply-templates</code></h3>
+<p>Execution begins by default at the root node (<code>/</code>). To
+continue traversing the XML hierarchy, a template invokes
+<code>&lt;xsl:apply-templates&gt;</code>.</p>
+<p>When <code>&lt;xsl:apply-templates&gt;</code> is encountered:</p>
+<ol type="1">
+<li>The processor selects the children of the current context node (or
+nodes specified by a <code>select</code> attribute).</li>
+<li>For each selected node, the processor scans the stylesheet to find
+the best matching <code>&lt;xsl:template&gt;</code>.</li>
+<li>The selected template executes, setting the matched node as the new
+context node.</li>
+<li>This cycle repeats recursively until all targeted nodes are
+processed.</li>
+</ol>
+<h3 id="conflict-resolution-and-rule-precedence">Conflict Resolution and
+Rule Precedence</h3>
+<p>When multiple templates match the same node, the XSLT processor uses
+a predefined conflict resolution algorithm to decide which template
+executes:</p>
+<ol type="1">
+<li><strong>Import Precedence:</strong> Templates in the importing
+stylesheet take priority over templates in imported stylesheets.</li>
+<li><strong>Explicit Priority:</strong> Templates can define a
+<code>priority</code> attribute (e.g.,
+<code>&lt;xsl:template match="item" priority="2"&gt;</code>). Higher
+numerical values win.</li>
+<li><strong>Default Specificity:</strong> Specific XPath patterns (e.g.,
+<code>parent/child[@id]</code>) have higher default priority than
+generic patterns (e.g., <code>*</code> or <code>node()</code>).</li>
+<li><strong>Order of Declaration:</strong> If priority and precedence
+are identical, the template declared last in the stylesheet is
+chosen.</li>
+</ol>
+<h3 id="built-in-default-rules">Built-in Default Rules</h3>
+<p>If an XML node is selected via <code>xsl:apply-templates</code> but
+has no matching user-defined template, XSLT applies built-in default
+templates:</p>
+<ul>
+<li><strong>Element and Root Nodes:</strong> Recursively apply templates
+to all child nodes.</li>
+<li><strong>Text and Attribute Nodes:</strong> Copy the string value
+directly to the output.</li>
+<li><strong>Comments and Processing Instructions:</strong> Suppress
+output by doing nothing.</li>
+</ul>
+<p>This template-matching mechanism decouples document structure from
+presentation, allowing flexible, modular, and maintainable
+transformations across complex XML data.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

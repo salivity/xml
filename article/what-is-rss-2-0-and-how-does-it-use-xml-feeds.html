@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is RSS 2.0 and How Does It Use XML Feeds? - xml</title>
+    <meta name="description" content="RSS 2.0 (Really Simple Syndication) is a standardized, web-based data format that allows publishers to automatically distribute updated content to users and third-party applications. By utilizing Extensible Markup Language (XML), RSS 2.0 structures websi">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/what-is-rss-2-0-and-how-does-it-use-xml-feeds">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is RSS 2.0 and How Does It Use XML Feeds? - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/what-is-rss-2-0-and-how-does-it-use-xml-feeds" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="RSS 2.0 (Really Simple Syndication) is a standardized, web-based data format that allows publishers to automatically distribute updated content to users and third-party applications. By utilizing Extensible Markup Language (XML), RSS 2.0 structures websi" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-rss-20-and-how-does-it-use-xml-feeds">What Is RSS 2.0
+and How Does It Use XML Feeds?</h1>
+<p>RSS 2.0 (Really Simple Syndication) is a standardized, web-based data
+format that allows publishers to automatically distribute updated
+content to users and third-party applications. By utilizing Extensible
+Markup Language (XML), RSS 2.0 structures website updates—such as blog
+posts, news articles, and podcast episodes—into a universal,
+machine-readable feed. This article explains the fundamentals of RSS
+2.0, breaks down its underlying XML structure, and outlines how the
+syndication process delivers content directly to subscribers.</p>
+<h2 id="what-is-rss-20">What Is RSS 2.0?</h2>
+<p>RSS 2.0 is a feed specification designed to share frequently updated
+web content. Instead of requiring users to manually visit a website to
+check for new information, an RSS feed publishes new entries immediately
+upon release. Feed aggregators, news readers, and other applications
+subscribe to this feed to fetch and display updates in a centralized
+dashboard.</p>
+<p>Originally developed in the late 1990s and standardized in the early
+2000s, version 2.0 became the most widely adopted iteration of RSS due
+to its simplicity, broad compatibility, and support for media
+enclosures, which paved the way for podcasting.</p>
+<h2 id="how-rss-20-uses-xml">How RSS 2.0 Uses XML</h2>
+<p>XML provides the structural framework for RSS 2.0 feeds. It uses
+custom tags to label, organize, and separate different pieces of content
+so that software can easily parse and interpret the data.</p>
+<p>An RSS 2.0 document is a single XML file structured in a strict
+parent-child hierarchy:</p>
+<h3 id="1-root-element">1. Root Element</h3>
+<p>The document begins with standard XML declaration tags, followed by
+the top-level <code>&lt;rss&gt;</code> element, which specifies the
+version attribute:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span> <span class="ot">version=</span><span class="st">&quot;1.0&quot;</span> <span class="ot">encoding=</span><span class="st">&quot;UTF-8&quot;</span> <span class="fu">?&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">rss</span> <span class="ot">version=</span><span class="st">&quot;2.0&quot;</span>&gt;</span></code></pre></div>
+<h3 id="2-the-channel-element">2. The <code>&lt;channel&gt;</code>
+Element</h3>
+<p>Nested inside the <code>&lt;rss&gt;</code> tag is the
+<code>&lt;channel&gt;</code> element. This contains overall metadata
+about the feed or website providing the updates. An RSS 2.0 channel
+requires three core sub-elements:</p>
+<ul>
+<li><code>&lt;title&gt;</code>: The name of the feed or website.</li>
+<li><code>&lt;link&gt;</code>: The URL to the originating website.</li>
+<li><code>&lt;description&gt;</code>: A brief summary of what the feed
+covers.</li>
+</ul>
+<p>Optional channel-level tags include <code>&lt;language&gt;</code>,
+<code>&lt;pubDate&gt;</code>, <code>&lt;copyright&gt;</code>, and
+<code>&lt;category&gt;</code>.</p>
+<h3 id="3-the-item-elements">3. The <code>&lt;item&gt;</code>
+Elements</h3>
+<p>Each distinct piece of content (such as an article, video, or podcast
+episode) is represented by an <code>&lt;item&gt;</code> element inside
+the <code>&lt;channel&gt;</code>. A channel can contain multiple
+items.</p>
+<p>Key tags within an <code>&lt;item&gt;</code> include:</p>
+<ul>
+<li><code>&lt;title&gt;</code>: The headline or entry title.</li>
+<li><code>&lt;link&gt;</code>: The direct URL to the full content.</li>
+<li><code>&lt;description&gt;</code>: A text summary or the full body of
+the entry.</li>
+<li><code>&lt;guid&gt;</code>: A globally unique identifier that
+prevents duplicate entries in feed readers.</li>
+<li><code>&lt;pubDate&gt;</code>: The publication date and time
+formatted according to RFC 822 standards.</li>
+<li><code>&lt;enclosure&gt;</code>: An element containing
+<code>url</code>, <code>length</code>, and <code>type</code> attributes
+used to attach media files, such as MP3s for podcasts.</li>
+</ul>
+<h2 id="example-of-an-rss-20-xml-document">Example of an RSS 2.0 XML
+Document</h2>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span> <span class="ot">version=</span><span class="st">&quot;1.0&quot;</span> <span class="ot">encoding=</span><span class="st">&quot;UTF-8&quot;</span> <span class="fu">?&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">rss</span> <span class="ot">version=</span><span class="st">&quot;2.0&quot;</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">channel</span>&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">title</span>&gt;Tech News Feed&lt;/<span class="kw">title</span>&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">link</span>&gt;https://example.com&lt;/<span class="kw">link</span>&gt;</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">description</span>&gt;Daily updates on modern technology.&lt;/<span class="kw">description</span>&gt;</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">language</span>&gt;en-us&lt;/<span class="kw">language</span>&gt;</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">item</span>&gt;</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">title</span>&gt;Understanding Modern Data Formats&lt;/<span class="kw">title</span>&gt;</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">link</span>&gt;https://example.com/modern-data-formats&lt;/<span class="kw">link</span>&gt;</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">description</span>&gt;An overview of structured data formats like XML and JSON.&lt;/<span class="kw">description</span>&gt;</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">pubDate</span>&gt;Mon, 15 Jan 2024 12:00:00 GMT&lt;/<span class="kw">pubDate</span>&gt;</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">guid</span>&gt;https://example.com/modern-data-formats&lt;/<span class="kw">guid</span>&gt;</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">item</span>&gt;</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">channel</span>&gt;</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">rss</span>&gt;</span></code></pre></div>
+<h2 id="the-web-content-syndication-workflow">The Web Content
+Syndication Workflow</h2>
+<p>The syndication process functions in three distinct steps:</p>
+<ol type="1">
+<li><strong>Generation:</strong> When a publisher publishes new content
+on their content management system (CMS), the platform automatically
+updates the site's <code>feed.xml</code> file with a new
+<code>&lt;item&gt;</code> block.</li>
+<li><strong>Polling:</strong> Feed aggregators (such as Feedly or Apple
+Podcasts) routinely request the XML file from the publisher's web server
+via standard HTTP/HTTPS protocols.</li>
+<li><strong>Parsing and Display:</strong> The aggregator's XML parser
+scans the document, identifies any <code>&lt;item&gt;</code> with a new
+<code>&lt;guid&gt;</code> or updated <code>&lt;pubDate&gt;</code>,
+extracts the title, link, and summary, and renders the content in the
+user's feed reader.</li>
+</ol>
+<p>Through this XML-based model, RSS 2.0 provides a decentralized,
+platform-independent method for sharing web content efficiently and
+reliably.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML to JS Conversion: Pitfalls with Repeated Nodes - xml</title>
+    <meta name="description" content="Converting repeated XML elements into single JavaScript properties is a frequent source of bugs in data transformation pipelines. Because XML allows identical sibling tags while standard JavaScript objects require unique property keys, automated parsers">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/xml-to-js-conversion-pitfalls-with-repeated-nodes">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="XML to JS Conversion: Pitfalls with Repeated Nodes - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/xml-to-js-conversion-pitfalls-with-repeated-nodes" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Converting repeated XML elements into single JavaScript properties is a frequent source of bugs in data transformation pipelines. Because XML allows identical sibling tags while standard JavaScript objects require unique property keys, automated parsers" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="xml-to-js-conversion-pitfalls-with-repeated-nodes">XML to JS
+Conversion: Pitfalls with Repeated Nodes</h1>
+<p>Converting repeated XML elements into single JavaScript properties is
+a frequent source of bugs in data transformation pipelines. Because XML
+allows identical sibling tags while standard JavaScript objects require
+unique property keys, automated parsers often struggle to represent
+these structures reliably. This article outlines the major pitfalls of
+this conversion process, including structural inconsistency, silent data
+overwrites, sequence disruption, and downstream type-validation
+failures.</p>
+<h3
+id="inconsistent-data-types-the-array-vs-single-object-problem">Inconsistent
+Data Types (The Array vs. Single Object Problem)</h3>
+<p>The most prevalent issue with naive XML-to-JavaScript parsers is
+dynamic typing based on element frequency.</p>
+<ul>
+<li><strong>Multiple instances:</strong> If an XML document contains
+multiple <code>&lt;item&gt;</code> tags, the parser typically creates an
+array: <code>{ item: [ {...}, {...} ] }</code>.</li>
+<li><strong>Single instance:</strong> If the document contains only one
+<code>&lt;item&gt;</code> tag, the parser often flattens it to a single
+object: <code>{ item: {...} }</code>.</li>
+<li><strong>Zero instances:</strong> If the tag is absent, the property
+might be <code>undefined</code> or omitted entirely.</li>
+</ul>
+<p>This behavior forces developers to write defensive code
+(<code>Array.isArray(data.item) ? data.item : [data.item]</code>)
+everywhere the property is consumed, increasing complexity and the risk
+of runtime crashes such as
+<code>data.item.map is not a function</code>.</p>
+<h3 id="silent-data-loss-through-key-overwriting">Silent Data Loss
+Through Key Overwriting</h3>
+<p>When a parser is not configured to treat repeated tags as
+collections, it maps each XML tag directly to a JavaScript object key.
+As it iterates through sibling elements with identical names, each
+subsequent element overwrites the previous one:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">users</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">user</span>&gt;Alice&lt;/<span class="kw">user</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">user</span>&gt;Bob&lt;/<span class="kw">user</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">users</span>&gt;</span></code></pre></div>
+<p>A naive key-value mapping produces:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">users</span><span class="op">:</span> {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">user</span><span class="op">:</span> <span class="st">&quot;Bob&quot;</span> <span class="co">// &quot;Alice&quot; was overwritten and permanently lost</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Because this overwrite happens without throwing a syntax or runtime
+error, data corruption often goes unnoticed until downstream operations
+fail or audits detect missing records.</p>
+<h3 id="loss-of-document-order">Loss of Document Order</h3>
+<p>XML is an ordered, hierarchical data structure where the sequence of
+interleaved sibling tags can carry semantic meaning:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">story</span>&gt;</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">paragraph</span>&gt;First paragraph&lt;/<span class="kw">paragraph</span>&gt;</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">image</span> <span class="ot">src=</span><span class="st">&quot;figure1.png&quot;</span> /&gt;</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">paragraph</span>&gt;Second paragraph&lt;/<span class="kw">paragraph</span>&gt;</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">story</span>&gt;</span></code></pre></div>
+<p>When parsed into grouped JavaScript properties, the result is
+typically partitioned by key name:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">story</span><span class="op">:</span> {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">paragraph</span><span class="op">:</span> [<span class="st">&quot;First paragraph&quot;</span><span class="op">,</span> <span class="st">&quot;Second paragraph&quot;</span>]<span class="op">,</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">image</span><span class="op">:</span> { <span class="dt">src</span><span class="op">:</span> <span class="st">&quot;figure1.png&quot;</span> }</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>The contextual relationship between the <code>&lt;image&gt;</code>
+and the surrounding <code>&lt;paragraph&gt;</code> nodes is lost, making
+it impossible to reconstruct the original document sequence
+accurately.</p>
+<h3 id="attribute-and-text-node-collision">Attribute and Text Node
+Collision</h3>
+<p>Repeated XML nodes frequently contain both attributes and text
+values. When these elements are converted into flat JavaScript
+properties, determining where attributes belong becomes problematic:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">price</span> <span class="ot">currency=</span><span class="st">&quot;USD&quot;</span>&gt;100&lt;/<span class="kw">price</span>&gt;</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">price</span> <span class="ot">currency=</span><span class="st">&quot;EUR&quot;</span>&gt;90&lt;/<span class="kw">price</span>&gt;</span></code></pre></div>
+<p>If a parser flattens repeated elements improperly, attribute metadata
+(such as <code>currency</code>) may be discarded to preserve simple
+scalar values in an array (<code>price: [100, 90]</code>), or complex
+objects must be synthesized
+(<code>price: [{ _text: 100, currency: "USD" }, ...]</code>),
+introducing unexpected nesting depth.</p>
+<h3 id="schema-validation-and-typescript-incompatibility">Schema
+Validation and TypeScript Incompatibility</h3>
+<p>Modern JavaScript applications rely heavily on static typing (such as
+TypeScript interfaces) and runtime validation libraries (such as Zod or
+Joi). A schema that expects a uniform <code>item: Item[]</code> contract
+will fail whenever the input parser yields a bare <code>Item</code>
+object for single-element XML payloads. This structural ambiguity
+invalidates strict schema contracts and requires permissive, union-type
+schemas that weaken type safety.</p>
+<h3 id="mitigating-conversion-pitfalls">Mitigating Conversion
+Pitfalls</h3>
+<p>To avoid these issues, automated conversion pipelines should:</p>
+<ol type="1">
+<li><strong>Enforce explicit array rules:</strong> Configure parsers
+(such as <code>fast-xml-parser</code> or <code>xml2js</code>) with
+explicit options to always produce arrays for specific tags, regardless
+of whether they appear once or multiple times.</li>
+<li><strong>Use XML Schema Definitions (XSD):</strong> Leverage
+schema-aware parsers that know in advance which nodes represent
+lists.</li>
+<li><strong>Normalize payloads immediately:</strong> Implement a
+transformation layer right after parsing to standardize single-instance
+properties into uniform array structures before passing data to the
+application layer.</li>
+</ol></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

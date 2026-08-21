@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML-DSig Reference Transforms and Digest Algorithms - xml</title>
+    <meta name="description" content="In an XML Digital Signature (XML-DSig) structure, the <Reference> element identifies the target data to be signed and defines the exact cryptographic and data-preparation pipelines applied to that data. By utilizing child elements—specifically <Transfo">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/xml-dsig-reference-transforms-and-digest-algorithms">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="XML-DSig Reference Transforms and Digest Algorithms - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/xml-dsig-reference-transforms-and-digest-algorithms" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In an XML Digital Signature (XML-DSig) structure, the <Reference> element identifies the target data to be signed and defines the exact cryptographic and data-preparation pipelines applied to that data. By utilizing child elements—specifically <Transfo" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="xml-dsig-reference-transforms-and-digest-algorithms">XML-DSig
+Reference Transforms and Digest Algorithms</h1>
+<p>In an XML Digital Signature (XML-DSig) structure, the
+<code>&lt;Reference&gt;</code> element identifies the target data to be
+signed and defines the exact cryptographic and data-preparation
+pipelines applied to that data. By utilizing child elements—specifically
+<code>&lt;Transforms&gt;</code> and
+<code>&lt;DigestMethod&gt;</code>—the <code>&lt;Reference&gt;</code>
+element tells the validator how to normalize, filter, and hash the
+payload to produce the final <code>&lt;DigestValue&gt;</code> for
+verification.</p>
+<h2 id="the-role-of-the-reference-element">The Role of the Reference
+Element</h2>
+<p>The <code>&lt;Reference&gt;</code> element connects the signature to
+the signed data object. It typically contains a <code>URI</code>
+attribute pointing to the data source (whether internal to the document,
+external on a network, or detached) and houses the configuration for how
+that data must be processed before the cryptographic signature is
+generated or verified.</p>
+<p>A standard <code>&lt;Reference&gt;</code> block contains three
+primary components:</p>
+<ol type="1">
+<li><strong><code>&lt;Transforms&gt;</code></strong>: An ordered
+sequence of operations applied to the raw resource.</li>
+<li><strong><code>&lt;DigestMethod&gt;</code></strong>: The hashing
+algorithm applied to the transformed data.</li>
+<li><strong><code>&lt;DigestValue&gt;</code></strong>: The
+base64-encoded result of the digest calculation.</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">Reference</span> <span class="ot">URI=</span><span class="st">&quot;#DataObjectId&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">Transforms</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">Transform</span> <span class="ot">Algorithm=</span><span class="st">&quot;http://www.w3.org/2000/09/xmldsig#enveloped-signature&quot;</span>/&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">Transform</span> <span class="ot">Algorithm=</span><span class="st">&quot;http://www.w3.org/2001/10/xml-exc-c14n#&quot;</span>/&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">Transforms</span>&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">DigestMethod</span> <span class="ot">Algorithm=</span><span class="st">&quot;http://www.w3.org/2001/04/xmlenc#sha256&quot;</span>/&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">DigestValue</span>&gt;dGhpcyBpcyBhIGhhc2ggZXhhbXBsZSAuLi4=&lt;/<span class="kw">DigestValue</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">Reference</span>&gt;</span></code></pre></div>
+<hr />
+<h2 id="specifying-transformations-via-transforms">Specifying
+Transformations via <code>&lt;Transforms&gt;</code></h2>
+<p>The optional <code>&lt;Transforms&gt;</code> element contains one or
+more <code>&lt;Transform&gt;</code> child elements. These elements
+define an ordered pipeline of operations that manipulate the raw octet
+stream or node-set before hashing occurs.</p>
+<p>Each <code>&lt;Transform&gt;</code> specifies its logic using the
+<code>Algorithm</code> attribute, which contains a URI identifying the
+transformation standard:</p>
+<ul>
+<li><strong>Canonicalization (C14N):</strong> Standardizes XML
+formatting (such as whitespace, attribute ordering, and namespace
+declarations) to ensure identical byte streams across different XML
+parsers.
+<ul>
+<li><em>Example URI:</em>
+<code>http://www.w3.org/2001/10/xml-exc-c14n#</code> (Exclusive XML
+Canonicalization).</li>
+</ul></li>
+<li><strong>Enveloped Signature Transform:</strong> Removes the
+<code>&lt;Signature&gt;</code> element itself from the calculation when
+signing an entire document containing the signature, preventing
+recursive hashing issues.
+<ul>
+<li><em>Example URI:</em>
+<code>http://www.w3.org/2000/09/xmldsig#enveloped-signature</code></li>
+</ul></li>
+<li><strong>XPath Filtering:</strong> Applies an XPath expression to
+select specific subsets of the XML document.</li>
+<li><strong>XSLT Transforms:</strong> Applies an XSLT stylesheet to
+convert the XML structure prior to digest calculation.</li>
+</ul>
+<p>The transformations execute sequentially: the output of the first
+<code>&lt;Transform&gt;</code> serves as the input to the next until the
+pipeline completes, yielding a canonical octet stream.</p>
+<hr />
+<h2 id="specifying-the-digest-algorithm-via-digestmethod">Specifying the
+Digest Algorithm via <code>&lt;DigestMethod&gt;</code></h2>
+<p>The mandatory <code>&lt;DigestMethod&gt;</code> element defines the
+cryptographic hash function applied to the final output of the
+transformation pipeline.</p>
+<p>The algorithm is defined using the <code>Algorithm</code> attribute,
+which points to a standard URI identifier for the hashing function.
+Common digest algorithms include:</p>
+<ul>
+<li><strong>SHA-256:</strong>
+<code>http://www.w3.org/2001/04/xmlenc#sha256</code></li>
+<li><strong>SHA-384:</strong>
+<code>http://www.w3.org/2001/04/xmldsig-more#sha384</code></li>
+<li><strong>SHA-512:</strong>
+<code>http://www.w3.org/2001/04/xmlenc#sha512</code></li>
+<li><strong>SHA-1 (Legacy/Deprecated):</strong>
+<code>http://www.w3.org/2000/09/xmldsig#sha1</code></li>
+</ul>
+<hr />
+<h2 id="execution-and-verification-process">Execution and Verification
+Process</h2>
+<p>During generation and verification, the
+<code>&lt;Reference&gt;</code> element dictates the following
+step-by-step workflow:</p>
+<ol type="1">
+<li><strong>Dereferencing:</strong> The application uses the
+<code>URI</code> attribute to retrieve the target data.</li>
+<li><strong>Transforming:</strong> The data passes through each
+<code>&lt;Transform&gt;</code> in the order listed within
+<code>&lt;Transforms&gt;</code>.</li>
+<li><strong>Digesting:</strong> The resulting byte stream is hashed
+using the algorithm declared in the <code>&lt;DigestMethod&gt;</code>
+attribute.</li>
+<li><strong>Comparison / Storage:</strong> During signing, this hash is
+base64-encoded and written into <code>&lt;DigestValue&gt;</code>. During
+verification, the newly calculated hash is compared directly against the
+existing <code>&lt;DigestValue&gt;</code>.</li>
+</ol></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

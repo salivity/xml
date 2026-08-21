@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XPath Content-Based Routing for XML Payloads - xml</title>
+    <meta name="description" content="The Content-Based Router pattern inspects the internal data of an incoming message to dynamically determine its destination. When dealing with XML payloads, the router uses XML Path Language (XPath) queries to navigate the document structure, extract spe">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/xpath-content-based-routing-for-xml-payloads">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="XPath Content-Based Routing for XML Payloads - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/xpath-content-based-routing-for-xml-payloads" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Content-Based Router pattern inspects the internal data of an incoming message to dynamically determine its destination. When dealing with XML payloads, the router uses XML Path Language (XPath) queries to navigate the document structure, extract spe" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="xpath-content-based-routing-for-xml-payloads">XPath
+Content-Based Routing for XML Payloads</h1>
+<p>The Content-Based Router pattern inspects the internal data of an
+incoming message to dynamically determine its destination. When dealing
+with XML payloads, the router uses XML Path Language (XPath) queries to
+navigate the document structure, extract specific elements or
+attributes, and match these values against configured routing rules.
+This article explains the underlying mechanism of how the Content-Based
+Router processes XML messages with XPath, the step-by-step evaluation
+workflow, and best practices for implementation.</p>
+<h2 id="the-core-concept-of-content-based-routing">The Core Concept of
+Content-Based Routing</h2>
+<p>In enterprise integration, a Content-Based Router acts as an
+intelligent intermediary between message producers and consumers. Unlike
+basic routers that make decisions based solely on transport headers
+(such as HTTP headers or JMS properties), a content-based router reads
+the message body. When the payload is formatted in XML, the hierarchical
+structure of the document allows the router to pinpoint exact data nodes
+using standard XPath expressions.</p>
+<h2 id="how-the-router-evaluates-xml-via-xpath">How the Router Evaluates
+XML via XPath</h2>
+<p>The inspection and dispatching process follows a sequence of
+operational steps:</p>
+<h3 id="1-message-ingestion-and-xml-parsing">1. Message Ingestion and
+XML Parsing</h3>
+<p>When a message reaches the router endpoint, the routing engine reads
+the payload. Depending on the framework and payload size, the router
+either parses the XML into an in-memory Document Object Model (DOM) tree
+or processes it using streaming parsers (such as StAX) to conserve
+memory.</p>
+<h3 id="2-namespace-resolution">2. Namespace Resolution</h3>
+<p>XML documents frequently contain XML namespaces (such as
+<code>xmlns:ord="http://example.com/orders"</code>). The router binds
+namespace prefixes to the corresponding Uniform Resource Identifiers
+(URIs) within its evaluation context, ensuring the XPath engine
+accurately identifies qualified nodes.</p>
+<h3 id="3-xpath-expression-execution">3. XPath Expression Execution</h3>
+<p>The router executes a predefined XPath query against the XML
+document. The query targets the specific element or attribute required
+to make the routing decision.</p>
+<p>Common XPath expression types include:</p>
+<ul>
+<li><strong>Absolute Paths:</strong>
+<code>/orders/order/department</code> to locate a specific node from the
+root.</li>
+<li><strong>Conditional Predicates:</strong>
+<code>/orders/order[@priority='high']</code> to filter elements by
+attribute values.</li>
+<li><strong>Functions:</strong>
+<code>boolean(//payment/amount &gt; 1000)</code> or
+<code>string(/user/country)</code> to return typed values directly to
+the decision engine.</li>
+</ul>
+<h3 id="4-rule-matching-and-predicate-evaluation">4. Rule Matching and
+Predicate Evaluation</h3>
+<p>The result returned by the XPath query is compared against a routing
+table or a set of conditional rules (often structured as
+<code>if/then</code> or <code>switch/case</code> statements):</p>
+<ul>
+<li><strong>String Matching:</strong> If
+<code>/order/destination/text()</code> equals <code>"EU"</code>, route
+to the European fulfillment queue.</li>
+<li><strong>Numeric Comparison:</strong> If
+<code>/invoice/total/text() &gt; 10000</code>, route to the high-value
+audit queue.</li>
+<li><strong>Node Existence:</strong> If
+<code>boolean(/request/expressDelivery)</code>, route to the priority
+processing channel.</li>
+</ul>
+<h3 id="5-message-dispatching">5. Message Dispatching</h3>
+<p>Once a match is identified, the router forwards the unaltered message
+to the designated target channel or endpoint. If no conditions match,
+the router sends the payload to a default fallback channel or triggers a
+dead-letter process.</p>
+<h2 id="conceptual-example">Conceptual Example</h2>
+<p>Consider an incoming XML message:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">purchaseOrder</span> <span class="ot">id=</span><span class="st">&quot;1042&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">customer</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">type</span>&gt;Premium&lt;/<span class="kw">type</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">customer</span>&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">items</span> <span class="ot">total=</span><span class="st">&quot;250.00&quot;</span>/&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">purchaseOrder</span>&gt;</span></code></pre></div>
+<p>The router configures an XPath expression:</p>
+<p><code>/purchaseOrder/customer/type/text()</code></p>
+<p>The routing engine executes the evaluation:</p>
+<ol type="1">
+<li>The XPath query evaluates to the string <code>"Premium"</code>.</li>
+<li>The router matches <code>"Premium"</code> to the rule:
+<code>type == "Premium" -&gt; premiumOrderQueue</code>.</li>
+<li>The message is dispatched directly to
+<code>premiumOrderQueue</code>.</li>
+</ol>
+<h2 id="performance-and-implementation-considerations">Performance and
+Implementation Considerations</h2>
+<ul>
+<li><strong>Streaming vs. DOM:</strong> For large XML payloads, loading
+a full DOM tree into memory can cause performance bottlenecks. Modern
+integration platforms use streaming XPath evaluators that scan the
+document sequentially without loading the entire payload into RAM.</li>
+<li><strong>XPath Compilation:</strong> Pre-compiling XPath expressions
+into reusable objects reduces CPU overhead across high-throughput
+message channels.</li>
+<li><strong>Error Handling:</strong> Routers must handle malformed XML
+payloads gracefully, routing unparseable messages to a dead-letter
+channel rather than terminating the routing process.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

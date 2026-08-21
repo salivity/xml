@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constructing Dynamic XML Elements in XQuery - xml</title>
+    <meta name="description" content="This article explains how XQuery dynamically constructs new XML elements and attributes from existing datasets. By leveraging direct and computed constructors alongside FLWOR (For, Let, Where, Order by, Return) expressions, XQuery allows developers to tr">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/constructing-dynamic-xml-elements-in-xquery">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Constructing Dynamic XML Elements in XQuery - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/constructing-dynamic-xml-elements-in-xquery" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how XQuery dynamically constructs new XML elements and attributes from existing datasets. By leveraging direct and computed constructors alongside FLWOR (For, Let, Where, Order by, Return) expressions, XQuery allows developers to tr" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="constructing-dynamic-xml-elements-in-xquery">Constructing
+Dynamic XML Elements in XQuery</h1>
+<p>This article explains how XQuery dynamically constructs new XML
+elements and attributes from existing datasets. By leveraging direct and
+computed constructors alongside FLWOR (For, Let, Where, Order by,
+Return) expressions, XQuery allows developers to transform, reshape, and
+generate customized XML structures on the fly based on queried data.</p>
+<h2 id="direct-xml-constructors">Direct XML Constructors</h2>
+<p>Direct constructors allow you to write literal XML tags directly
+within an XQuery expression. Dynamic data from the queried dataset is
+embedded into the element content or attribute values using curly braces
+<code>{}</code>. The expression inside the braces is evaluated at
+runtime, and its result is inserted into the final XML tree.</p>
+<pre class="xquery"><code>for $book in doc(&quot;library.xml&quot;)//book
+where $book/price &lt; 30
+return
+  &lt;discount-item category=&quot;{$book/@genre}&quot;&gt;
+    &lt;title&gt;{$book/title/text()}&lt;/title&gt;
+    &lt;sale-price&gt;{$book/price * 0.8}&lt;/sale-price&gt;
+  &lt;/discount-item&gt;</code></pre>
+<p>In this example, literal tags like <code>&lt;discount-item&gt;</code>
+and <code>&lt;title&gt;</code> are created directly, while attribute
+values and inner text nodes are populated dynamically from the source
+dataset.</p>
+<h2 id="computed-xml-constructors">Computed XML Constructors</h2>
+<p>When the element or attribute names cannot be hardcoded and must be
+determined dynamically from the data, XQuery provides computed
+constructors using keywords such as <code>element</code>,
+<code>attribute</code>, <code>text</code>, and <code>comment</code>.</p>
+<p>A computed constructor evaluates two expressions: the first
+determines the QName (element or attribute name), and the second
+determines the content.</p>
+<pre class="xquery"><code>for $node in doc(&quot;dataset.xml&quot;)//record/*
+return
+  element { node-name($node) } {
+    attribute { &quot;status&quot; } { &quot;processed&quot; },
+    attribute { concat(&quot;data-&quot;, name($node)) } { &quot;valid&quot; },
+    $node/text()
+  }</code></pre>
+<p>Computed constructors are essential when translating dynamic schemas,
+mapping key-value stores into tag-value structures, or normalizing
+inconsistent naming conventions across disparate datasets.</p>
+<h2 id="combining-constructors-with-flwor-expressions">Combining
+Constructors with FLWOR Expressions</h2>
+<p>The power of dynamic construction comes from pairing constructors
+with FLWOR expressions. The <code>return</code> clause of a FLWOR
+expression acts as a factory for generating transformed nodes for each
+iteration over the source data.</p>
+<ol type="1">
+<li><strong>Iteration (<code>for</code>)</strong>: Iterates through
+source nodes.</li>
+<li><strong>Variable Binding (<code>let</code>)</strong>: Calculates
+intermediate values, aggregations, or sequences.</li>
+<li><strong>Filtering (<code>where</code>)</strong>: Selects relevant
+items.</li>
+<li><strong>Ordering (<code>order by</code>)</strong>: Sorts output
+sequence order.</li>
+<li><strong>Output Generation (<code>return</code>)</strong>: Constructs
+the dynamic elements for each item.</li>
+</ol>
+<pre class="xquery"><code>&lt;inventory summary-date=&quot;{current-date()}&quot;&gt;
+{
+  for $item in doc(&quot;stock.xml&quot;)//item
+  let $totalValue := $item/quantity * $item/unit-cost
+  order by $totalValue descending
+  return
+    element { if ($item/quantity &lt; 10) then &quot;low-stock&quot; else &quot;available-stock&quot; } {
+      attribute sku { $item/@id },
+      element name { $item/name/text() },
+      element total-value { $totalValue }
+    }
+}
+&lt;/inventory&gt;</code></pre>
+<h2 id="nesting-and-grouping-constructors">Nesting and Grouping
+Constructors</h2>
+<p>XQuery supports full nesting of direct and computed constructors. In
+modern XQuery specifications (3.0 and later), the <code>group by</code>
+clause can be used to aggregate data dynamically into hierarchical
+structures:</p>
+<pre class="xquery"><code>&lt;departments&gt;
+{
+  for $emp in doc(&quot;employees.xml&quot;)//employee
+  group by $dept := $emp/department
+  return
+    &lt;department name=&quot;{$dept}&quot;&gt;
+      &lt;headcount&gt;{count($emp)}&lt;/headcount&gt;
+      &lt;staff&gt;
+      {
+        for $e in $emp
+        return &lt;name&gt;{$e/name/text()}&lt;/name&gt;
+      }
+      &lt;/staff&gt;
+    &lt;/department&gt;
+}
+&lt;/departments&gt;</code></pre>
+<p>By combining direct constructors for static structures with computed
+constructors for schema-driven naming, XQuery provides a complete
+declarative engine for shaping and constructing dynamic XML documents
+from any queried source.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

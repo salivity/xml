@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Apache Xalan Executes XSLT Stylesheets - xml</title>
+    <meta name="description" content="Apache Xalan is a robust processor designed to transform XML documents into HTML, plain text, or other XML formats using Extensible Stylesheet Language Transformations (XSLT). This article explains the internal execution pipeline of Apache Xalan, detaili">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/how-apache-xalan-executes-xslt-stylesheets">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Apache Xalan Executes XSLT Stylesheets - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/how-apache-xalan-executes-xslt-stylesheets" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Apache Xalan is a robust processor designed to transform XML documents into HTML, plain text, or other XML formats using Extensible Stylesheet Language Transformations (XSLT). This article explains the internal execution pipeline of Apache Xalan, detaili" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-apache-xalan-executes-xslt-stylesheets">How Apache Xalan
+Executes XSLT Stylesheets</h1>
+<p>Apache Xalan is a robust processor designed to transform XML
+documents into HTML, plain text, or other XML formats using Extensible
+Stylesheet Language Transformations (XSLT). This article explains the
+internal execution pipeline of Apache Xalan, detailing how it parses
+source files, organizes nodes in memory using the Document Table Model
+(DTM), evaluates XPath expressions, and applies template rules through
+both interpretive and compiled (XSLTC) execution modes.</p>
+<h3 id="1-the-processing-pipeline-overview">1. The Processing Pipeline
+Overview</h3>
+<p>Xalan follows the standard Java API for XML Processing (JAXP) model
+to execute transformations. The execution flow consists of four primary
+stages:</p>
+<ol type="1">
+<li><strong>Stylesheet Processing:</strong> The XSLT document is read
+and compiled into an internal executable structure or bytecode.</li>
+<li><strong>Source Document Parsing:</strong> The source XML is parsed
+into an optimized in-memory tree representation.</li>
+<li><strong>Template Matching and Execution:</strong> The transformation
+engine processes the source tree starting from the root node, resolving
+XPath queries and executing matching XSLT instructions.</li>
+<li><strong>Result Serialization:</strong> The generated result tree is
+serialized to the requested output format (XML, HTML, or text) via SAX
+events, DOM nodes, or direct character streams.</li>
+</ol>
+<h3 id="2-document-table-model-dtm">2. Document Table Model (DTM)</h3>
+<p>Standard DOM implementations introduce significant memory overhead
+because every element, attribute, and text node is stored as a separate
+Java object. To optimize memory usage and traversal speed, Xalan uses
+the Document Table Model (DTM).</p>
+<p>The DTM represents the entire XML document tree using parallel arrays
+of primitive integers rather than complex object graphs. Each node is
+assigned an integer handle that encodes its node type, document
+identity, and array offset. Structural relationships (parent, first
+child, next sibling) are resolved through direct array index lookups.
+This flat architecture drastically reduces garbage collection pressure
+and accelerates tree traversals.</p>
+<h3 id="3-xpath-evaluation-and-pattern-matching">3. XPath Evaluation and
+Pattern Matching</h3>
+<p>At the core of stylesheet execution is pattern matching driven by
+Xalan’s XPath engine:</p>
+<ul>
+<li><strong>Expression Parsing:</strong> XPath expressions in
+<code>match</code> and <code>select</code> attributes are parsed into
+Abstract Syntax Trees (ASTs).</li>
+<li><strong>Context Handling:</strong> As Xalan traverses the XML tree,
+it maintains an execution context containing the current context node,
+context position, and variable bindings.</li>
+<li><strong>Template Resolution:</strong> When a node is selected for
+processing (such as via <code>&lt;xsl:apply-templates&gt;</code>), Xalan
+evaluates all matching <code>&lt;xsl:template&gt;</code> rules, computes
+their specificity and priority, and executes the rule with the highest
+precedence.</li>
+</ul>
+<h3 id="4-interpretive-mode-vs-compiled-mode-xsltc">4. Interpretive Mode
+vs. Compiled Mode (XSLTC)</h3>
+<p>Apache Xalan provides two distinct processing engines to execute
+stylesheets:</p>
+<h4 id="the-interpretive-processor">The Interpretive Processor</h4>
+<p>In interpretive mode (<code>org.apache.xalan.processor</code> and
+<code>org.apache.xalan.transformer</code>), Xalan converts the
+stylesheet into a runtime graph of <code>ElemTemplateElement</code>
+objects. During transformation, an interpreter walks through these
+objects sequentially, dynamically evaluating variables, conditions
+(<code>&lt;xsl:if&gt;</code>, <code>&lt;xsl:choose&gt;</code>), and
+loops (<code>&lt;xsl:for-each&gt;</code>). This mode requires minimal
+initial startup time and is suitable for dynamic environments where
+stylesheets change frequently.</p>
+<h4 id="the-compiled-processor-xsltc">The Compiled Processor
+(XSLTC)</h4>
+<p>XSLTC compiles an XSLT stylesheet directly into Java bytecode,
+producing classes known as "translets."</p>
+<ul>
+<li><strong>Ahead-of-Time / On-the-Fly Compilation:</strong> The
+compiler translates XSLT elements and XPath expressions directly into
+JVM instructions.</li>
+<li><strong>Performance Optimization:</strong> Translets eliminate the
+interpretation overhead, inline variable lookups, and execute loops
+directly as compiled JVM code.</li>
+<li><strong>Reuse:</strong> Once compiled into a <code>Templates</code>
+object, a translet can be instantiated across multiple threads as
+lightweight <code>Transformer</code> instances to transform large
+volumes of XML documents with high throughput.</li>
+</ul>
+<h3 id="5-serialization">5. Serialization</h3>
+<p>Once the transformation logic processes the nodes, the result tree is
+piped through a serializer. Xalan dispatches the generated output as a
+stream of SAX-like events (<code>startElement</code>,
+<code>characters</code>, <code>endElement</code>) to an output handler.
+The serializer applies output properties specified in
+<code>&lt;xsl:output&gt;</code> (such as indentation, character
+encoding, and media types) and writes the final document to a file,
+stream, or memory buffer.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

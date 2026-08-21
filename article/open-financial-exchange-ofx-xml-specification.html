@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Financial Exchange (OFX) XML Specification - xml</title>
+    <meta name="description" content="This article provides an overview of the Open Financial Exchange (OFX) XML specification, a standardized data format used to transmit financial data between institutions and software applications. It explores the history and technical framework of OFX, i">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/open-financial-exchange-ofx-xml-specification">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Open Financial Exchange (OFX) XML Specification - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/open-financial-exchange-ofx-xml-specification" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides an overview of the Open Financial Exchange (OFX) XML specification, a standardized data format used to transmit financial data between institutions and software applications. It explores the history and technical framework of OFX, i" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="open-financial-exchange-ofx-xml-specification">Open Financial
+Exchange (OFX) XML Specification</h1>
+<p>This article provides an overview of the Open Financial Exchange
+(OFX) XML specification, a standardized data format used to transmit
+financial data between institutions and software applications. It
+explores the history and technical framework of OFX, its transition to
+standard XML, the core financial workflows it supports, and its role
+alongside modern financial APIs.</p>
+<h2 id="what-is-open-financial-exchange-ofx">What is Open Financial
+Exchange (OFX)?</h2>
+<p>Open Financial Exchange (OFX) is an open standard created in 1997
+through a collaboration between Microsoft, Intuit, and CheckFree. It was
+designed to establish a unified framework for exchanging financial data
+electronically between financial institutions, businesses, and consumer
+financial management software (such as Intuit QuickBooks, Quicken, and
+various ERP systems).</p>
+<p>Before OFX, financial institutions used proprietary data formats,
+requiring software developers to build custom integration pipelines for
+every bank. OFX solved this fragmentation by defining standard
+structures for requests and responses across common banking
+activities.</p>
+<h2 id="the-evolution-to-xml-ofx-2x">The Evolution to XML (OFX 2.x)</h2>
+<p>The original implementation, OFX 1.x, utilized a custom format based
+on SGML (Standard Generalized Markup Language) with implicit closing
+tags to minimize payload size over slow internet connections.</p>
+<p>With the release of OFX version 2.0, the standard fully transitioned
+to pure XML (Extensible Markup Language). This shift introduced several
+key advantages:</p>
+<ul>
+<li><strong>Standard Validation:</strong> Uses XML Schema Definitions
+(XSD) to strictly validate transaction structures before
+processing.</li>
+<li><strong>Universal Parsing:</strong> Leverages standard XML parsers
+built into modern programming languages, eliminating the need for custom
+SGML tokenizers.</li>
+<li><strong>Interoperability:</strong> Simplifies integration across web
+services, enterprise message brokers, and cloud-native
+applications.</li>
+</ul>
+<h2 id="how-the-ofx-protocol-works">How the OFX Protocol Works</h2>
+<p>OFX operates on a client-server request/response model, typically
+communicated over secure HTTP (HTTPS).</p>
+<ol type="1">
+<li><strong>Request:</strong> The client (such as personal finance
+software) sends an OFX request containing authentication credentials and
+specific query parameters (e.g., requesting all settled transactions for
+an account between two dates).</li>
+<li><strong>Authentication:</strong> The server validates the user's
+credentials alongside client identification tags (such as application ID
+and version).</li>
+<li><strong>Response:</strong> The server returns an OFX XML document
+containing structured data envelopes containing the requested
+transactions, balances, or error codes.</li>
+</ol>
+<h3 id="core-message-sets-supported-by-ofx">Core Message Sets Supported
+by OFX</h3>
+<p>The OFX specification defines distinct message sets tailored to
+specific financial domains:</p>
+<ul>
+<li><strong>Banking (<code>BANKMSGSRQV1</code> /
+<code>BANKMSGSRSV1</code>):</strong> Covers checking, savings, and
+credit line accounts. Used for statement downloads, real-time balance
+inquiries, and inter-account fund transfers.</li>
+<li><strong>Credit Cards (<code>CREDITCARDMSGSRQV1</code>):</strong>
+Handles credit card transaction history, pending charges, reward
+balances, and statement closing data.</li>
+<li><strong>Investments (<code>INVSTMTMSGSRQV1</code>):</strong>
+Supports complex portfolio data, including stocks, bonds, mutual funds,
+401(k) accounts, trade confirmations, and dividend distributions.</li>
+<li><strong>Bill Payment and Presentment:</strong> Enables electronic
+bill presentment (EBPP), scheduling one-time or recurring payments, and
+payee management.</li>
+<li><strong>Tax Information:</strong> Facilitates the electronic
+retrieval of tax forms such as 1099s and W-2s directly into tax
+preparation software.</li>
+</ul>
+<h2 id="structure-of-an-ofx-xml-document">Structure of an OFX XML
+Document</h2>
+<p>An OFX XML document is organized hierarchically:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span> <span class="ot">version=</span><span class="st">&quot;1.0&quot;</span> <span class="ot">encoding=</span><span class="st">&quot;UTF-8&quot;</span><span class="fu">?&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?OFX</span> OFXHEADER=&quot;200&quot; VERSION=&quot;220&quot; SECURITY=&quot;NONE&quot; OLDFILEUID=&quot;NONE&quot; NEWFILEUID=&quot;NONE&quot;<span class="fu">?&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">OFX</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">SIGNONMSGSRSV1</span>&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">SONRS</span>&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">STATUS</span>&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">CODE</span>&gt;0&lt;/<span class="kw">CODE</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">SEVERITY</span>&gt;INFO&lt;/<span class="kw">SEVERITY</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      &lt;/<span class="kw">STATUS</span>&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">DTSERVER</span>&gt;20231024120000.000[-5:EST]&lt;/<span class="kw">DTSERVER</span>&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">LANGUAGE</span>&gt;ENG&lt;/<span class="kw">LANGUAGE</span>&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">SONRS</span>&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">SIGNONMSGSRSV1</span>&gt;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">BANKMSGSRSV1</span>&gt;</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">STMTTRNRS</span>&gt;</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">TRNUID</span>&gt;1001&lt;/<span class="kw">TRNUID</span>&gt;</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">STATUS</span>&gt;</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">CODE</span>&gt;0&lt;/<span class="kw">CODE</span>&gt;</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">SEVERITY</span>&gt;INFO&lt;/<span class="kw">SEVERITY</span>&gt;</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>      &lt;/<span class="kw">STATUS</span>&gt;</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">STMTRS</span>&gt;</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">CURDEF</span>&gt;USD&lt;/<span class="kw">CURDEF</span>&gt;</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">BANKACCTFROM</span>&gt;</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>          &lt;<span class="kw">BANKID</span>&gt;123456789&lt;/<span class="kw">BANKID</span>&gt;</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>          &lt;<span class="kw">ACCTID</span>&gt;987654321&lt;/<span class="kw">ACCTID</span>&gt;</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>          &lt;<span class="kw">ACCTTYPE</span>&gt;CHECKING&lt;/<span class="kw">ACCTTYPE</span>&gt;</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">BANKACCTFROM</span>&gt;</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">BANKTRANLIST</span>&gt;</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>          &lt;<span class="kw">DTSTART</span>&gt;20231001&lt;/<span class="kw">DTSTART</span>&gt;</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>          &lt;<span class="kw">DTEND</span>&gt;20231024&lt;/<span class="kw">DTEND</span>&gt;</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>          &lt;<span class="kw">STMTTRN</span>&gt;</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">TRNTYPE</span>&gt;DEBIT&lt;/<span class="kw">TRNTYPE</span>&gt;</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">DTPOSTED</span>&gt;20231015&lt;/<span class="kw">DTPOSTED</span>&gt;</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">TRNAMT</span>&gt;-45.00&lt;/<span class="kw">TRNAMT</span>&gt;</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">FITID</span>&gt;2023101501&lt;/<span class="kw">FITID</span>&gt;</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">NAME</span>&gt;Grocery Store&lt;/<span class="kw">NAME</span>&gt;</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>          &lt;/<span class="kw">STMTTRN</span>&gt;</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">BANKTRANLIST</span>&gt;</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">LEDGERBAL</span>&gt;</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>          &lt;<span class="kw">BALAMT</span>&gt;1500.00&lt;/<span class="kw">BALAMT</span>&gt;</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>          &lt;<span class="kw">DTASOF</span>&gt;20231024&lt;/<span class="kw">DTASOF</span>&gt;</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">LEDGERBAL</span>&gt;</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>      &lt;/<span class="kw">STMTRS</span>&gt;</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">STMTTRNRS</span>&gt;</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">BANKMSGSRSV1</span>&gt;</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">OFX</span>&gt;</span></code></pre></div>
+<p>Key elements include:</p>
+<ul>
+<li><strong><code>SIGNONMSGSRSV1</code>:</strong> Validates session
+status, server timestamp, and language.</li>
+<li><strong><code>STMTRS</code> (Statement Response):</strong> Groups
+account metadata, unique institution identifiers (<code>BANKID</code>),
+and account numbers (<code>ACCTID</code>).</li>
+<li><strong><code>STMTTRN</code> (Statement Transaction):</strong>
+Contains individual transaction attributes, including transaction type
+(<code>TRNTYPE</code>), posting date (<code>DTPOSTED</code>), monetary
+amount (<code>TRNAMT</code>), and the unique financial institution
+transaction identifier (<code>FITID</code>) used to prevent duplicate
+imports.</li>
+</ul>
+<h2 id="modern-relevance-of-ofx">Modern Relevance of OFX</h2>
+<p>While modern fintech ecosystems frequently adopt JSON-based REST APIs
+and frameworks like the Financial Data Exchange (FDX) or Open Banking
+standards, OFX remains widely deployed. It serves as a resilient,
+standardized backbone for desktop accounting software, automated file
+imports (.ofx and .qfx files), and legacy core banking integrations
+worldwide.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

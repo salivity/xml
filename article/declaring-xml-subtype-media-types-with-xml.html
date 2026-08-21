@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Declaring XML Subtype Media Types with +xml - xml</title>
+    <meta name="description" content="Specialized XML vocabularies declare subtype media types by appending the +xml structured syntax suffix to a designated subtype name, enabling generic XML parsers and specialized applications to correctly recognize and process the data. This guide covers">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/declaring-xml-subtype-media-types-with-xml">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Declaring XML Subtype Media Types with +xml - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/declaring-xml-subtype-media-types-with-xml" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Specialized XML vocabularies declare subtype media types by appending the +xml structured syntax suffix to a designated subtype name, enabling generic XML parsers and specialized applications to correctly recognize and process the data. This guide covers" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="declaring-xml-subtype-media-types-with-xml">Declaring XML
+Subtype Media Types with +xml</h1>
+<p>Specialized XML vocabularies declare subtype media types by appending
+the <code>+xml</code> structured syntax suffix to a designated subtype
+name, enabling generic XML parsers and specialized applications to
+correctly recognize and process the data. This guide covers the
+standards, naming conventions, encoding specifications, and registration
+rules defined by RFC 7303 and RFC 6838 for defining custom XML media
+types such as <code>image/svg+xml</code> and
+<code>application/soap+xml</code>.</p>
+<h3 id="the-xml-structured-syntax-suffix">The <code>+xml</code>
+Structured Syntax Suffix</h3>
+<p>To indicate that a specialized format is built on XML, the media
+subtype must end with the <code>+xml</code> suffix. This convention
+allows generic tools (like generic XML validators, syntax highlighters,
+and security filters) to recognize the payload as XML without needing
+prior knowledge of the specific vocabulary. At the same time, the full
+media type name informs specialized software (like SVG renderers or SOAP
+endpoints) to apply vocabulary-specific processing rules.</p>
+<h3 id="selecting-the-top-level-media-type">Selecting the Top-Level
+Media Type</h3>
+<p>Choose the top-level type based on the primary function and
+presentation of the data:</p>
+<ul>
+<li><strong><code>application/</code></strong>: Use for general data
+interchange, web services, and formats processed by applications (for
+example, <code>application/soap+xml</code> or
+<code>application/atom+xml</code>).</li>
+<li><strong><code>image/</code></strong>: Use when the primary purpose
+is visual image rendering (for example,
+<code>image/svg+xml</code>).</li>
+<li><strong><code>text/</code></strong>: Historically used for
+human-readable documents, but generally discouraged for modern XML
+vocabularies in favor of <code>application/</code> due to legacy charset
+handling issues.</li>
+<li><strong><code>model/</code></strong> or
+<strong><code>audio/</code></strong>: Used rarely, only when the XML
+specifically represents 3D models or audio data structures.</li>
+</ul>
+<h3 id="character-encoding-and-charset-handling">Character Encoding and
+Charset Handling</h3>
+<p>According to RFC 7303, XML media types should align with standard XML
+encoding rules:</p>
+<ol type="1">
+<li><strong>Rely on XML Declarations</strong>: It is recommended to let
+the XML document manage its own encoding using the
+<code>&lt;?xml version="1.0" encoding="..."?&gt;</code> declaration or
+standard UTF-8/UTF-16 auto-detection.</li>
+<li><strong>The <code>charset</code> Parameter</strong>: If you declare
+an optional <code>charset</code> parameter in the media type (e.g.,
+<code>application/example+xml; charset=utf-8</code>), its value must
+match the actual encoding of the XML document. If there is a mismatch
+between an external HTTP header <code>charset</code> and the internal
+XML <code>encoding</code> declaration, RFC 7303 specifies how parsers
+should resolve the conflict, but avoiding conflicting declarations
+entirely is best practice.</li>
+</ol>
+<h3 id="fragment-identifiers-and-base-uris">Fragment Identifiers and
+Base URIs</h3>
+<p>When specifying an XML-based media type, you must define:</p>
+<ul>
+<li><strong>Fragment Identifier Semantics</strong>: Describe how URI
+fragment identifiers (<code>#identifier</code>) resolve within the
+document. Typically, this refers to XML <code>ID</code> attributes,
+XPointer frameworks, or vocabulary-specific addressing schemes (such as
+view targets in SVG).</li>
+<li><strong>Base URI Resolution</strong>: Define how relative URIs
+within the payload are resolved, usually conforming to the
+<code>xml:base</code> specification or RFC 3986.</li>
+</ul>
+<h3 id="security-considerations">Security Considerations</h3>
+<p>The media type definition must document XML-specific security risks,
+including:</p>
+<ul>
+<li><strong>XML External Entity (XXE) Injection</strong>: Risks
+associated with resolving external DTDs or external entities.</li>
+<li><strong>Denial of Service (DoS)</strong>: Susceptibility to entity
+expansion attacks (such as the Billion Laughs attack) or large payload
+processing.</li>
+<li><strong>Executable Content</strong>: Risks if the vocabulary allows
+embedded scripts (e.g., <code>&lt;script&gt;</code> elements in
+SVG).</li>
+</ul>
+<h3 id="iana-registration">IANA Registration</h3>
+<p>To formalize the media type, submit a registration template to the
+Internet Assigned Numbers Authority (IANA) following RFC 6838
+procedures:</p>
+<ul>
+<li><strong>Standards Tree</strong>: For specifications produced by
+recognized standards bodies (e.g., <code>application/soap+xml</code> by
+the W3C).</li>
+<li><strong>Vendor Tree (<code>vnd.</code>)</strong>: For proprietary or
+company-specific vocabularies (e.g.,
+<code>application/vnd.company.format+xml</code>).</li>
+<li><strong>Personal Tree (<code>prs.</code>)</strong>: For experimental
+or personal projects (e.g.,
+<code>application/prs.name.format+xml</code>).</li>
+</ul>
+<p>The registration must include the type name, subtype name with
+<code>+xml</code>, required/optional parameters, encoding
+considerations, security considerations, and references to the schema or
+vocabulary specification.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

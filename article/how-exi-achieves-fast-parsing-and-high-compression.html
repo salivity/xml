@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How EXI Achieves Fast Parsing and High Compression - xml</title>
+    <meta name="description" content="Efficient XML Interchange (EXI) is a binary XML format developed by the World Wide Web Consortium (W3C) to eliminate the verbosity and processing overhead inherent in standard textual XML. By transitioning from human-readable text to an optimized binary">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/how-exi-achieves-fast-parsing-and-high-compression">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How EXI Achieves Fast Parsing and High Compression - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/how-exi-achieves-fast-parsing-and-high-compression" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Efficient XML Interchange (EXI) is a binary XML format developed by the World Wide Web Consortium (W3C) to eliminate the verbosity and processing overhead inherent in standard textual XML. By transitioning from human-readable text to an optimized binary" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-exi-achieves-fast-parsing-and-high-compression">How EXI
+Achieves Fast Parsing and High Compression</h1>
+<p>Efficient XML Interchange (EXI) is a binary XML format developed by
+the World Wide Web Consortium (W3C) to eliminate the verbosity and
+processing overhead inherent in standard textual XML. By transitioning
+from human-readable text to an optimized binary representation,
+utilizing grammar-driven encoding, and storing data natively, EXI
+drastically reduces payload sizes and accelerates processing speeds.
+This article explores the core architectural mechanisms—including
+schema-informed grammars, string indexing, compact datatype encoding,
+and the elimination of text-parsing bottlenecks—that enable EXI to
+outperform traditional XML.</p>
+<h3 id="grammar-driven-structural-encoding">Grammar-Driven Structural
+Encoding</h3>
+<p>Standard XML relies on repeated opening and closing tags, which
+consume significant bandwidth and require recursive delimiter scanning.
+In contrast, EXI abstracts the structure of an XML document into formal
+grammars consisting of production rules and events (such as
+<code>Start Element</code>, <code>End Element</code>, and
+<code>Characters</code>).</p>
+<p>Instead of writing verbose tag names, EXI assigns compact,
+variable-length bit codes (often just a few bits) to these grammar
+events. When a parser processes the stream, it determines the next valid
+structural event based on the current grammar state. Because the
+structural rules dictate when an element must end, EXI frequently omits
+closing tags altogether, drastically reducing structural overhead.</p>
+<h3 id="schema-informed-optimization">Schema-Informed Optimization</h3>
+<p>EXI operates in two modes: schema-less and schema-informed. While
+schema-less mode builds dynamic grammars at runtime, schema-informed
+mode utilizes existing XML Schemas (XSD) to optimize the encoding prior
+to data exchange:</p>
+<ul>
+<li><strong>Predictable Grammar Codes:</strong> Because the schema
+defines precisely which elements and attributes are valid at any given
+point, EXI assigns the shortest possible bit codes to the most likely
+events.</li>
+<li><strong>Strict Validation:</strong> Impossible states are excluded
+from the grammar, meaning zero bits are wasted distinguishing between
+invalid options.</li>
+</ul>
+<h3 id="native-data-typing-and-value-encoding">Native Data Typing and
+Value Encoding</h3>
+<p>Textual XML represents all data—numbers, booleans, dates, and binary
+blobs—as plain strings, requiring extensive character formatting during
+serialization and string-to-type parsing upon receipt. EXI encodes
+values natively using their fundamental data types:</p>
+<ul>
+<li><strong>Integers and Floats:</strong> Stored as compact binary
+integers (using variable-width encodings) or IEEE-754 floating-point
+representations rather than multi-byte ASCII sequences.</li>
+<li><strong>Booleans:</strong> Encoded as single bits (<code>0</code> or
+<code>1</code>) instead of multi-byte strings like <code>"true"</code>
+or <code>"false"</code>.</li>
+<li><strong>Binary Data:</strong> Transmitted as raw bytes instead of
+requiring inefficient Base64 encoding, which adds a 33% size penalty in
+standard XML.</li>
+</ul>
+<h3 id="string-tables-and-value-indexing">String Tables and Value
+Indexing</h3>
+<p>For strings that cannot be represented as primitive types, EXI uses
+dynamic and static string tables. When a string appears for the first
+time, it is encoded and added to a table. Subsequent occurrences of that
+string are replaced with a compact integer index referencing the table
+entry. This eliminates the redundancy of repeated attribute values,
+element content, and qualified namespace URIs.</p>
+<h3 id="elimination-of-text-lexing-overhead">Elimination of Text Lexing
+Overhead</h3>
+<p>Parsing standard XML requires high CPU usage for lexical analysis,
+which involves:</p>
+<ol type="1">
+<li>Scanning character-by-character for structural delimiters
+(<code>&lt;</code>, <code>&gt;</code>, <code>/</code>, <code>=</code>,
+<code>"</code>).</li>
+<li>Decoding character sets (e.g., UTF-8, UTF-16).</li>
+<li>Handling whitespace normalization and entity resolution (e.g.,
+<code>&amp;amp;</code>, <code>&amp;lt;</code>).</li>
+</ol>
+<p>EXI completely bypasses the lexing phase. Because data is aligned to
+bits and structured strictly according to binary grammar codes, the
+parser directly reads the stream into memory models or application-level
+objects without string scanning or delimiter matching.</p>
+<h3 id="channel-based-stream-compression">Channel-Based Stream
+Compression</h3>
+<p>For scenarios requiring even higher compression ratios, EXI provides
+an advanced feature called pre-compression or channel-based compression.
+It organizes values of the same type and context into contiguous
+channels (similar to columnar data storage). By grouping similar data
+patterns together, EXI achieves higher entropy reduction when an
+optional secondary compression algorithm, such as DEFLATE, is applied to
+the payload.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preventing XML Bomb Attacks with Entity Depth Limits - xml</title>
+    <meta name="description" content="XML entity expansion depth limits are a critical security mechanism designed to stop denial-of-service (DoS) attacks caused by recursive XML bombs, such as the Billion Laughs attack. This article explains the mechanics of recursive entity vulnerabilities">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/preventing-xml-bomb-attacks-with-entity-depth-limits">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Preventing XML Bomb Attacks with Entity Depth Limits - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/preventing-xml-bomb-attacks-with-entity-depth-limits" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="XML entity expansion depth limits are a critical security mechanism designed to stop denial-of-service (DoS) attacks caused by recursive XML bombs, such as the Billion Laughs attack. This article explains the mechanics of recursive entity vulnerabilities" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="preventing-xml-bomb-attacks-with-entity-depth-limits">Preventing
+XML Bomb Attacks with Entity Depth Limits</h1>
+<p>XML entity expansion depth limits are a critical security mechanism
+designed to stop denial-of-service (DoS) attacks caused by recursive XML
+bombs, such as the Billion Laughs attack. This article explains the
+mechanics of recursive entity vulnerabilities, how modern XML parsers
+implement depth and count thresholds to intercept nested payloads, and
+the configuration practices required to secure XML processing pipelines
+against resource exhaustion.</p>
+<h3 id="the-mechanics-of-an-xml-bomb">The Mechanics of an XML Bomb</h3>
+<p>An XML bomb exploits the Document Type Definition (DTD) feature that
+allows users to declare custom entities. In a classic Billion Laughs
+attack, a series of entities are defined hierarchically:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE</span> <span class="dt">lolz</span> <span class="dt">[</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a> <span class="dt">&lt;!ENTITY</span> <span class="dt">lol</span> <span class="st">&quot;lol&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a> <span class="dt">&lt;!ENTITY</span> <span class="dt">lol1</span> <span class="st">&quot;</span><span class="dv">&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;</span><span class="st">&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a> <span class="dt">&lt;!ENTITY</span> <span class="dt">lol2</span> <span class="st">&quot;</span><span class="dv">&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;</span><span class="st">&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a> <span class="dt">&lt;!ENTITY</span> <span class="dt">lol3</span> <span class="st">&quot;</span><span class="dv">&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;</span><span class="st">&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="dt">]&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">root</span>&gt;<span class="dv">&amp;lol3;</span>&lt;/<span class="kw">root</span>&gt;</span></code></pre></div>
+<p>When the parser encounters <code>&amp;lol3;</code>, it resolves it to
+ten instances of <code>&amp;lol2;</code>, which each resolve to ten
+instances of <code>&amp;lol1;</code>, continuing down to
+<code>&amp;lol;</code>. While the original XML payload is only a few
+hundred bytes, the fully expanded text grows exponentially, consuming
+gigabytes of memory and CPU cycles until the server crashes.</p>
+<h3 id="how-parsers-track-entity-expansion-depth">How Parsers Track
+Entity Expansion Depth</h3>
+<p>XML parsers monitor and restrict recursive entity resolution through
+internal counters during the tokenization and parsing phases:</p>
+<ol type="1">
+<li><strong>Stack Depth Tracking:</strong> When an entity contains
+references to other entities, the parser increments a depth counter for
+each level of nesting. If the nesting exceeds a predetermined threshold
+(often between 10 and 20 levels), the parser immediately aborts
+processing and throws a fatal parse error.</li>
+<li><strong>Total Entity Count Limits:</strong> Depth limits alone
+cannot prevent all attacks; a shallow payload referencing thousands of
+small, non-nested entities can still consume excessive resources (known
+as a Quadratic Blowup attack). Parsers counteract this by maintaining a
+cumulative count of expanded entities across the entire document.</li>
+<li><strong>Cumulative Size Monitoring:</strong> Some parsers monitor
+the ratio of raw input size to expanded character size. If the expansion
+ratio exceeds a safety threshold (such as 100:1) or a hard byte limit,
+processing is halted.</li>
+</ol>
+<h3 id="implementation-across-common-parsers">Implementation Across
+Common Parsers</h3>
+<p>Different programming environments implement entity expansion
+defenses natively or through security features:</p>
+<ul>
+<li><strong>Java (JAXP):</strong> Java provides the
+<code>FEATURE_SECURE_PROCESSING</code> (FSP) flag. When enabled, it
+applies default limits to entity expansion depth and total entity
+counts. Administrators can also set specific system properties, such as
+<code>jdk.xml.entityExpansionLimit</code> and
+<code>jdk.xml.elementAttributeLimit</code>, to restrict parsing
+thresholds.</li>
+<li><strong>libxml2 (C/C++):</strong> Modern versions of
+<code>libxml2</code> include built-in entity substitution caps and
+recursion depth limits (<code>XML_MAX_ENTITY_LOOP</code>). The parser
+refuses to expand entities recursively if the depth or total
+substitutions exceed safe internal thresholds.</li>
+<li><strong>.NET (System.Xml):</strong> The
+<code>XmlReaderSettings</code> class includes the
+<code>MaxCharactersFromEntities</code> property. Setting this property
+limits how many characters can expand from entities, neutralizing
+exponential growth attacks regardless of nesting structure.</li>
+</ul>
+<h3 id="complete-mitigation-disabling-dtd-processing">Complete
+Mitigation: Disabling DTD Processing</h3>
+<p>While entity depth and expansion limits provide a safety net, the
+most robust defense against XML bombs and XML External Entity (XXE)
+attacks is completely disabling external and inline DTD processing when
+DTDs are not strictly required:</p>
+<ul>
+<li>Disallowing the <code>DOCTYPE</code> declaration entirely prevents
+parsers from processing <code>&lt;!ENTITY&gt;</code> definitions
+altogether.</li>
+<li>Setting entity resolution features (such as
+<code>http://apache.org/xml/features/disallow-doctype-decl</code>) to
+<code>true</code> ensures that any document containing a DTD is rejected
+before parsing begins.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

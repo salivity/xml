@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is XML Schema Component Designator (SCD)? - xml</title>
+    <meta name="description" content="An XML Schema Component Designator (SCD) is a W3C-standardized identifier used to uniquely reference specific components within an XML Schema, such as element declarations, complex types, or attribute groups. Unlike XPath, which locates nodes within an X">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/what-is-xml-schema-component-designator-scd">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is XML Schema Component Designator (SCD)? - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/what-is-xml-schema-component-designator-scd" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="An XML Schema Component Designator (SCD) is a W3C-standardized identifier used to uniquely reference specific components within an XML Schema, such as element declarations, complex types, or attribute groups. Unlike XPath, which locates nodes within an X" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-xml-schema-component-designator-scd">What Is XML Schema
+Component Designator (SCD)?</h1>
+<p>An XML Schema Component Designator (SCD) is a W3C-standardized
+identifier used to uniquely reference specific components within an XML
+Schema, such as element declarations, complex types, or attribute
+groups. Unlike XPath, which locates nodes within an XML document's tree
+structure, an SCD targets the abstract components defined in the schema
+information set. This guide explains what SCD is, its syntax structure,
+and how it navigates schemas to identify individual components
+accurately.</p>
+<h2 id="understanding-xml-schema-component-designator-scd">Understanding
+XML Schema Component Designator (SCD)</h2>
+<p>XML Schema Component Designator (SCD) defines a URI-compatible scheme
+for addressing components in an XML Schema definition. In standard XML
+development, referencing a specific component—such as an anonymous type
+nested inside an element—can be difficult using standard URIs or
+fragmented identifiers. SCD resolves this by defining an unambiguous,
+canonical path to any structural component, regardless of how or where
+it was declared.</p>
+<h2 id="how-scd-identifies-schema-components">How SCD Identifies Schema
+Components</h2>
+<p>SCD operates similarly to a path language, using structural steps to
+traverse a schema’s component graph rather than the raw XML markup.</p>
+<h3 id="1-structural-axis-and-step-syntax">1. Structural Axis and Step
+Syntax</h3>
+<p>An SCD expression consists of a series of steps separated by slashes
+(<code>/</code>), moving from an outer scope to an inner component. Each
+step identifies a component using an axis, a namespace, and a name
+test:</p>
+<pre class="text"><code>/axis::namespace:name</code></pre>
+<ul>
+<li><strong>Axis:</strong> Specifies the kind of schema component being
+selected (e.g., <code>type::</code>, <code>elem::</code>,
+<code>attr::</code>, <code>model::</code>).</li>
+<li><strong>Name:</strong> The local name or qualified name (QName) of
+the component.</li>
+</ul>
+<h3 id="2-common-axis-types">2. Common Axis Types</h3>
+<p>SCD defines specific axes to target different schema components
+directly:</p>
+<ul>
+<li><strong><code>type::</code></strong>: Targets simple or complex
+types (e.g., <code>/type::CustomerType</code>).</li>
+<li><strong><code>elem::</code></strong>: Targets global or local
+element declarations (e.g.,
+<code>/type::CustomerType/elem::Address</code>).</li>
+<li><strong><code>attr::</code></strong>: Targets attribute declarations
+(e.g., <code>/elem::Invoice/attr::id</code>).</li>
+<li><strong><code>group::</code> / <code>attrGroup::</code></strong>:
+Targets model groups or attribute groups.</li>
+<li><strong><code>facet::</code></strong>: Targets specific restricting
+facets on simple types.</li>
+</ul>
+<h3 id="3-addressing-anonymous-and-inline-components">3. Addressing
+Anonymous and Inline Components</h3>
+<p>A significant advantage of SCD is its ability to identify anonymous
+components. When a schema contains an element with an inline, unnamed
+complex type containing a child element, SCD can address it
+step-by-step:</p>
+<pre class="text"><code>/elem::Order/type::/elem::Item</code></pre>
+<p>In this example, <code>type::</code> without a name targets the
+anonymous type directly nested inside the <code>Order</code>
+element.</p>
+<h3 id="4-canonical-and-relative-paths">4. Canonical and Relative
+Paths</h3>
+<ul>
+<li><strong>Canonical SCDs:</strong> Fully qualified paths starting with
+a leading slash (<code>/</code>) that define an absolute route from the
+root of the schema.</li>
+<li><strong>Relative SCDs:</strong> Paths that resolve relative to a
+context component, allowing modular schema references across multiple
+documents.</li>
+</ul>
+<h2 id="key-differences-between-scd-and-xpath">Key Differences Between
+SCD and XPath</h2>
+<p>While the syntax of SCD resembles XPath, they serve different layers
+of XML processing:</p>
+<ul>
+<li><strong>Target Domain:</strong> XPath evaluates instantiated XML
+nodes (elements, attributes, text nodes) in an XML instance document.
+SCD evaluates abstract schema components (types, assertions, model
+groups) in a compiled schema model.</li>
+<li><strong>Validation Independence:</strong> SCD can resolve components
+across multi-file schemas united by <code>&lt;xs:include&gt;</code> or
+<code>&lt;xs:import&gt;</code> without relying on the physical file
+locations or the lexical structure of the schema files.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

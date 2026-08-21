@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LINQ to XML Functional Construction for XML Trees - xml</title>
+    <meta name="description" content="Functional construction in LINQ to XML provides a declarative approach to building XML documents, allowing developers to define and assemble entire nested XML trees in a single, cohesive statement. By leveraging the flexible constructors of the System.Xm">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/linq-to-xml-functional-construction-for-xml-trees">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="LINQ to XML Functional Construction for XML Trees - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/linq-to-xml-functional-construction-for-xml-trees" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Functional construction in LINQ to XML provides a declarative approach to building XML documents, allowing developers to define and assemble entire nested XML trees in a single, cohesive statement. By leveraging the flexible constructors of the System.Xm" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="linq-to-xml-functional-construction-for-xml-trees">LINQ to XML
+Functional Construction for XML Trees</h1>
+<p>Functional construction in LINQ to XML provides a declarative
+approach to building XML documents, allowing developers to define and
+assemble entire nested XML trees in a single, cohesive statement. By
+leveraging the flexible constructors of the <code>System.Xml.Linq</code>
+classes—primarily <code>XElement</code> and
+<code>XAttribute</code>—developers can mirror the visual hierarchy of an
+XML document directly in C# code. This eliminates the tedious,
+multi-step procedural code required by older APIs like
+<code>XmlDocument</code> and produces cleaner, more maintainable
+software.</p>
+<h2 id="the-core-concept-the-params-object-constructor">The Core
+Concept: The <code>params object[]</code> Constructor</h2>
+<p>The foundation of functional construction is the
+<code>XElement</code> constructor signature:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="fu">XElement</span><span class="op">(</span>XName name<span class="op">,</span> <span class="kw">params</span> <span class="dt">object</span><span class="op">[]</span> content<span class="op">)</span></span></code></pre></div>
+<p>Because the <code>content</code> parameter accepts a
+<code>params</code> array of generic <code>object</code> types, you can
+pass virtually any type of data directly into an element when
+instantiating it. The constructor automatically handles:</p>
+<ul>
+<li><strong><code>XAttribute</code> objects:</strong> Added to the
+element's attribute collection.</li>
+<li><strong><code>XElement</code> objects:</strong> Added as child
+elements.</li>
+<li><strong>Simple types (strings, integers, dates):</strong> Converted
+to string values and set as the element's text content.</li>
+<li><strong>Collections (<code>IEnumerable</code>):</strong> Iterated
+automatically, with every item within the collection added recursively
+as child nodes or content.</li>
+<li><strong><code>null</code> values:</strong> Ignored safely without
+throwing exceptions.</li>
+</ul>
+<h2 id="structural-mirroring">Structural Mirroring</h2>
+<p>Traditional DOM construction requires creating a document, creating
+individual elements, setting their values, and explicitly appending each
+child to its parent node by node.</p>
+<p>In contrast, functional construction mirrors the final XML structure
+through nested constructor calls. The indentation of the C# code matches
+the hierarchy of the generated XML document.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> System<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> System<span class="op">.</span><span class="fu">Xml</span><span class="op">.</span><span class="fu">Linq</span><span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>XElement purchaseOrder <span class="op">=</span> <span class="kw">new</span> <span class="fu">XElement</span><span class="op">(</span><span class="st">&quot;PurchaseOrder&quot;</span><span class="op">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">new</span> <span class="fu">XAttribute</span><span class="op">(</span><span class="st">&quot;Id&quot;</span><span class="op">,</span> <span class="dv">1001</span><span class="op">),</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">new</span> <span class="fu">XElement</span><span class="op">(</span><span class="st">&quot;Customer&quot;</span><span class="op">,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">new</span> <span class="fu">XElement</span><span class="op">(</span><span class="st">&quot;Name&quot;</span><span class="op">,</span> <span class="st">&quot;Jane Doe&quot;</span><span class="op">),</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">new</span> <span class="fu">XElement</span><span class="op">(</span><span class="st">&quot;Email&quot;</span><span class="op">,</span> <span class="st">&quot;jane.doe@example.com&quot;</span><span class="op">)</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">),</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">new</span> <span class="fu">XElement</span><span class="op">(</span><span class="st">&quot;Items&quot;</span><span class="op">,</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="kw">new</span> <span class="fu">XElement</span><span class="op">(</span><span class="st">&quot;Item&quot;</span><span class="op">,</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>            <span class="kw">new</span> <span class="fu">XAttribute</span><span class="op">(</span><span class="st">&quot;Sku&quot;</span><span class="op">,</span> <span class="st">&quot;A123&quot;</span><span class="op">),</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>            <span class="kw">new</span> <span class="fu">XElement</span><span class="op">(</span><span class="st">&quot;Description&quot;</span><span class="op">,</span> <span class="st">&quot;Wireless Mouse&quot;</span><span class="op">),</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>            <span class="kw">new</span> <span class="fu">XElement</span><span class="op">(</span><span class="st">&quot;Price&quot;</span><span class="op">,</span> <span class="fl">29.99</span><span class="op">)</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="op">),</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        <span class="kw">new</span> <span class="fu">XElement</span><span class="op">(</span><span class="st">&quot;Item&quot;</span><span class="op">,</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>            <span class="kw">new</span> <span class="fu">XAttribute</span><span class="op">(</span><span class="st">&quot;Sku&quot;</span><span class="op">,</span> <span class="st">&quot;B456&quot;</span><span class="op">),</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>            <span class="kw">new</span> <span class="fu">XElement</span><span class="op">(</span><span class="st">&quot;Description&quot;</span><span class="op">,</span> <span class="st">&quot;Mechanical Keyboard&quot;</span><span class="op">),</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>            <span class="kw">new</span> <span class="fu">XElement</span><span class="op">(</span><span class="st">&quot;Price&quot;</span><span class="op">,</span> <span class="fl">89.99</span><span class="op">)</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        <span class="op">)</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">)</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="op">);</span></span></code></pre></div>
+<h2 id="embedding-linq-queries">Embedding LINQ Queries</h2>
+<p>Because the <code>XElement</code> constructor unwinds any
+<code>IEnumerable</code> passed to it, standard LINQ queries can be
+embedded directly within the tree construction. This allows in-memory
+collections (such as lists of objects, database results, or CSV records)
+to be transformed into XML inline without intermediate loops.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> products <span class="op">=</span> <span class="kw">new</span><span class="op">[]</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">new</span> <span class="op">{</span> Sku <span class="op">=</span> <span class="st">&quot;A123&quot;</span><span class="op">,</span> Name <span class="op">=</span> <span class="st">&quot;Wireless Mouse&quot;</span><span class="op">,</span> Price <span class="op">=</span> <span class="fl">29.99</span> <span class="op">},</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">new</span> <span class="op">{</span> Sku <span class="op">=</span> <span class="st">&quot;B456&quot;</span><span class="op">,</span> Name <span class="op">=</span> <span class="st">&quot;Mechanical Keyboard&quot;</span><span class="op">,</span> Price <span class="op">=</span> <span class="fl">89.99</span> <span class="op">}</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>XElement catalog <span class="op">=</span> <span class="kw">new</span> <span class="fu">XElement</span><span class="op">(</span><span class="st">&quot;Catalog&quot;</span><span class="op">,</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">new</span> <span class="fu">XAttribute</span><span class="op">(</span><span class="st">&quot;GeneratedAt&quot;</span><span class="op">,</span> DateTime<span class="op">.</span><span class="fu">UtcNow</span><span class="op">),</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    from p <span class="kw">in</span> products</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    select <span class="kw">new</span> <span class="fu">XElement</span><span class="op">(</span><span class="st">&quot;Product&quot;</span><span class="op">,</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        <span class="kw">new</span> <span class="fu">XAttribute</span><span class="op">(</span><span class="st">&quot;Sku&quot;</span><span class="op">,</span> p<span class="op">.</span><span class="fu">Sku</span><span class="op">),</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        <span class="kw">new</span> <span class="fu">XElement</span><span class="op">(</span><span class="st">&quot;Name&quot;</span><span class="op">,</span> p<span class="op">.</span><span class="fu">Name</span><span class="op">),</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="kw">new</span> <span class="fu">XElement</span><span class="op">(</span><span class="st">&quot;Price&quot;</span><span class="op">,</span> p<span class="op">.</span><span class="fu">Price</span><span class="op">)</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">)</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="op">);</span></span></code></pre></div>
+<h2 id="key-advantages">Key Advantages</h2>
+<ul>
+<li><strong>Readability:</strong> The code structure visually represents
+the output XML, making complex hierarchies easy to understand and
+review.</li>
+<li><strong>Reduced Boilerplate:</strong> Complex trees with dynamic
+data can be instantiated in a single expression rather than dozens of
+lines of imperative setup.</li>
+<li><strong>Null-Safety:</strong> Passing <code>null</code> as child
+content is valid and results in the node simply being omitted, reducing
+conditional checks when building dynamic structures.</li>
+<li><strong>Composability:</strong> Subtrees can be defined as separate
+helper methods and plugged directly into parent elements as
+arguments.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

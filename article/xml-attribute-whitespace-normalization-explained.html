@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML Attribute Whitespace Normalization Explained - xml</title>
+    <meta name="description" content="XML attribute value normalization is the standardized process XML parsers and canonicalization algorithms use to clean and standardize whitespace characters—spaces, tabs, carriage returns, and line feeds—inside attribute values. In digital signatures">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/xml-attribute-whitespace-normalization-explained">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="XML Attribute Whitespace Normalization Explained - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/xml-attribute-whitespace-normalization-explained" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="XML attribute value normalization is the standardized process XML parsers and canonicalization algorithms use to clean and standardize whitespace characters—spaces, tabs, carriage returns, and line feeds—inside attribute values. In digital signatures" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="xml-attribute-whitespace-normalization-explained">XML Attribute
+Whitespace Normalization Explained</h1>
+<p>XML attribute value normalization is the standardized process XML
+parsers and canonicalization algorithms use to clean and standardize
+whitespace characters—spaces, tabs, carriage returns, and line
+feeds—inside attribute values. In digital signatures and XML processing,
+understanding this behavior is critical because cryptographic signatures
+rely on deterministic byte-level representations, meaning any unintended
+whitespace alteration will cause signature validation to fail.</p>
+<h2 id="basic-xml-normalization-rules">Basic XML Normalization
+Rules</h2>
+<p>According to the W3C XML 1.0 specification, an XML processor
+normalizes all attribute values before passing them to an application
+based on the attribute's declared type.</p>
+<h3 id="1-cdata-attributes-and-undeclared-types">1. CDATA Attributes and
+Undeclared Types</h3>
+<p>For generic <code>CDATA</code> attributes (or attributes without a
+DTD/schema definition):</p>
+<ul>
+<li>Any carriage return and line feed sequence (<code>\r\n</code>) or
+standalone carriage return (<code>\r</code>) is normalized to a single
+line feed (<code>\n</code>) during line-end handling.</li>
+<li>Every whitespace character—horizontal tab (<code>\t</code>), line
+feed (<code>\n</code>), and carriage return (<code>\r</code>)—is
+replaced with a single standard space character (<code>&amp;#x20;</code>
+or <code>U+0020</code>).</li>
+<li>Multiple consecutive spaces and leading or trailing spaces are
+preserved as distinct space characters.</li>
+</ul>
+<h3 id="2-non-cdata-attributes">2. Non-CDATA Attributes</h3>
+<p>For normalized token-based types (such as <code>ID</code>,
+<code>IDREF</code>, <code>ENTITY</code>, <code>NMTOKEN</code>, or
+enumerated types):</p>
+<ul>
+<li>All whitespace characters (<code>\t</code>, <code>\n</code>,
+<code>\r</code>) are first replaced with standard space characters
+(<code>U+0020</code>).</li>
+<li>Leading and trailing spaces are completely removed (trimmed).</li>
+<li>Sequences of multiple consecutive spaces are collapsed into a single
+space character (<code>U+0020</code>).</li>
+</ul>
+<h2 id="literal-whitespace-vs-character-references">Literal Whitespace
+vs. Character References</h2>
+<p>XML distinguishes between literal whitespace characters and
+numeric/entity character references:</p>
+<ul>
+<li><strong>Literal Whitespace:</strong> A physical tab or newline typed
+directly within the attribute value is converted into a standard space
+(<code>U+0020</code>).</li>
+<li><strong>Character References:</strong> If a tab
+(<code>&amp;#x9;</code>), line feed (<code>&amp;#xA;</code>), or
+carriage return (<code>&amp;#xD;</code>) is explicitly written as a
+character reference, the XML parser preserves the intended character
+value instead of replacing it with a standard space.</li>
+</ul>
+<h2 id="whitespace-handling-in-canonical-xml-c14n">Whitespace Handling
+in Canonical XML (C14N)</h2>
+<p>In XML Digital Signatures (XMLDSig), the Canonical XML specification
+(such as C14N 1.0 or Exclusive C14N) standardizes attribute values to
+guarantee consistent hash generation across different platforms and
+parsers.</p>
+<ol type="1">
+<li><strong>Escaping Preserved Whitespace:</strong> When character
+references represent characters that would otherwise be normalized away
+(like <code>&amp;#x9;</code>, <code>&amp;#xA;</code>, and
+<code>&amp;#xD;</code>), Canonical XML outputs them as explicit numeric
+character references in uppercase hexadecimal notation
+(<code>&amp;#x9;</code>, <code>&amp;#xA;</code>, <code>&amp;#xD;</code>)
+to preserve their exact byte values across parsing rounds.</li>
+<li><strong>Standard Space Handling:</strong> Standard space characters
+(<code>U+0020</code>) are output directly as literal spaces.</li>
+<li><strong>Attribute Delimiter Standardization:</strong> All attribute
+values are normalized to use double quotes (<code>"..."</code>), and any
+double quote within the value is escaped as
+<code>&amp;quot;</code>.</li>
+</ol>
+<p>By enforcing these deterministic normalization rules, XML processors
+ensure that attribute values produce identical byte sequences,
+maintaining the integrity of digital signatures.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

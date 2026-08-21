@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Akoma Ntoso Uses XML for Legal Documents - xml</title>
+    <meta name="description" content="Akoma Ntoso is an international XML-based standard designed to make parliamentary, legislative, and judiciary documents machine-readable, accessible, and interoperable across different jurisdictions. Standardized under the OASIS LegalDocML technical comm">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/how-akoma-ntoso-uses-xml-for-legal-documents">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Akoma Ntoso Uses XML for Legal Documents - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/how-akoma-ntoso-uses-xml-for-legal-documents" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Akoma Ntoso is an international XML-based standard designed to make parliamentary, legislative, and judiciary documents machine-readable, accessible, and interoperable across different jurisdictions. Standardized under the OASIS LegalDocML technical comm" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-akoma-ntoso-uses-xml-for-legal-documents">How Akoma Ntoso
+Uses XML for Legal Documents</h1>
+<p>Akoma Ntoso is an international XML-based standard designed to make
+parliamentary, legislative, and judiciary documents machine-readable,
+accessible, and interoperable across different jurisdictions.
+Standardized under the OASIS LegalDocML technical committee, it defines
+a common digital vocabulary and structural schema for legal materials.
+This article explains how Akoma Ntoso organizes complex legal texts,
+manages document lifecycles, and enables global legal data exchange.</p>
+<h3 id="the-architectural-foundation-of-akoma-ntoso">The Architectural
+Foundation of Akoma Ntoso</h3>
+<p>Akoma Ntoso uses Extensible Markup Language (XML) to separate the
+structural definition, metadata, and visual presentation of legal
+documents. By enforcing a strict yet flexible schema, it allows legal
+information to be processed by machines while remaining legible to human
+readers.</p>
+<p>Every Akoma Ntoso XML document follows a foundational structure:</p>
+<ul>
+<li><strong>Root Element (<code>&lt;akomaNtoso&gt;</code>):</strong>
+Encapsulates the entire legal document and specifies schema versions and
+namespaces.</li>
+<li><strong>Document Element:</strong> Identifies the document category,
+such as <code>&lt;act&gt;</code>, <code>&lt;bill&gt;</code>,
+<code>&lt;judgment&gt;</code>, or
+<code>&lt;debateRecord&gt;</code>.</li>
+<li><strong>Metadata Block (<code>&lt;meta&gt;</code>):</strong> Stores
+critical identification and administrative details, including author,
+date of publication, jurisdiction, language, and structural URIs
+according to the Functional Requirements for Bibliographic Records
+(FRBR) model.</li>
+<li><strong>Document Body:</strong> Houses the actual text, organized
+through specific structural elements like <code>&lt;body&gt;</code>,
+<code>&lt;mainBody&gt;</code>, or
+<code>&lt;judgmentBody&gt;</code>.</li>
+</ul>
+<h3 id="hierarchical-and-semantic-tagging">Hierarchical and Semantic
+Tagging</h3>
+<p>Legal documents rely on precise hierarchies. Akoma Ntoso reflects
+this by providing distinct XML elements for standard legal divisions,
+including <code>&lt;part&gt;</code>, <code>&lt;chapter&gt;</code>,
+<code>&lt;section&gt;</code>, <code>&lt;article&gt;</code>,
+<code>&lt;paragraph&gt;</code>, and
+<code>&lt;subparagraph&gt;</code>.</p>
+<p>Beyond basic structure, the standard applies semantic tags to
+identify real-world legal concepts within the text:</p>
+<ul>
+<li><strong>Entities:</strong> Tags like <code>&lt;person&gt;</code>,
+<code>&lt;organization&gt;</code>, and <code>&lt;location&gt;</code>
+identify legal actors and geographic jurisdictions.</li>
+<li><strong>Events and References:</strong> Tags like
+<code>&lt;date&gt;</code> specify when an act was enacted or amended,
+while <code>&lt;ref&gt;</code> and <code>&lt;rref&gt;</code> create
+machine-verifiable links to other statutes, court decisions, or external
+treaties.</li>
+<li><strong>Legal Concepts:</strong> Semantic elements identify roles
+such as <code>&lt;judge&gt;</code>, <code>&lt;lawyer&gt;</code>,
+<code>&lt;plaintiff&gt;</code>, and <code>&lt;defendant&gt;</code> in
+judicial decisions.</li>
+</ul>
+<h3 id="supporting-diverse-document-types">Supporting Diverse Document
+Types</h3>
+<p>Akoma Ntoso standardizes three primary classes of public legal
+information:</p>
+<ol type="1">
+<li><strong>Legislative Documents:</strong> Draft bills, primary
+legislation, acts, and statutory instruments. It tracks the progress of
+a bill as it moves through various drafting stages into enforceable
+law.</li>
+<li><strong>Parliamentary Records:</strong> Transcripts of debates
+(Hansards), parliamentary questions, agendas, minutes, and committee
+reports. It allows speakers, speeches, and voting records to be clearly
+attributed and searchable.</li>
+<li><strong>Judicial Materials:</strong> Court judgments, rulings, and
+decisions. It structures judicial text into summaries, procedural
+histories, arguments, and dispositions.</li>
+</ol>
+<h3 id="managing-lifecycles-versions-and-amendments">Managing
+Lifecycles, Versions, and Amendments</h3>
+<p>Laws are dynamic documents that undergo repeated amendments over
+time. Akoma Ntoso handles point-in-time legal reality through temporal
+metadata and lifecycle tracking:</p>
+<ul>
+<li><strong>FRBR Model Integration:</strong> Differentiates between a
+document's abstract concept (<em>Work</em>), specific version
+(<em>Expression</em>), digital file format (<em>Manifestation</em>), and
+stored copy (<em>Item</em>).</li>
+<li><strong>Tracking Modifications:</strong> Tags such as
+<code>&lt;mod&gt;</code> and <code>&lt;quotedText&gt;</code> allow
+automated tools to identify exactly which provisions are added,
+repealed, or substituted by amending acts.</li>
+<li><strong>Temporal Arguments:</strong> Documents can represent
+multiple versions simultaneously, allowing legal search engines to
+reconstruct the precise state of a law on any given date.</li>
+</ul>
+<h3 id="global-interoperability-and-open-access">Global Interoperability
+and Open Access</h3>
+<p>Akoma Ntoso is legally and technologically neutral. It accommodates
+both common law and civil law traditions, supports any human language or
+script, and operates independently of proprietary software
+platforms.</p>
+<p>By structuring public legal information in a standardized XML format,
+institutions can automate cross-jurisdictional legal comparisons, ensure
+long-term digital preservation, and publish open data that enhances
+transparency for citizens, researchers, and legal practitioners
+worldwide.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

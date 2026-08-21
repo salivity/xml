@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why XML Namespace URIs Are Identifiers Not URLs - xml</title>
+    <meta name="description" content="In XML processing, namespace URIs serve strictly as globally unique identifiers to prevent element naming collisions rather than network addresses intended to be dereferenced or fetched. This design ensures that XML documents can be parsed offline, elimi">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/why-xml-namespace-uris-are-identifiers-not-urls">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why XML Namespace URIs Are Identifiers Not URLs - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/why-xml-namespace-uris-are-identifiers-not-urls" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In XML processing, namespace URIs serve strictly as globally unique identifiers to prevent element naming collisions rather than network addresses intended to be dereferenced or fetched. This design ensures that XML documents can be parsed offline, elimi" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="why-xml-namespace-uris-are-identifiers-not-urls">Why XML
+Namespace URIs Are Identifiers Not URLs</h1>
+<p>In XML processing, namespace URIs serve strictly as globally unique
+identifiers to prevent element naming collisions rather than network
+addresses intended to be dereferenced or fetched. This design ensures
+that XML documents can be parsed offline, eliminates network latency
+during document processing, avoids distributed denial-of-service risks
+for host servers, and relies on simple string comparisons to distinguish
+identical tag names originating from different vocabularies.</p>
+<h3 id="the-purpose-of-xml-namespaces">The Purpose of XML
+Namespaces</h3>
+<p>XML is designed to store and transport arbitrary structured data.
+Because different vocabularies frequently reuse the same tag names—such
+as a <code>&lt;title&gt;</code> tag representing a book title in one
+schema and a job title in another—a mechanism was required to prevent
+ambiguity when combining distinct XML documents.</p>
+<p>XML namespaces solve this by qualifying element and attribute names
+with a distinct prefix mapped to a Uniform Resource Identifier (URI).
+This allows parsers to differentiate between
+<code>&lt;book:title&gt;</code> and <code>&lt;job:title&gt;</code>
+unambiguously.</p>
+<h3 id="decentralized-uniqueness">Decentralized Uniqueness</h3>
+<p>URIs—most commonly HTTP URLs like
+<code>http://www.w3.org/1999/xhtml</code>—were chosen because the domain
+name system (DNS) already provides a globally managed, decentralized
+registry. Organizations and developers already own domains, guaranteeing
+that they can create globally unique strings without requiring a
+separate central authority to register XML tag names.</p>
+<p>Using an HTTP scheme provides this uniqueness, but the standard does
+not require that an actual document, schema, or resource exist at that
+specific network location.</p>
+<h3 id="practical-reasons-for-not-fetching-namespace-uris">Practical
+Reasons for Not Fetching Namespace URIs</h3>
+<p>Treating namespace URIs as retrievable web locations would introduce
+severe architectural and operational flaws:</p>
+<ul>
+<li><strong>Offline Compatibility:</strong> XML parsing must work in
+disconnected environments, air-gapped networks, and local build
+pipelines. Requiring a network request to resolve a namespace would
+cause parsing to fail whenever an internet connection is
+unavailable.</li>
+<li><strong>Performance and Latency:</strong> Resolving HTTP requests
+during parsing introduces significant latency. High-throughput systems
+processing thousands of XML payloads per second cannot afford DNS
+lookups and HTTP handshakes for every document.</li>
+<li><strong>Server Load and Availability:</strong> If every XML parser
+attempted to download the URI target every time it parsed a standard
+document, popular hosts like the W3C would face constant, unsustainable
+server loads. Furthermore, if a host server experienced downtime or a
+domain expired, it would break XML parsers worldwide.</li>
+<li><strong>Immutability:</strong> A namespace identifier must remain
+permanently identical. Web content, however, changes or disappears over
+time (link rot). Treating the URI as an abstract string preserves
+backward compatibility indefinitely.</li>
+</ul>
+<h3 id="string-comparison-vs-network-retrieval">String Comparison vs.
+Network Retrieval</h3>
+<p>According to the W3C "Namespaces in XML" specification, namespace
+matching is performed via exact, character-by-character string
+comparison. Parsers do not normalize, resolve, or fetch the URI. As far
+as the parser is concerned, the URI is purely an opaque string literal
+used to establish scope and context within the document.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

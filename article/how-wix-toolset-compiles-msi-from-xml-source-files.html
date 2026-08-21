@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How WiX Toolset Compiles MSI from XML Source Files - xml</title>
+    <meta name="description" content="The WiX (Windows Installer XML) Toolset creates standard Windows Installer (.msi) packages by transforming declarative XML source code into relational database tables required by the Windows Installer engine. This compilation workflow processes human-rea">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/how-wix-toolset-compiles-msi-from-xml-source-files">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How WiX Toolset Compiles MSI from XML Source Files - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/how-wix-toolset-compiles-msi-from-xml-source-files" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The WiX (Windows Installer XML) Toolset creates standard Windows Installer (.msi) packages by transforming declarative XML source code into relational database tables required by the Windows Installer engine. This compilation workflow processes human-rea" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-wix-toolset-compiles-msi-from-xml-source-files">How WiX
+Toolset Compiles MSI from XML Source Files</h1>
+<p>The WiX (Windows Installer XML) Toolset creates standard Windows
+Installer (<code>.msi</code>) packages by transforming declarative XML
+source code into relational database tables required by the Windows
+Installer engine. This compilation workflow processes human-readable
+markup, resolves file dependencies and references, generates
+intermediate symbol representations, and finally packages binary
+payloads into a fully structured MSI database.</p>
+<h3 id="1-writing-the-declarative-xml-wxs">1. Writing the Declarative
+XML (<code>.wxs</code>)</h3>
+<p>The process begins with WiX source files (<code>.wxs</code>) and
+optional include files (<code>.wxi</code>). Developers declare the
+installer's structure using XML elements that correspond to Windows
+Installer concepts:</p>
+<ul>
+<li><strong>Product and Package:</strong> Define metadata such as
+product names, upgrade codes, and manufacturer details.</li>
+<li><strong>Directory Structure:</strong> Define target installation
+paths.</li>
+<li><strong>Components and Files:</strong> Specify the individual files,
+registry keys, and shortcuts to install.</li>
+<li><strong>Features:</strong> Group components into selectable
+installation items.</li>
+<li><strong>Sequences and Actions:</strong> Specify standard or custom
+actions to execute during setup.</li>
+</ul>
+<h3 id="2-preprocessing">2. Preprocessing</h3>
+<p>Before compilation, the WiX engine runs a preprocessor over the XML
+files. The preprocessor evaluates:</p>
+<ul>
+<li>Environment variables and defined constants
+(<code>$(var.VariableName)</code>).</li>
+<li>Conditional compilation statements (<code>&lt;?ifdef ?&gt;</code>,
+<code>&lt;?if ?&gt;</code>).</li>
+<li>File inclusion directives (<code>&lt;?include ?&gt;</code>).</li>
+</ul>
+<p>This step produces a fully resolved XML tree ready for
+compilation.</p>
+<h3 id="3-compilation">3. Compilation</h3>
+<p>The compiler parses the preprocessed XML source against the WiX XML
+schema to ensure structural validity.</p>
+<ul>
+<li>In <strong>WiX v3</strong>, this step is executed using
+<code>candle.exe</code>.</li>
+<li>In <strong>WiX v4 and v5</strong>, this is integrated into the
+unified <code>wix build</code> command.</li>
+</ul>
+<p>The compiler converts high-level XML abstractions into intermediate
+object files (<code>.wixobj</code>). These intermediate files contain
+symbols, relational rows, and references matching standard Windows
+Installer database tables (such as <code>Directory</code>,
+<code>Component</code>, <code>File</code>, <code>Feature</code>, and
+<code>Registry</code>).</p>
+<h3 id="4-linking-and-symbol-resolution">4. Linking and Symbol
+Resolution</h3>
+<p>The linker combines multiple <code>.wixobj</code> files and
+precompiled libraries (<code>.wixlib</code>):</p>
+<ul>
+<li><strong>Symbol Resolution:</strong> Connects referenced identifiers
+(e.g., a component referencing a target directory ID) across different
+source files.</li>
+<li><strong>Database Generation:</strong> Creates the relational tables
+and populates standard sequence tables
+(<code>InstallExecuteSequence</code>, <code>InstallUISequence</code>)
+which govern the installation flow.</li>
+<li>In WiX v3, this is handled by <code>light.exe</code>.</li>
+</ul>
+<h3 id="5-file-binding-and-cabinet-creation">5. File Binding and Cabinet
+Creation</h3>
+<p>Once the database schema is assembled, the binder handles actual file
+assets:</p>
+<ul>
+<li>Retrieves physical binary files from the local filesystem based on
+paths declared in the source.</li>
+<li>Calculates file hashes, versions, and sizes to populate the
+<code>File</code> table.</li>
+<li>Compresses these payloads into internal or external Cabinet
+(<code>.cab</code>) files.</li>
+<li>Streams internal CAB files and necessary icons/transforms directly
+into the streams table of the MSI database.</li>
+</ul>
+<h3 id="6-validation-ice-checks">6. Validation (ICE Checks)</h3>
+<p>By default, the compilation pipeline executes Internal Consistency
+Evaluators (ICE). These are validation rules developed by Microsoft that
+check the generated database for standard compliance, missing foreign
+keys, circular directory paths, and component rules. Once validation
+passes, the resulting <code>.msi</code> file is ready for
+deployment.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

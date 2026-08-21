@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HL7 CDA Explained: Formatting Medical Records in XML - xml</title>
+    <meta name="description" content="The Health Level Seven (HL7) Clinical Document Architecture (CDA) is an international standard for the electronic exchange and management of clinical documents. By utilizing Extensible Markup Language (XML), CDA establishes a standardized structure that">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/hl7-cda-explained-formatting-medical-records-in-xml">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="HL7 CDA Explained: Formatting Medical Records in XML - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/hl7-cda-explained-formatting-medical-records-in-xml" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Health Level Seven (HL7) Clinical Document Architecture (CDA) is an international standard for the electronic exchange and management of clinical documents. By utilizing Extensible Markup Language (XML), CDA establishes a standardized structure that" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="hl7-cda-explained-formatting-medical-records-in-xml">HL7 CDA
+Explained: Formatting Medical Records in XML</h1>
+<p>The Health Level Seven (HL7) Clinical Document Architecture (CDA) is
+an international standard for the electronic exchange and management of
+clinical documents. By utilizing Extensible Markup Language (XML), CDA
+establishes a standardized structure that allows electronic health
+record (EHR) systems to share patient information seamlessly. This guide
+explains what the HL7 CDA standard is, how it utilizes XML to balance
+human-readable narratives with machine-readable data, and the specific
+structural components that make up a standard CDA document.</p>
+<h2 id="what-is-hl7-cda">What Is HL7 CDA?</h2>
+<p>HL7 Clinical Document Architecture (CDA) is a document markup
+standard defined by Health Level Seven International. Developed as part
+of HL7 Version 3, CDA governs the syntax and semantics of "clinical
+documents" such as discharge summaries, progress notes, referral
+letters, and physical examination reports.</p>
+<p>Every CDA document must satisfy six core characteristics:</p>
+<ul>
+<li><strong>Persistence:</strong> The document remains unchanged over
+time.</li>
+<li><strong>Stewardship:</strong> The document is maintained by an
+organization or person entrusted with its care.</li>
+<li><strong>Authentication:</strong> The document includes a legal
+authentication of the clinical content.</li>
+<li><strong>Context:</strong> The document establishes its own default
+clinical context (patient, provider, encounter).</li>
+<li><strong>Wholeness:</strong> The document can be authenticated as a
+complete, standalone unit.</li>
+<li><strong>Human Readability:</strong> A human must be able to read the
+definitive clinical content using standard web browsers or generic XML
+stylesheets without specialized clinical software.</li>
+</ul>
+<h2 id="the-dual-layer-xml-structure-of-cda">The Dual-Layer XML
+Structure of CDA</h2>
+<p>HL7 CDA formats clinical data into an XML schema divided into two
+primary parts: the <strong>Header</strong> and the
+<strong>Body</strong>.</p>
+<h3 id="1-the-cda-header">1. The CDA Header</h3>
+<p>The Header contains metadata that identifies the document and sets
+the clinical context. It is strictly structured using predefined XML
+tags to identify:</p>
+<ul>
+<li><strong>The Patient:</strong> Demographics, identifiers, and contact
+details within <code>&lt;recordTarget&gt;</code>.</li>
+<li><strong>The Author:</strong> The healthcare provider or device that
+created the document within <code>&lt;author&gt;</code>.</li>
+<li><strong>The Custodian:</strong> The organization responsible for
+maintaining the document within <code>&lt;custodian&gt;</code>.</li>
+<li><strong>The Document Type:</strong> Defined by standardized coding
+systems (such as LOINC) within <code>&lt;code\&gt;</code>.</li>
+<li><strong>The Encounter:</strong> Details about the specific clinical
+visit within <code>&lt;componentOf&gt;</code>.</li>
+</ul>
+<h3 id="2-the-cda-body">2. The CDA Body</h3>
+<p>The Body contains the actual clinical information, enclosed within
+the <code>&lt;structuredBody&gt;</code> tag. The body is organized into
+distinct clinical sections, such as Allergies, Medications, Problem
+Lists, and Vital Signs. Each section contains two essential layers:</p>
+<ul>
+<li><strong>Narrative Block (<code>&lt;text&gt;</code>):</strong> This
+layer contains human-readable content rendered using basic formatting
+tags (tables, lists, paragraphs). This ensures any provider can read the
+medical record even if their software cannot parse advanced data
+entries.</li>
+<li><strong>Coded Entries (<code>&lt;entry&gt;</code>):</strong> This
+layer wraps the clinical data into structured XML tags with standardized
+medical terminologies. It enables machine-processing for
+decision-support tools, analytics, and automated EHR import.</li>
+</ul>
+<h2 id="the-three-levels-of-cda-implementation">The Three Levels of CDA
+Implementation</h2>
+<p>To accommodate various technical capabilities, CDA allows for three
+levels of XML formatting:</p>
+<ul>
+<li><strong>Level 1 (Unstructured / Minimal Structure):</strong>
+Contains a standard XML header and an unstructured body, often embedding
+plain text, HTML, or scanned PDF documents within the narrative
+block.</li>
+<li><strong>Level 2 (Section-Level Structure):</strong> Organizes the
+body into defined XML sections (e.g., <code>&lt;section&gt;</code> for
+"Medications" and <code>&lt;section&gt;</code> for "Allergies") with
+human-readable narrative text, but lacks granular machine-readable
+entries.</li>
+<li><strong>Level 3 (Entry-Level Structure):</strong> The most advanced
+level, where sections contain both human-readable text and fully
+structured XML entries. Individual medical concepts are tagged with
+standard clinical vocabularies, such as LOINC for lab tests, SNOMED CT
+for clinical findings, and RxNorm for medications.</li>
+</ul>
+<h2 id="example-of-cda-xml-data-representation">Example of CDA XML Data
+Representation</h2>
+<p>In a Level 3 CDA document, an active medication like Aspirin is
+represented with both human-readable and machine-processable data within
+the <code>&lt;substanceAdministration&gt;</code> XML element:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">section</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">templateId</span> <span class="ot">root=</span><span class="st">&quot;2.16.840.1.113883.10.20.22.2.1.1&quot;</span>/&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">code</span> <span class="ot">code=</span><span class="st">&quot;10160-0&quot;</span> <span class="ot">codeSystem=</span><span class="st">&quot;2.16.840.1.113883.6.1&quot;</span> <span class="ot">displayName=</span><span class="st">&quot;History of Medication Use&quot;</span>/&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">title</span>&gt;Medications&lt;/<span class="kw">title</span>&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">text</span>&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">table</span>&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">thead</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">tr</span>&gt;&lt;<span class="kw">th</span>&gt;Medication&lt;/<span class="kw">th</span>&gt;&lt;<span class="kw">th</span>&gt;Instructions&lt;/<span class="kw">th</span>&gt;&lt;/<span class="kw">tr</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      &lt;/<span class="kw">thead</span>&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">tbody</span>&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">tr</span>&gt;&lt;<span class="kw">td</span>&gt;Aspirin 81 MG Oral Tablet&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;Take 1 tablet daily&lt;/<span class="kw">td</span>&gt;&lt;/<span class="kw">tr</span>&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>      &lt;/<span class="kw">tbody</span>&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">table</span>&gt;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">text</span>&gt;</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">entry</span>&gt;</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">substanceAdministration</span> <span class="ot">classCode=</span><span class="st">&quot;SBADM&quot;</span> <span class="ot">moodCode=</span><span class="st">&quot;EVN&quot;</span>&gt;</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">consumable</span>&gt;</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">manufacturedProduct</span> <span class="ot">classCode=</span><span class="st">&quot;MANU&quot;</span>&gt;</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>          &lt;<span class="kw">manufacturedMaterial</span>&gt;</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">code</span> <span class="ot">code=</span><span class="st">&quot;243670&quot;</span> <span class="ot">codeSystem=</span><span class="st">&quot;2.16.840.1.113883.6.88&quot;</span> <span class="ot">displayName=</span><span class="st">&quot;Aspirin 81 MG Oral Tablet&quot;</span>/&gt;</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>          &lt;/<span class="kw">manufacturedMaterial</span>&gt;</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">manufacturedProduct</span>&gt;</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>      &lt;/<span class="kw">consumable</span>&gt;</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">substanceAdministration</span>&gt;</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">entry</span>&gt;</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">section</span>&gt;</span></code></pre></div>
+<p>Through this standard XML framework, HL7 CDA guarantees that critical
+health information remains portable, verifiable, and usable across
+different clinical information systems.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

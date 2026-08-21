@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How xsi:type Enables XML Runtime Polymorphism - xml</title>
+    <meta name="description" content="The xsi:type attribute enables runtime polymorphism in XML by allowing instance documents to explicitly specify a derived complex type for an element whose schema definition specifies a base type. In XML Schema (XSD), elements are often defined with gene">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/how-xsi-type-enables-xml-runtime-polymorphism">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How xsi:type Enables XML Runtime Polymorphism - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/how-xsi-type-enables-xml-runtime-polymorphism" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The xsi:type attribute enables runtime polymorphism in XML by allowing instance documents to explicitly specify a derived complex type for an element whose schema definition specifies a base type. In XML Schema (XSD), elements are often defined with gene" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-xsitype-enables-xml-runtime-polymorphism">How xsi:type
+Enables XML Runtime Polymorphism</h1>
+<p>The <code>xsi:type</code> attribute enables runtime polymorphism in
+XML by allowing instance documents to explicitly specify a derived
+complex type for an element whose schema definition specifies a base
+type. In XML Schema (XSD), elements are often defined with generalized
+base types to maintain flexibility. At runtime, an XML document uses
+<code>xsi:type</code> to instruct the XML parser or data binding
+framework to override the default base definition, validate the payload
+against the derived type's specific structure, and instantiate the
+corresponding subclass in application code.</p>
+<h2 id="the-mechanism-of-xsitype">The Mechanism of xsi:type</h2>
+<p>The <code>xsi:type</code> attribute belongs to the XML Schema
+Instance namespace
+(<code>http://www.w3.org/2001/XMLSchema-instance</code>). In a standard
+XSD, an element is declared with a specific data type:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:element</span> <span class="ot">name=</span><span class="st">&quot;payment&quot;</span> <span class="ot">type=</span><span class="st">&quot;PaymentType&quot;</span>/&gt;</span></code></pre></div>
+<p>If <code>PaymentType</code> is extended by multiple derived types
+(such as <code>CreditCardPaymentType</code> and
+<code>BankTransferPaymentType</code>), an XML instance can substitute
+the generic <code>PaymentType</code> with one of its derived forms at
+runtime.</p>
+<p>To achieve this, the XML payload includes the <code>xsi:type</code>
+attribute within the target element:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">payment</span> <span class="ot">xmlns:xsi=</span><span class="st">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>         <span class="ot">xsi:type=</span><span class="st">&quot;CreditCardPaymentType&quot;</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">amount</span>&gt;150.00&lt;/<span class="kw">amount</span>&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">cardNumber</span>&gt;4111222233334444&lt;/<span class="kw">cardNumber</span>&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">expirationDate</span>&gt;12/28&lt;/<span class="kw">expirationDate</span>&gt;</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">payment</span>&gt;</span></code></pre></div>
+<p>When the XML processor encounters
+<code>xsi:type="CreditCardPaymentType"</code>, it checks whether
+<code>CreditCardPaymentType</code> is a valid extension or restriction
+of the declared <code>PaymentType</code>. If the inheritance hierarchy
+is valid, the processor applies the derived type's validation rules to
+the child elements.</p>
+<h2 id="object-deserialization-and-polymorphic-instantiation">Object
+Deserialization and Polymorphic Instantiation</h2>
+<p>During deserialization in environments like Java (JAXB/Jakarta XML
+Binding) or .NET (<code>XmlSerializer</code>), <code>xsi:type</code>
+directs object-relational mapping engines to construct the correct
+subclass rather than the abstract or generic base class:</p>
+<ol type="1">
+<li><strong>Type Resolution:</strong> The deserializer reads the element
+name and maps it to the expected base class property.</li>
+<li><strong>Type Override:</strong> The deserializer detects the
+<code>xsi:type</code> attribute and looks up the registered subclass
+associated with that specific type name in the schema mapping.</li>
+<li><strong>Instance Creation:</strong> Instead of instantiating the
+base class, the runtime instantiates the concrete subclass (e.g.,
+<code>new CreditCardPayment()</code>).</li>
+<li><strong>Member Population:</strong> The deserializer maps the XML
+child nodes to the fields or properties unique to that subclass.</li>
+</ol>
+<h2 id="core-architectural-benefits">Core Architectural Benefits</h2>
+<ul>
+<li><strong>Open-Closed Principle:</strong> Systems can introduce new
+derived types without altering the base element definitions in existing
+schemas or APIs.</li>
+<li><strong>Heterogeneous Collections:</strong> A single repeating
+element (such as a list of <code>ShapeType</code>) can contain a mix of
+<code>CircleType</code>, <code>RectangleType</code>, and
+<code>TriangleType</code> elements in the same document.</li>
+<li><strong>Strict Type Safety:</strong> Despite dynamic substitution,
+strong validation is preserved because the XML parser strictly verifies
+the payload against the derived type definition in the XSD.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

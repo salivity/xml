@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Role of targetNamespace in XML Schema - xml</title>
+    <meta name="description" content="The targetNamespace attribute in an XML Schema Definition (XSD) establishes a unique URI namespace for all elements, attributes, and data types declared within that schema. By assigning components to a specific namespace, targetNamespace prevents naming">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/the-role-of-targetnamespace-in-xml-schema">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="The Role of targetNamespace in XML Schema - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/the-role-of-targetnamespace-in-xml-schema" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The targetNamespace attribute in an XML Schema Definition (XSD) establishes a unique URI namespace for all elements, attributes, and data types declared within that schema. By assigning components to a specific namespace, targetNamespace prevents naming" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="the-role-of-targetnamespace-in-xml-schema">The Role of
+targetNamespace in XML Schema</h1>
+<p>The <code>targetNamespace</code> attribute in an XML Schema
+Definition (XSD) establishes a unique URI namespace for all elements,
+attributes, and data types declared within that schema. By assigning
+components to a specific namespace, <code>targetNamespace</code>
+prevents naming collisions, allows multiple schemas to define elements
+with the same local name safely, and ensures that instance XML documents
+can be validated accurately against distinct, unambiguous
+definitions.</p>
+<h3 id="defining-the-schemas-identity">Defining the Schema's
+Identity</h3>
+<p>When you create an XML Schema, you are defining a vocabulary. The
+<code>targetNamespace</code> attribute, placed in the root
+<code>&lt;xs:schema&gt;</code> element, gives this vocabulary a globally
+unique identifier. Any global type, element, or attribute declared
+directly within the schema automatically belongs to this specified
+namespace URI.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:schema</span> <span class="ot">xmlns:xs=</span><span class="st">&quot;http://www.w3.org/2001/XMLSchema&quot;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>           <span class="ot">targetNamespace=</span><span class="st">&quot;http://www.example.com/orders&quot;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>           <span class="ot">xmlns=</span><span class="st">&quot;http://www.example.com/orders&quot;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>           <span class="ot">elementFormDefault=</span><span class="st">&quot;qualified&quot;</span>&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:element</span> <span class="ot">name=</span><span class="st">&quot;Order&quot;</span> <span class="ot">type=</span><span class="st">&quot;OrderType&quot;</span>/&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:complexType</span> <span class="ot">name=</span><span class="st">&quot;OrderType&quot;</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">xs:sequence</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">xs:element</span> <span class="ot">name=</span><span class="st">&quot;OrderID&quot;</span> <span class="ot">type=</span><span class="st">&quot;xs:string&quot;</span>/&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">xs:sequence</span>&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">xs:complexType</span>&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:schema</span>&gt;</span></code></pre></div>
+<p>In the example above, the <code>Order</code> element and
+<code>OrderType</code> data type belong to
+<code>http://www.example.com/orders</code>.</p>
+<h3 id="preventing-naming-collisions">Preventing Naming Collisions</h3>
+<p>Without namespaces, combining schemas from different sources could
+result in conflicts if both schemas use identical element names—such as
+<code>&lt;Address&gt;</code> or <code>&lt;Status&gt;</code>. With
+<code>targetNamespace</code>, an address defined by a shipping schema
+(<code>http://example.com/shipping</code>) remains distinct from an
+address defined by a network configuration schema
+(<code>http://example.com/networking</code>).</p>
+<h3 id="validating-xml-instance-documents">Validating XML Instance
+Documents</h3>
+<p>When an XML instance document is validated against a schema, the XML
+validator matches elements based on both their local name and their
+namespace URI.</p>
+<p>In the instance document, the root element references the schema
+using <code>xmlns</code> or a namespace prefix matching the schema's
+<code>targetNamespace</code>:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">Order</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.example.com/orders&quot;</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">OrderID</span>&gt;12345&lt;/<span class="kw">OrderID</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">Order</span>&gt;</span></code></pre></div>
+<p>If the namespace in the XML document does not match the
+<code>targetNamespace</code> in the XSD, validation fails because the
+parser considers the elements to be undefined.</p>
+<h3 id="difference-between-targetnamespace-and-xmlns">Difference Between
+targetNamespace and xmlns</h3>
+<ul>
+<li><strong><code>targetNamespace</code></strong>: Defines the namespace
+for the components being created by the current schema. It acts as an
+assignment of identity.</li>
+<li><strong><code>xmlns</code> (XML Namespace)</strong>: Declares a
+prefix mapping within the current file so the schema itself can
+reference elements and types, such as standard types like
+<code>xs:string</code> from
+<code>http://www.w3.org/2001/XMLSchema</code> or internal types using
+the default namespace.</li>
+</ul>
+<h3 id="enabling-modular-schemas">Enabling Modular Schemas</h3>
+<p>The <code>targetNamespace</code> attribute is essential for building
+modular schema architectures:</p>
+<ul>
+<li><strong><code>xs:include</code></strong>: Combines schemas that
+share the same <code>targetNamespace</code>.</li>
+<li><strong><code>xs:import</code></strong>: Allows a schema to use
+elements and types defined in an external schema that has a different
+<code>targetNamespace</code>.</li>
+</ul>
+<p>If a schema does not include a <code>targetNamespace</code>, its
+declarations exist in the "no namespace" category (the default empty
+namespace), meaning they are un-namespaced and can only validate
+unqualified XML elements.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

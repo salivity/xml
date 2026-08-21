@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why XML Parsers Convert CRLF to LF - xml</title>
+    <meta name="description" content="An XML parser automatically converts carriage return and line feed (CRLF) combinations into a single line feed (LF) to maintain consistent cross-platform document handling. This behavior, known as end-of-line normalization, is mandated by the W3C XML spe">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/why-xml-parsers-convert-crlf-to-lf">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why XML Parsers Convert CRLF to LF - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/why-xml-parsers-convert-crlf-to-lf" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="An XML parser automatically converts carriage return and line feed (CRLF) combinations into a single line feed (LF) to maintain consistent cross-platform document handling. This behavior, known as end-of-line normalization, is mandated by the W3C XML spe" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="why-xml-parsers-convert-crlf-to-lf">Why XML Parsers Convert CRLF
+to LF</h1>
+<p>An XML parser automatically converts carriage return and line feed
+(CRLF) combinations into a single line feed (LF) to maintain consistent
+cross-platform document handling. This behavior, known as end-of-line
+normalization, is mandated by the W3C XML specification so that
+identical XML documents produce the same parsed data regardless of the
+operating system used to create, edit, or process them.</p>
+<h2 id="the-operating-system-discrepancy">The Operating System
+Discrepancy</h2>
+<p>Different operating systems historically adopted different byte
+sequences to denote the end of a line of text:</p>
+<ul>
+<li><strong>Windows and DOS:</strong> Use a two-character sequence
+composed of Carriage Return followed by Line Feed (<code>\r\n</code> or
+hex <code>0x0D 0x0A</code>).</li>
+<li><strong>Unix, Linux, and modern macOS:</strong> Use a single Line
+Feed character (<code>\n</code> or hex <code>0x0A</code>).</li>
+<li><strong>Classic Mac OS (pre-OS X):</strong> Used a single Carriage
+Return character (<code>\r</code> or hex <code>0x0D</code>).</li>
+</ul>
+<p>If an XML document were passed across different operating systems
+without normalization, downstream applications would receive different
+character sequences for the exact same file. This would lead to
+discrepancies in string lengths, regular expression matching, and data
+integrity checks.</p>
+<h2 id="w3c-end-of-line-handling-specification">W3C End-of-Line Handling
+Specification</h2>
+<p>To eliminate cross-platform anomalies, Section 2.11 ("End-of-Line
+Handling") of the W3C XML 1.0 specification requires all conforming XML
+parsers to normalize line endings before passing character data to the
+application.</p>
+<p>The parser applies these translation rules on all parsed
+entities:</p>
+<ol type="1">
+<li>Any two-character sequence of <code>#xD #xA</code> (Carriage Return
++ Line Feed) is converted into a single <code>#xA</code> (Line
+Feed).</li>
+<li>Any standalone <code>#xD</code> (Carriage Return) that is not
+immediately followed by <code>#xA</code> is converted into a single
+<code>#xA</code>.</li>
+</ol>
+<p>In XML 1.1, this rule was further expanded to include other Unicode
+line-ending characters, such as Next Line (<code>#x85</code>) and Line
+Separator (<code>#x2028</code>), converting them into <code>#xA</code>
+as well.</p>
+<h2 id="benefits-of-line-break-normalization">Benefits of Line Break
+Normalization</h2>
+<ul>
+<li><strong>Simplified Application Logic:</strong> Developers processing
+XML do not need to write defensive code to check for <code>\r\n</code>,
+<code>\r</code>, or <code>\n</code>. They can consistently expect
+<code>\n</code>.</li>
+<li><strong>Deterministic Hashing and Signatures:</strong> Canonical XML
+and XML Digital Signatures (XML-DSig) require byte-for-byte
+predictability. Converting line endings into a unified format ensures
+cryptographic hashes match across different systems.</li>
+<li><strong>Seamless Transport:</strong> XML files transmitted via
+protocols that might alter line breaks (like certain FTP modes or email
+systems) retain identical parsed semantics.</li>
+</ul>
+<h2 id="how-to-preserve-carriage-returns">How to Preserve Carriage
+Returns</h2>
+<p>If an application strictly requires a literal Carriage Return
+(<code>#xD</code>) in its data, the character must be written as a
+numeric character reference: <code>&amp;#13;</code> or
+<code>&amp;#xD;</code>.</p>
+<p>Because XML processors resolve character references after the
+end-of-line normalization step takes place, the parser will preserve the
+literal <code>#xD</code> character and deliver it to the application
+intact.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

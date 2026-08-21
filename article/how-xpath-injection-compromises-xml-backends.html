@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How XPath Injection Compromises XML Backends - xml</title>
+    <meta name="description" content="XPath injection occurs when an application incorporates untrusted user input directly into dynamically constructed XPath queries without proper validation or parameterization. This article explores the mechanics of XPath injection, the specific ways atta">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/how-xpath-injection-compromises-xml-backends">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How XPath Injection Compromises XML Backends - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/how-xpath-injection-compromises-xml-backends" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="XPath injection occurs when an application incorporates untrusted user input directly into dynamically constructed XPath queries without proper validation or parameterization. This article explores the mechanics of XPath injection, the specific ways atta" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-xpath-injection-compromises-xml-backends">How XPath
+Injection Compromises XML Backends</h1>
+<p>XPath injection occurs when an application incorporates untrusted
+user input directly into dynamically constructed XPath queries without
+proper validation or parameterization. This article explores the
+mechanics of XPath injection, the specific ways attackers leverage this
+vulnerability to compromise applications querying XML backends—including
+authentication bypass, unauthorized data exfiltration, and application
+logic subversion—and the fundamental strategies required to mitigate
+these security risks effectively.</p>
+<h3
+id="understanding-dynamic-xpath-queries-and-vulnerabilities">Understanding
+Dynamic XPath Queries and Vulnerabilities</h3>
+<p>XML Path Language (XPath) is a query language used to navigate and
+extract data from XML documents. Applications frequently use dynamic
+XPath queries to search, authenticate, or retrieve records from
+XML-based databases or configuration files.</p>
+<p>When an application builds an XPath expression by concatenating raw
+user input directly into the query string, it creates a vulnerability
+analogous to SQL injection. An attacker can supply crafted input
+containing XPath syntax (such as quotes, operators, and functions) that
+alters the query's structure, forcing the XML parser to execute
+unintended commands.</p>
+<h3 id="methods-of-application-compromise">Methods of Application
+Compromise</h3>
+<h4 id="1-authentication-bypass">1. Authentication Bypass</h4>
+<p>One of the most common applications of XPath injection is
+circumventing authentication mechanisms. Consider a vulnerable login
+query designed as follows:</p>
+<pre class="xpath"><code>//users/user[username/text()=&#39;USER_INPUT&#39; and password/text()=&#39;PASSWORD_INPUT&#39;]</code></pre>
+<p>If an attacker inputs <code>' or '1'='1</code> into the username and
+password fields, the query transforms into:</p>
+<pre class="xpath"><code>//users/user[username/text()=&#39;&#39; or &#39;1&#39;=&#39;1&#39; and password/text()=&#39;&#39; or &#39;1&#39;=&#39;1&#39;]</code></pre>
+<p>Because <code>'1'='1'</code> always evaluates to true, the query
+returns the first user node in the XML tree (often an administrator
+account), granting unauthorized access without valid credentials.</p>
+<h4 id="2-unauthorized-data-exfiltration">2. Unauthorized Data
+Exfiltration</h4>
+<p>Unlike relational databases with granular table permissions, XML
+documents are hierarchical structures often queried as a single
+document. Once an attacker gains control over the XPath query, they can
+traverse the entire XML tree using axes such as <code>parent::</code>,
+<code>ancestor::</code>, or wildcard selectors like
+<code>//*</code>.</p>
+<p>This enables attackers to read sensitive elements that should remain
+hidden, such as personal identifying information (PII), API keys,
+payment details, or system configurations stored elsewhere in the XML
+hierarchy.</p>
+<h4 id="3-blind-xpath-injection-and-data-reconstruction">3. Blind XPath
+Injection and Data Reconstruction</h4>
+<p>Even when an application does not display query results directly on
+the screen, attackers can extract sensitive data character by character
+using boolean-based blind techniques. By leveraging XPath functions such
+as <code>substring()</code>, <code>string-length()</code>, and
+<code>contains()</code>, an attacker can ask the application a series of
+true/false questions based on application behavior (such as error
+messages, response times, or page differences) to infer the exact
+contents of hidden XML nodes.</p>
+<h4 id="4-manipulation-of-business-logic">4. Manipulation of Business
+Logic</h4>
+<p>Many enterprise systems use XML to represent workflows, access
+control lists (ACLs), or configuration settings. Injecting malicious
+XPath logic can alter the outcome of business decisions by manipulating
+conditions within the XML structure, such as changing transaction
+thresholds, upgrading user roles, or skipping approval steps.</p>
+<h3 id="prevention-and-mitigation-strategies">Prevention and Mitigation
+Strategies</h3>
+<p>To defend dynamic XML applications against XPath injection,
+developers must implement robust security controls:</p>
+<ul>
+<li><strong>Parameterized XPath Queries:</strong> Use parameterized
+XPath implementations (similar to prepared statements in SQL) or custom
+variable resolvers. This ensures the XML parser treats user input
+strictly as data values rather than executable query syntax.</li>
+<li><strong>Input Validation and Sanitization:</strong> Enforce strict
+allowlists for acceptable input types, lengths, and formats. Reject or
+escape characters that hold special meaning in XPath, such as
+<code>'</code>, <code>"</code>, <code>/</code>, <code>@</code>,
+<code>[</code>, and <code>]</code>.</li>
+<li><strong>Pre-compiled Queries:</strong> Where possible, use static,
+pre-compiled XPath expressions with parameterized variables rather than
+runtime string concatenation.</li>
+<li><strong>Principle of Least Privilege:</strong> Segment XML documents
+so sensitive data is not co-located in the same structure accessible by
+standard user-facing queries.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

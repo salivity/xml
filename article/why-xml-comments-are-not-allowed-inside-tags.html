@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why XML Comments Are Not Allowed Inside Tags - xml</title>
+    <meta name="description" content="This article explains why the XML specification prohibits placing comments directly inside opening, closing, or empty-element tags. By examining the formal grammar defined by the World Wide Web Consortium (W3C), lexical tokenization, and design goals of">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/why-xml-comments-are-not-allowed-inside-tags">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why XML Comments Are Not Allowed Inside Tags - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/why-xml-comments-are-not-allowed-inside-tags" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains why the XML specification prohibits placing comments directly inside opening, closing, or empty-element tags. By examining the formal grammar defined by the World Wide Web Consortium (W3C), lexical tokenization, and design goals of" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="why-xml-comments-are-not-allowed-inside-tags">Why XML Comments
+Are Not Allowed Inside Tags</h1>
+<p>This article explains why the XML specification prohibits placing
+comments directly inside opening, closing, or empty-element tags. By
+examining the formal grammar defined by the World Wide Web Consortium
+(W3C), lexical tokenization, and design goals of XML, you will
+understand the technical constraints that keep XML parsers fast,
+deterministic, and unambiguous.</p>
+<h3 id="the-w3c-xml-grammar-definition">The W3C XML Grammar
+Definition</h3>
+<p>According to the official W3C XML specification, elements must follow
+a rigid syntactic structure. The grammar for a start-tag is formally
+defined as:</p>
+<pre class="ebnf"><code>STag ::= &#39;&lt;&#39; Name (S Attribute)* S? &#39;&gt;&#39;
+EmptyElemTag ::= &#39;&lt;&#39; Name (S Attribute)* S? &#39;/&gt;&#39;</code></pre>
+<p>In these rules, <code>Name</code> represents the tag name, and
+<code>S</code> represents standard whitespace characters (spaces, tabs,
+line breaks). The grammar explicitly allows only attributes and
+whitespace between the tag name and the closing delimiter
+(<code>&gt;</code> or <code>/&gt;</code>).</p>
+<p>The rule for a comment (<code>&lt;!-- ... --&gt;</code>) is defined
+separately in the specification's content model, which means it can only
+appear within the general markup of the document, between elements, or
+alongside the root element—never inside tag delimiters.</p>
+<h3 id="parser-simplicity-and-performance">Parser Simplicity and
+Performance</h3>
+<p>A primary design goal of XML was to create a streamlined subset of
+SGML that is easy to implement and process. In SGML, complex
+comment-nesting rules caused parsing overhead and implementation
+discrepancies across different platforms.</p>
+<p>By strictly excluding comments from inside tags, XML parsers do not
+need to switch lexer states or track nested comment delimiters while
+processing element names and attributes. The parser can simply scan
+linearly from <code>&lt;</code> to <code>&gt;</code> to process
+attributes without accounting for arbitrary comment boundaries.</p>
+<h3 id="elimination-of-lexical-ambiguity">Elimination of Lexical
+Ambiguity</h3>
+<p>Permitting comments within tags introduces edge cases that increase
+the likelihood of parsing errors. For example:</p>
+<ul>
+<li>Comments containing quotes, angle brackets, or characters resembling
+attribute values could confuse standard attribute tokenizers.</li>
+<li>Splitting an attribute name from its value with a comment (e.g.,
+<code>attr=&lt;!-- comment --&gt;"value"</code>) would create syntactic
+ambiguity.</li>
+</ul>
+<p>To avoid these ambiguities, the XML specification enforces a strict
+separation: tags define structure and attributes, while comments provide
+human-readable metadata outside of structural tokens.</p>
+<h3 id="proper-placement-of-xml-comments">Proper Placement of XML
+Comments</h3>
+<p>To comment on specific attributes or element structures without
+causing validation errors, comments must always be placed outside the
+tag itself:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Configure the active connection timeout in seconds --&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">connection</span> <span class="ot">timeout=</span><span class="st">&quot;60&quot;</span> /&gt;</span></code></pre></div>
+<p>Placing the comment inside the tag (such as
+<code>&lt;connection &lt;!-- timeout in seconds --&gt; timeout="60" /&gt;</code>)
+violates XML well-formedness rules and causes conforming XML parsers to
+immediately halt execution with a fatal syntax error.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

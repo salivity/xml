@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schematron Phases: Context-Specific XML Validation - xml</title>
+    <meta name="description" content="Schematron phases are a powerful structural mechanism in ISO Schematron that allow developers to group validation patterns and apply them conditionally based on workflow stages, user roles, or runtime environments. By enabling selective execution of vali">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/schematron-phases-context-specific-xml-validation">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Schematron Phases: Context-Specific XML Validation - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/schematron-phases-context-specific-xml-validation" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Schematron phases are a powerful structural mechanism in ISO Schematron that allow developers to group validation patterns and apply them conditionally based on workflow stages, user roles, or runtime environments. By enabling selective execution of vali" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="schematron-phases-context-specific-xml-validation">Schematron
+Phases: Context-Specific XML Validation</h1>
+<p>Schematron phases are a powerful structural mechanism in ISO
+Schematron that allow developers to group validation patterns and apply
+them conditionally based on workflow stages, user roles, or runtime
+environments. By enabling selective execution of validation rules rather
+than enforcing a monolithic schema, phases transform XML quality
+assurance into a dynamic, context-aware process. This article explains
+how Schematron phases work, how they are configured, and how they
+facilitate context-specific XML validation across different document
+lifecycles.</p>
+<h3 id="what-is-a-schematron-phase">What Is a Schematron Phase?</h3>
+<p>In Schematron, rules and assertions are organized into
+<code>&lt;pattern&gt;</code> elements. By default, a Schematron
+validator evaluates all active patterns defined within a schema. A
+Schematron <code>&lt;phase&gt;</code> element overrides this behavior by
+grouping a specific subset of patterns together under a unique
+identifier.</p>
+<p>A phase does not define new business logic; instead, it acts as a
+selective filter. It references existing patterns using
+<code>&lt;active&gt;</code> elements, instructing the Schematron
+processing engine to evaluate only the specified patterns when that
+particular phase is invoked.</p>
+<h3 id="how-phases-work-structure-and-syntax">How Phases Work: Structure
+and Syntax</h3>
+<p>Phases are declared at the top of a Schematron document, directly
+inside the root <code>&lt;schema&gt;</code> element before the pattern
+definitions.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">schema</span> <span class="ot">xmlns=</span><span class="st">&quot;http://purl.oclc.org/dsdl/schematron&quot;</span> <span class="ot">defaultPhase=</span><span class="st">&quot;draft&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">phase</span> <span class="ot">id=</span><span class="st">&quot;draft&quot;</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">active</span> <span class="ot">pattern=</span><span class="st">&quot;structural-rules&quot;</span>/&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">phase</span>&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">phase</span> <span class="ot">id=</span><span class="st">&quot;final&quot;</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">active</span> <span class="ot">pattern=</span><span class="st">&quot;structural-rules&quot;</span>/&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">active</span> <span class="ot">pattern=</span><span class="st">&quot;metadata-rules&quot;</span>/&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">active</span> <span class="ot">pattern=</span><span class="st">&quot;quality-assurance-rules&quot;</span>/&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">phase</span>&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">pattern</span> <span class="ot">id=</span><span class="st">&quot;structural-rules&quot;</span>&gt;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="co">&lt;!-- Core structure checks --&gt;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">pattern</span>&gt;</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">pattern</span> <span class="ot">id=</span><span class="st">&quot;metadata-rules&quot;</span>&gt;</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        <span class="co">&lt;!-- Metadata completeness checks --&gt;</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">pattern</span>&gt;</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">pattern</span> <span class="ot">id=</span><span class="st">&quot;quality-assurance-rules&quot;</span>&gt;</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>        <span class="co">&lt;!-- Strict QA and publishing checks --&gt;</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">pattern</span>&gt;</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">schema</span>&gt;</span></code></pre></div>
+<p>In this setup:</p>
+<ul>
+<li>The <code>defaultPhase</code> attribute on the
+<code>&lt;schema&gt;</code> element specifies which phase runs if no
+phase parameter is passed to the processor.</li>
+<li>The special keyword <code>#ALL</code> can be passed to execute every
+pattern in the document regardless of phases.</li>
+</ul>
+<h3 id="enabling-context-specific-validation">Enabling Context-Specific
+Validation</h3>
+<p>Schematron phases enable targeted validation by decoupling the full
+rule set from specific execution contexts. Common use cases include:</p>
+<h4 id="1-workflow-stage-validation">1. Workflow Stage Validation</h4>
+<p>XML documents typically evolve through distinct phases such as
+drafting, editing, and publishing. Enforcing strict final validation
+rules during the early draft stage creates friction for content
+creators. Phases allow progressive validation:</p>
+<ul>
+<li><strong>Authoring Phase:</strong> Validates basic XML structure and
+required elements so authors can save incomplete drafts.</li>
+<li><strong>Editorial Phase:</strong> Checks style guides, terminology,
+and cross-references.</li>
+<li><strong>Archival/Publishing Phase:</strong> Enforces strict
+compliance, verifying checksums, unique IDs, and external link
+integrity.</li>
+</ul>
+<h4 id="2-role-based-validation">2. Role-Based Validation</h4>
+<p>Different stakeholders in an organization are responsible for
+different parts of an XML document. An author may only need to validate
+content elements, while a data engineer must validate database-bound
+metadata. Phases allow systems to run role-specific checks for each user
+class without maintaining separate schema files.</p>
+<h4 id="3-partner-and-distribution-profiles">3. Partner and Distribution
+Profiles</h4>
+<p>When exchanging XML documents with multiple external vendors or
+aggregators, each recipient may require a specific dialect or subset of
+constraints. Phases permit maintaining a single canonical Schematron
+file while exposing distinct validation profiles tailored to each
+partner's technical requirements.</p>
+<h3 id="invoking-phases-during-processing">Invoking Phases During
+Processing</h3>
+<p>To apply context-specific rules, the invoking application or
+command-line tool passes the phase name as a parameter to the XSLT or
+Schematron processor:</p>
+<ul>
+<li>In command-line processors (such as Saxon or SchXslt), you provide
+the parameter directly: <code>phase=final</code>.</li>
+<li>In automated continuous integration (CI/CD) pipelines, build scripts
+can trigger the appropriate phase depending on whether the build targets
+a staging, QA, or production deployment.</li>
+</ul>
+<h3 id="benefits-of-schematron-phases">Benefits of Schematron
+Phases</h3>
+<ul>
+<li><strong>Single Source of Truth:</strong> Centralizes all document
+rules into a single schema file while supporting multiple validation
+scenarios.</li>
+<li><strong>Improved Performance:</strong> Reduces processing overhead
+by running only the rules necessary for a given context.</li>
+<li><strong>Better User Experience:</strong> Prevents irrelevant errors
+from blocking users at intermediate stages of the content
+lifecycle.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

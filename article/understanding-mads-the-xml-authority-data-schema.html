@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding MADS: The XML Authority Data Schema - xml</title>
+    <meta name="description" content="The Metadata Authority Description Schema (MADS) is an XML-based standard developed by the Library of Congress to represent metadata authority records in a web-compatible, structured format. Designed as an authority companion to the Metadata Object Descr">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/understanding-mads-the-xml-authority-data-schema">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Understanding MADS: The XML Authority Data Schema - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/understanding-mads-the-xml-authority-data-schema" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Metadata Authority Description Schema (MADS) is an XML-based standard developed by the Library of Congress to represent metadata authority records in a web-compatible, structured format. Designed as an authority companion to the Metadata Object Descr" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="understanding-mads-the-xml-authority-data-schema">Understanding
+MADS: The XML Authority Data Schema</h1>
+<p>The Metadata Authority Description Schema (MADS) is an XML-based
+standard developed by the Library of Congress to represent metadata
+authority records in a web-compatible, structured format. Designed as an
+authority companion to the Metadata Object Description Schema (MODS),
+MADS provides a simplified subset of MARC 21 Authority elements
+formatted into structured XML. This article details what MADS is, its
+core XML elements, how it organizes authorized headings and
+relationships, and how it structures authority data for digital
+repositories.</p>
+<h2 id="what-is-mads">What is MADS?</h2>
+<p>MADS is a descriptive XML standard designed to define and control
+metadata entities such as individuals, corporate organizations,
+geographic locations, subjects, and uniform titles. While traditional
+library systems rely on complex MARC 21 Authority formats, MADS delivers
+a more accessible, human-readable, and machine-actionable XML
+structure.</p>
+<p>MADS is frequently used in digital libraries, repositories, and
+archives to ensure consistency across descriptive metadata fields by
+standardizing authorized names, concepts, and relationships.</p>
+<h2 id="core-structural-elements-in-mads-xml">Core Structural Elements
+in MADS XML</h2>
+<p>A MADS record is encapsulated within a <code>&lt;mads&gt;</code> root
+element (or within <code>&lt;madsCollection&gt;</code> when bundling
+multiple records). The schema structures authority data primarily by
+dividing it into preferred headings, alternative terms, related
+entities, and contextual metadata.</p>
+<h3 id="1-authorized-heading-authority">1. Authorized Heading
+(<code>&lt;authority&gt;</code>)</h3>
+<p>The <code>&lt;authority&gt;</code> element contains the authorized,
+preferred form of a name, title, or concept. Every MADS record must
+contain exactly one <code>&lt;authority&gt;</code> tag.</p>
+<p>Within <code>&lt;authority&gt;</code>, specific entity descriptors
+are declared:</p>
+<ul>
+<li><code>&lt;name&gt;</code>: Designates personal, corporate, or
+conference names. Includes sub-elements like
+<code>&lt;namePart&gt;</code> and attributes like
+<code>type="personal"</code>.</li>
+<li><code>&lt;titleInfo&gt;</code>: Represents uniform titles or
+series.</li>
+<li><code>&lt;topic&gt;</code>: Defines topical subject terms.</li>
+<li><code>&lt;geographic&gt;</code>: Represents geographic
+locations.</li>
+<li><code>&lt;temporal&gt;</code>: Defines standardized chronological or
+time periods.</li>
+<li><code>&lt;genre&gt;</code>: Indicates style, format, or genre
+classifications.</li>
+</ul>
+<h3 id="2-variant-headings-variant">2. Variant Headings
+(<code>&lt;variant&gt;</code>)</h3>
+<p>The <code>&lt;variant&gt;</code> element represents non-preferred or
+alternative forms of the heading (equivalent to "See from" or
+<em>4XX</em> fields in MARC Authority records). It uses the same entity
+sub-elements as the <code>&lt;authority&gt;</code> tag
+(<code>&lt;name&gt;</code>, <code>&lt;topic&gt;</code>, etc.) to capture
+misspellings, pseudonyms, maiden names, or alternative phrasings.</p>
+<p>The <code>type</code> attribute on <code>&lt;variant&gt;</code> can
+specify the relationship type, such as <code>type="other"</code>.</p>
+<h3 id="3-related-entities-related">3. Related Entities
+(<code>&lt;related&gt;</code>)</h3>
+<p>The <code>&lt;related&gt;</code> element captures connections to
+other authorized headings (equivalent to "See also" or <em>5XX</em>
+fields in MARC). It defines associative or hierarchical relationships
+between entities.</p>
+<p>The <code>type</code> attribute defines the nature of the
+relationship, including:</p>
+<ul>
+<li><code>type="broader"</code>: A broader term in a taxonomy.</li>
+<li><code>type="narrower"</code>: A narrower term or sub-concept.</li>
+<li><code>type="other"</code>: A general associative connection (e.g.,
+related organizations).</li>
+</ul>
+<h3 id="4-descriptive-and-contextual-elements">4. Descriptive and
+Contextual Elements</h3>
+<p>MADS includes supplementary elements that provide historical or
+biographical context to disambiguate entities:</p>
+<ul>
+<li><code>&lt;note&gt;</code>: General notes, biographical sketches, or
+historical data.</li>
+<li><code>&lt;affiliation&gt;</code>: Institutions or organizations
+associated with a person.</li>
+<li><code>&lt;fieldOfActivity&gt;</code>: Professional fields or areas
+of expertise.</li>
+<li><code>&lt;identifier&gt;</code>: Standard identifiers (such as ISNI,
+ORCID, or LCNAF IDs).</li>
+<li><code>&lt;url&gt;</code>: Web links related to the entity.</li>
+<li><code>&lt;recordInfo&gt;</code>: Administrative metadata about the
+record itself, including creation date, source cataloging agency, and
+change history.</li>
+</ul>
+<h2 id="example-of-a-mads-xml-record">Example of a MADS XML Record</h2>
+<p>Below is an example of a MADS XML record defining an author with an
+authorized name, a variant name, and an external identifier:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span> <span class="ot">version=</span><span class="st">&quot;1.0&quot;</span> <span class="ot">encoding=</span><span class="st">&quot;UTF-8&quot;</span><span class="fu">?&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">mads</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.loc.gov/mads/v2&quot;</span> </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>      <span class="ot">xmlns:xsi=</span><span class="st">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span> </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      <span class="ot">xsi:schemaLocation=</span><span class="st">&quot;http://www.loc.gov/mads/v2 http://www.loc.gov/standards/mads/mads-2-0.xsd&quot;</span>&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Authorized Heading --&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">authority</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">name</span> <span class="ot">type=</span><span class="st">&quot;personal&quot;</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">namePart</span> <span class="ot">type=</span><span class="st">&quot;family&quot;</span>&gt;Twain&lt;/<span class="kw">namePart</span>&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">namePart</span> <span class="ot">type=</span><span class="st">&quot;given&quot;</span>&gt;Mark&lt;/<span class="kw">namePart</span>&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">namePart</span> <span class="ot">type=</span><span class="st">&quot;date&quot;</span>&gt;1835-1910&lt;/<span class="kw">namePart</span>&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">name</span>&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">authority</span>&gt;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Variant Form / Pseudonym Mapping --&gt;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">variant</span> <span class="ot">type=</span><span class="st">&quot;other&quot;</span>&gt;</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">name</span> <span class="ot">type=</span><span class="st">&quot;personal&quot;</span>&gt;</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">namePart</span> <span class="ot">type=</span><span class="st">&quot;family&quot;</span>&gt;Clemens&lt;/<span class="kw">namePart</span>&gt;</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">namePart</span> <span class="ot">type=</span><span class="st">&quot;given&quot;</span>&gt;Samuel Langhorne&lt;/<span class="kw">namePart</span>&gt;</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">namePart</span> <span class="ot">type=</span><span class="st">&quot;date&quot;</span>&gt;1835-1910&lt;/<span class="kw">namePart</span>&gt;</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">name</span>&gt;</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">variant</span>&gt;</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Context and Identifiers --&gt;</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">fieldOfActivity</span>&gt;Literature&lt;/<span class="kw">fieldOfActivity</span>&gt;</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">note</span> <span class="ot">type=</span><span class="st">&quot;biography&quot;</span>&gt;American writer, humorist, and lecturer.&lt;/<span class="kw">note</span>&gt;</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">identifier</span> <span class="ot">type=</span><span class="st">&quot;viaf&quot;</span>&gt;50566653&lt;/<span class="kw">identifier</span>&gt;</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Record Administration --&gt;</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">recordInfo</span>&gt;</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">recordOrigin</span>&gt;Converted from MARC Authority record.&lt;/<span class="kw">recordOrigin</span>&gt;</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">recordCreationDate</span> <span class="ot">encoding=</span><span class="st">&quot;iso8601&quot;</span>&gt;2023-01-15&lt;/<span class="kw">recordCreationDate</span>&gt;</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">recordInfo</span>&gt;</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">mads</span>&gt;</span></code></pre></div>
+<h2 id="benefits-of-structuring-authority-data-with-mads">Benefits of
+Structuring Authority Data with MADS</h2>
+<ul>
+<li><strong>Web-Native Interoperability:</strong> Uses standard XML
+syntax, making authority data easily consumable by web applications and
+APIs.</li>
+<li><strong>MODS Integration:</strong> Mirrors the element architecture
+of MODS, simplifying data transformation and integration within
+bibliographic systems.</li>
+<li><strong>Granular Disambiguation:</strong> Differentiates identical
+names and terms through structural attributes, date tags, and role
+qualifiers.</li>
+<li><strong>Controlled Vocabularies:</strong> Allows digital
+repositories to maintain consistent metadata vocabularies without
+needing legacy cataloging infrastructure.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

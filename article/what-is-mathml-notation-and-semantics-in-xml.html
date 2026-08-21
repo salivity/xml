@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is MathML: Notation and Semantics in XML - xml</title>
+    <meta name="description" content="Mathematical Markup Language (MathML) is an XML-based standard developed by the World Wide Web Consortium (W3C) for describing mathematical notations and capturing both their visual structure and underlying mathematical meaning. This article explains the">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/what-is-mathml-notation-and-semantics-in-xml">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is MathML: Notation and Semantics in XML - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/what-is-mathml-notation-and-semantics-in-xml" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Mathematical Markup Language (MathML) is an XML-based standard developed by the World Wide Web Consortium (W3C) for describing mathematical notations and capturing both their visual structure and underlying mathematical meaning. This article explains the" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-mathml-notation-and-semantics-in-xml">What Is MathML:
+Notation and Semantics in XML</h1>
+<p>Mathematical Markup Language (MathML) is an XML-based standard
+developed by the World Wide Web Consortium (W3C) for describing
+mathematical notations and capturing both their visual structure and
+underlying mathematical meaning. This article explains the fundamentals
+of MathML, detailing how it uses XML syntax to encode visual equations
+through Presentation MathML, preserve mathematical logic through Content
+MathML, and combine both to enhance digital accessibility and scientific
+publishing.</p>
+<h2 id="what-is-mathml">What is MathML?</h2>
+<p>MathML is a specialized dialect of XML designed to integrate
+mathematical formulas seamlessly into web pages, digital documents, and
+electronic publishing formats like EPUB. Standard text processing
+systems often struggle with the two-dimensional layout of mathematics
+(such as fractions, matrices, and exponents). MathML solves this by
+providing a standardized, machine-readable format that browsers, screen
+readers, and computational algebra systems can render and evaluate
+natively.</p>
+<p>MathML is divided into two primary sub-languages:</p>
+<ol type="1">
+<li><strong>Presentation MathML:</strong> Focuses on the visual
+rendering and layout of equations.</li>
+<li><strong>Content MathML:</strong> Focuses on the semantic meaning and
+computational structure of equations.</li>
+</ol>
+<hr />
+<h2 id="presentation-mathml-encoding-visual-notation">Presentation
+MathML: Encoding Visual Notation</h2>
+<p>Presentation MathML uses XML elements to describe how a mathematical
+expression should look on a screen or page. It breaks expressions down
+into layout tokens and structural wrappers.</p>
+<h3 id="key-presentation-elements">Key Presentation Elements</h3>
+<ul>
+<li><code>&lt;mi&gt;</code>: Identifies an identifier or variable (e.g.,
+<span class="math inline">\(x, y\)</span>).</li>
+<li><code>&lt;mn&gt;</code>: Identifies a number (e.g., <span
+class="math inline">\(42, 3.14\)</span>).</li>
+<li><code>&lt;mo&gt;</code>: Identifies an operator, fence, or separator
+(e.g., <span class="math inline">\(+\)</span>, <span
+class="math inline">\(-\)</span>, parentheses).</li>
+<li><code>&lt;mrow&gt;</code>: Groups elements horizontally into a
+single expression row.</li>
+<li><code>&lt;mfrac&gt;</code>: Constructs a fraction with a numerator
+and denominator.</li>
+<li><code>&lt;msup&gt;</code> and <code>&lt;msub&gt;</code>: Creates
+superscripts and subscripts.</li>
+<li><code>&lt;msqrt&gt;</code>: Represents a square root radical.</li>
+</ul>
+<h3 id="example-x2--4-in-presentation-mathml">Example: <span
+class="math inline">\(x^2 + 4\)</span> in Presentation MathML</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">math</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/1998/Math/MathML&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">mrow</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">msup</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">mi</span>&gt;x&lt;/<span class="kw">mi</span>&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">mn</span>&gt;2&lt;/<span class="kw">mn</span>&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">msup</span>&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">mo</span>&gt;+&lt;/<span class="kw">mo</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">mn</span>&gt;4&lt;/<span class="kw">mn</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">mrow</span>&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">math</span>&gt;</span></code></pre></div>
+<p>In this structure, the rendering engine recognizes that <span
+class="math inline">\(2\)</span> is an exponent of <span
+class="math inline">\(x\)</span> and places it in the upper-right
+position, while maintaining the correct spacing around the plus
+sign.</p>
+<hr />
+<h2 id="content-mathml-encoding-mathematical-semantics">Content MathML:
+Encoding Mathematical Semantics</h2>
+<p>While Presentation MathML describes layout, it does not convey
+mathematical meaning. For example, <span
+class="math inline">\(f(x)\)</span> could visually mean "<span
+class="math inline">\(f\)</span> multiplied by <span
+class="math inline">\(x\)</span>" or the "function <span
+class="math inline">\(f\)</span> applied to <span
+class="math inline">\(x\)</span>." Content MathML resolves this
+ambiguity by explicitly declaring mathematical operations, operands, and
+relations.</p>
+<p>Content MathML uses prefix notation (operator followed by operands)
+enclosed in an <code>&lt;apply&gt;</code> element.</p>
+<h3 id="key-content-elements">Key Content Elements</h3>
+<ul>
+<li><code>&lt;apply&gt;</code>: Applies an operator or function to its
+arguments.</li>
+<li><code>&lt;ci&gt;</code>: Identifies a content identifier (variable
+or function name).</li>
+<li><code>&lt;cn&gt;</code>: Identifies a content number.</li>
+<li>Operator elements: Predefined mathematical operators such as
+<code>&lt;plus/&gt;</code>, <code>&lt;minus/&gt;</code>,
+<code>&lt;times/&gt;</code>, <code>&lt;divide/&gt;</code>,
+<code>&lt;sin/&gt;</code>, and <code>&lt;eq/&gt;</code>.</li>
+</ul>
+<h3 id="example-x2--4-in-content-mathml">Example: <span
+class="math inline">\(x^2 + 4\)</span> in Content MathML</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">math</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/1998/Math/MathML&quot;</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">apply</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">plus</span>/&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">apply</span>&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">power</span>/&gt;</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">ci</span>&gt;x&lt;/<span class="kw">ci</span>&gt;</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">cn</span>&gt;2&lt;/<span class="kw">cn</span>&gt;</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">apply</span>&gt;</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">cn</span>&gt;4&lt;/<span class="kw">cn</span>&gt;</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">apply</span>&gt;</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">math</span>&gt;</span></code></pre></div>
+<p>In this format, software can directly interpret that the operation is
+addition, where the first operand is <span
+class="math inline">\(x\)</span> raised to the power of <span
+class="math inline">\(2\)</span>, and the second operand is the integer
+<span class="math inline">\(4\)</span>.</p>
+<hr />
+<h2 id="combining-notation-and-semantics">Combining Notation and
+Semantics</h2>
+<p>MathML allows authors to combine visual layout and semantic data
+using the <code>&lt;semantics&gt;</code>,
+<code>&lt;annotation&gt;</code>, and <code>&lt;annotation-xml&gt;</code>
+elements. This parallel markup ensures an equation can be rendered
+accurately on the web while remaining accessible to computer algebra
+systems or assistive technology.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">math</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/1998/Math/MathML&quot;</span>&gt;</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">semantics</span>&gt;</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Visual presentation --&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">mrow</span>&gt;</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">msup</span>&gt;&lt;<span class="kw">mi</span>&gt;x&lt;/<span class="kw">mi</span>&gt;&lt;<span class="kw">mn</span>&gt;2&lt;/<span class="kw">mn</span>&gt;&lt;/<span class="kw">msup</span>&gt;</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">mo</span>&gt;+&lt;/<span class="kw">mo</span>&gt;</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">mn</span>&gt;4&lt;/<span class="kw">mn</span>&gt;</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">mrow</span>&gt;</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Semantic data --&gt;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">annotation-xml</span> <span class="ot">encoding=</span><span class="st">&quot;MathML-Content&quot;</span>&gt;</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">apply</span>&gt;</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">plus</span>/&gt;</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">apply</span>&gt;&lt;<span class="kw">power</span>/&gt;&lt;<span class="kw">ci</span>&gt;x&lt;/<span class="kw">ci</span>&gt;&lt;<span class="kw">cn</span>&gt;2&lt;/<span class="kw">cn</span>&gt;&lt;/<span class="kw">apply</span>&gt;</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">cn</span>&gt;4&lt;/<span class="kw">cn</span>&gt;</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>      &lt;/<span class="kw">apply</span>&gt;</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">annotation-xml</span>&gt;</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Optional LaTeX source for copy-pasting --&gt;</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">annotation</span> <span class="ot">encoding=</span><span class="st">&quot;application/x-tex&quot;</span>&gt;x^2 + 4&lt;/<span class="kw">annotation</span>&gt;</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">semantics</span>&gt;</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">math</span>&gt;</span></code></pre></div>
+<hr />
+<h2 id="why-mathml-matters">Why MathML Matters</h2>
+<ul>
+<li><strong>Web Standards Integration:</strong> MathML is part of the
+HTML5 specification (<code>MathML Core</code>), allowing modern web
+browsers to render complex equations natively without external image
+files or heavy JavaScript libraries.</li>
+<li><strong>Accessibility:</strong> Screen readers can parse MathML tags
+to read expressions aloud correctly (e.g., distinguishing between a
+fraction and a division sign), significantly improving web accessibility
+for visually impaired users.</li>
+<li><strong>Interoperability:</strong> Because it is built on XML,
+MathML acts as an exchange format between word processors, scientific
+publishing workflows (like LaTeX to HTML converters), and computational
+software (such as Mathematica and Maple).</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

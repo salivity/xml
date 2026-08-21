@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How XKMS Distributes and Registers Public Keys - xml</title>
+    <meta name="description" content="The XML Key Management Specification (XKMS) is a standard designed to simplify the integration of Public Key Infrastructure (PKI) with XML-based web services. Instead of requiring client applications to handle complex PKI tasks—such as parsing certific">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/how-xkms-distributes-and-registers-public-keys">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How XKMS Distributes and Registers Public Keys - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/how-xkms-distributes-and-registers-public-keys" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The XML Key Management Specification (XKMS) is a standard designed to simplify the integration of Public Key Infrastructure (PKI) with XML-based web services. Instead of requiring client applications to handle complex PKI tasks—such as parsing certific" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-xkms-distributes-and-registers-public-keys">How XKMS
+Distributes and Registers Public Keys</h1>
+<p>The XML Key Management Specification (XKMS) is a standard designed to
+simplify the integration of Public Key Infrastructure (PKI) with
+XML-based web services. Instead of requiring client applications to
+handle complex PKI tasks—such as parsing certificates, verifying
+certificate revocation lists (CRLs), and building trust chains—XKMS
+offloads these responsibilities to a centralized trust server. It uses
+standard XML messaging protocols (typically over SOAP) to handle the
+distribution, validation, and registration of public keys through two
+primary sub-protocols: the XML Key Information Service Specification
+(X-KISS) and the XML Key Registration Service Specification
+(X-KRSS).</p>
+<h2 id="key-distribution-and-validation-via-x-kiss">Key Distribution and
+Validation via X-KISS</h2>
+<p>X-KISS defines how applications obtain and validate public keys to
+verify digital signatures or encrypt XML documents without implementing
+native PKI logic. It operates using two main message pairs:</p>
+<ul>
+<li><strong>Locate Service:</strong> When a client processes an XML
+Signature containing a <code>ds:KeyInfo</code> element that lacks
+sufficient public key details (such as a name or certificate
+identifier), it sends an XML <code>&lt;LocateRequest&gt;</code> to the
+XKMS service. The XKMS server resolves the identifier and returns a
+<code>&lt;LocateResult&gt;</code> containing the complete public key and
+associated binding details formatted as XML.</li>
+<li><strong>Validate Service:</strong> To confirm that a key is
+currently valid and trusted, the client sends a
+<code>&lt;ValidateRequest&gt;</code>. The XKMS trust server handles the
+complex backend verification—querying Certificate Authorities (CAs),
+checking expiration dates, and verifying CRLs or OCSP responses. The
+server then responds with a <code>&lt;ValidateResult&gt;</code>,
+returning a simple assertion confirming whether the key is valid,
+invalid, or indeterminate.</li>
+</ul>
+<h2 id="public-key-registration-and-lifecycle-via-x-krss">Public Key
+Registration and Lifecycle via X-KRSS</h2>
+<p>X-KRSS handles the lifecycle management of public key pairs, enabling
+clients to register, update, and revoke keys through standardized XML
+messages.</p>
+<ul>
+<li><strong>Registration
+(<code>&lt;RegisterRequest&gt;</code>):</strong> A client generates a
+public/private key pair locally (or requests server-side generation) and
+sends the public key along with proof of possession and identity
+attributes inside an XML payload. The XKMS server processes the request,
+binds the public key to the provided identity within the underlying PKI
+or directory service, and returns a
+<code>&lt;RegisterResult&gt;</code>.</li>
+<li><strong>Reissue (<code>&lt;ReissueRequest&gt;</code>):</strong> When
+a key or associated certificate is near expiration, or when user
+attributes change, the client submits a reissue request to update the
+binding without repeating the full initial registration process.</li>
+<li><strong>Revocation (<code>&lt;RevokeRequest&gt;</code>):</strong> If
+a private key is compromised or an identity is decommissioned, the
+client submits an authenticated revocation message. The XKMS server
+coordinates with the underlying CA to invalidate the key binding.</li>
+<li><strong>Recovery (<code>&lt;RecoverRequest&gt;</code>):</strong> For
+systems configured with server-side key generation or key escrow, an
+authorized user can securely retrieve a lost private key through an
+XML-based recovery exchange.</li>
+</ul>
+<h2 id="xml-message-flow">XML Message Flow</h2>
+<p>Every XKMS operation follows a straightforward request-response model
+encoded in standard XML schema. A client creates an XML document
+representing the operation, embeds authentication and integrity
+mechanisms (such as XML Signature or shared-secret authentication), and
+transmits it over HTTP/SOAP. The XKMS trust server acts as a gateway
+between the lightweight XML application layer and traditional enterprise
+security infrastructure, translating XML requests into PKI operations
+and returning standardized XML responses.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

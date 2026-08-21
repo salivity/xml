@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Role of web.xml in Java Servlet Applications - xml</title>
+    <meta name="description" content="The web.xml file, officially known as the deployment descriptor, serves as the central configuration blueprint for standard Java Servlet-based web applications. This article explores the essential role of web.xml, detailing how it configures servlets, de">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/role-of-web-xml-in-java-servlet-applications">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Role of web.xml in Java Servlet Applications - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/role-of-web-xml-in-java-servlet-applications" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The web.xml file, officially known as the deployment descriptor, serves as the central configuration blueprint for standard Java Servlet-based web applications. This article explores the essential role of web.xml, detailing how it configures servlets, de" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="role-of-webxml-in-java-servlet-applications">Role of web.xml in
+Java Servlet Applications</h1>
+<p>The <code>web.xml</code> file, officially known as the deployment
+descriptor, serves as the central configuration blueprint for standard
+Java Servlet-based web applications. This article explores the essential
+role of <code>web.xml</code>, detailing how it configures servlets,
+defines request routing, manages security constraints, and controls the
+overall lifecycle of a Java web application.</p>
+<h2 id="what-is-webxml">What is web.xml?</h2>
+<p>In Java EE and Jakarta EE architectures, <code>web.xml</code> is an
+XML-formatted configuration file located in the <code>WEB-INF/</code>
+directory of a Web Application Archive (WAR) file. It informs the
+servlet container (such as Apache Tomcat, Jetty, or WildFly) how to
+initialize, manage, and execute the web components within the
+application.</p>
+<h2 id="primary-roles-and-functions">Primary Roles and Functions</h2>
+<h3 id="1-servlet-declaration-and-mapping">1. Servlet Declaration and
+Mapping</h3>
+<p>The fundamental role of <code>web.xml</code> is to register servlets
+and map them to specific URL patterns.</p>
+<ul>
+<li><strong><code>&lt;servlet&gt;</code></strong>: Defines the servlet
+name, the fully qualified Java class, and optional initialization
+parameters (<code>&lt;init-param&gt;</code>).</li>
+<li><strong><code>&lt;servlet-mapping&gt;</code></strong>: Binds the
+declared servlet name to a specific URL path, directing matching HTTP
+requests to that servlet.</li>
+</ul>
+<h3 id="2-request-and-response-filtering">2. Request and Response
+Filtering</h3>
+<p>The deployment descriptor configures Servlet Filters that intercept
+and process requests before they reach a servlet or after the servlet
+finishes processing.</p>
+<ul>
+<li><strong><code>&lt;filter&gt;</code></strong>: Declares the filter
+class and its parameters.</li>
+<li><strong><code>&lt;filter-mapping&gt;</code></strong>: Dictates the
+order of execution and specifies which URLs or servlets the filter
+applies to.</li>
+</ul>
+<h3 id="3-application-lifecycle-listeners">3. Application Lifecycle
+Listeners</h3>
+<p><code>web.xml</code> registers listeners
+(<code>&lt;listener&gt;</code>) that respond to events across the
+application lifecycle. These include context initialization and
+destruction (<code>ServletContextListener</code>), session creation
+(<code>HttpSessionListener</code>), and request monitoring
+(<code>ServletRequestListener</code>).</p>
+<h3 id="4-global-context-parameters">4. Global Context Parameters</h3>
+<p>Developers can define application-wide parameters using the
+<code>&lt;context-param&gt;</code> element. These key-value pairs are
+loaded into the <code>ServletContext</code> upon application startup and
+are accessible by all servlets and filters without hardcoding values in
+Java code.</p>
+<h3 id="5-security-and-access-control">5. Security and Access
+Control</h3>
+<p>The deployment descriptor provides a declarative mechanism for
+managing web security:</p>
+<ul>
+<li><strong><code>&lt;security-constraint&gt;</code></strong>: Restricts
+access to specific URL patterns based on user roles and transport
+guarantees (e.g., enforcing HTTPS via <code>CONFIDENTIAL</code>).</li>
+<li><strong><code>&lt;login-config&gt;</code></strong>: Configures the
+authentication method (e.g., BASIC, FORM) and defines custom login/error
+pages.</li>
+<li><strong><code>&lt;security-role&gt;</code></strong>: Declares
+security roles used within the application.</li>
+</ul>
+<h3 id="6-session-management-and-routing-utilities">6. Session
+Management and Routing Utilities</h3>
+<ul>
+<li><strong><code>&lt;session-config&gt;</code></strong>: Sets global
+session behaviors, such as idle session timeout intervals.</li>
+<li><strong><code>&lt;welcome-file-list&gt;</code></strong>: Specifies
+the default files (such as <code>index.html</code> or
+<code>index.jsp</code>) to serve when a user requests a directory
+path.</li>
+<li><strong><code>&lt;error-page&gt;</code></strong>: Maps standard HTTP
+status codes (like 404 or 500) or specific Java exception types to
+dedicated custom error pages.</li>
+</ul>
+<h2 id="modern-relevance-webxml-vs-annotations">Modern Relevance:
+web.xml vs. Annotations</h2>
+<p>Since the introduction of the Servlet 3.0 specification, developers
+can use Java annotations (such as <code>@WebServlet</code>,
+<code>@WebFilter</code>, and <code>@WebListener</code>) to configure
+components directly within the source code.</p>
+<p>Despite this, <code>web.xml</code> remains critical because:</p>
+<ul>
+<li>It provides a centralized, declarative overview of the entire
+application.</li>
+<li>Configurations defined in <code>web.xml</code> override code-level
+annotations, enabling administrators to change runtime behavior without
+recompiling Java source code.</li>
+<li>It can completely disable annotation scanning by setting the
+<code>metadata-complete="true"</code> attribute in the root element,
+which significantly improves application startup times.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

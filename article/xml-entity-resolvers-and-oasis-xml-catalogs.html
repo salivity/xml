@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML Entity Resolvers and OASIS XML Catalogs - xml</title>
+    <meta name="description" content="An XML entity resolver is an abstraction layer that intercepts parser requests for external resources, such as Document Type Definitions (DTDs) or external entities, preventing unwanted network calls and ensuring reliable parsing. By integrating with the">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/xml-entity-resolvers-and-oasis-xml-catalogs">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="XML Entity Resolvers and OASIS XML Catalogs - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/xml-entity-resolvers-and-oasis-xml-catalogs" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="An XML entity resolver is an abstraction layer that intercepts parser requests for external resources, such as Document Type Definitions (DTDs) or external entities, preventing unwanted network calls and ensuring reliable parsing. By integrating with the" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="xml-entity-resolvers-and-oasis-xml-catalogs">XML Entity
+Resolvers and OASIS XML Catalogs</h1>
+<p>An XML entity resolver is an abstraction layer that intercepts parser
+requests for external resources, such as Document Type Definitions
+(DTDs) or external entities, preventing unwanted network calls and
+ensuring reliable parsing. By integrating with the OASIS XML Catalog
+standard, entity resolvers map standard public identifiers and remote
+system URIs to local files, enhancing performance, security, and offline
+availability.</p>
+<h3 id="what-is-an-xml-entity-resolver">What is an XML Entity
+Resolver?</h3>
+<p>When an XML parser processes a document containing an external
+resource—such as a <code>DOCTYPE</code> declaration referencing a DTD—it
+looks for both a System Identifier (a URI) and optionally a Public
+Identifier (a standardized name). By default, many XML parsers attempt
+to fetch the resource directly from the specified URI over the
+network.</p>
+<p>An entity resolver is an interface (such as
+<code>org.xml.sax.EntityResolver</code> in Java or similar hooks in
+<code>libxml2</code>) that allows developers to intercept these
+requests. When the parser encounters an external entity, it delegates
+the resolution to the entity resolver before attempting any network
+access. The resolver can redirect the request, provide an in-memory
+stream, or load a local copy of the resource, preventing network
+latency, server downtime dependencies, and certain XML External Entity
+(XXE) vulnerabilities.</p>
+<h3 id="the-role-of-oasis-xml-catalogs">The Role of OASIS XML
+Catalogs</h3>
+<p>The OASIS XML Catalogs standard defines a vendor-neutral XML format
+for managing mappings between external entity references and local
+resources. Instead of hardcoding paths inside application code or
+relying on live URLs inside XML documents, a catalog file maintains an
+external dictionary of entity mappings.</p>
+<p>XML declarations typically define entities with a Public Identifier
+and a System Identifier:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE</span> <span class="dt">html</span> PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot; </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                      &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;<span class="dt">&gt;</span></span></code></pre></div>
+<p>Here, <code>PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"</code> is the
+Formal Public Identifier (FPI), and the URL is the System
+Identifier.</p>
+<h3 id="how-catalogs-resolve-public-identifiers-locally">How Catalogs
+Resolve Public Identifiers Locally</h3>
+<p>OASIS XML Catalogs resolve public identifiers through explicit
+mapping rules defined in a catalog file (commonly named
+<code>catalog.xml</code>).</p>
+<ol type="1">
+<li><p><strong>Mapping Configuration:</strong> An entry in the catalog
+maps a specific Public Identifier to a local file URI using the
+<code>&lt;public&gt;</code> element:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">catalog</span> <span class="ot">xmlns=</span><span class="st">&quot;urn:oasis:names:tc:entity:xmlns:xml:catalog&quot;</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">public</span> <span class="ot">publicId=</span><span class="st">&quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot;</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>          <span class="ot">uri=</span><span class="st">&quot;dtds/xhtml1-strict.dtd&quot;</span>/&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">catalog</span>&gt;</span></code></pre></div></li>
+<li><p><strong>Parser Interception:</strong> When the XML parser
+encounters the <code>DOCTYPE</code> declaration, it extracts the
+<code>publicId</code> and passes it to the catalog-enabled entity
+resolver.</p></li>
+<li><p><strong>Catalog Lookup:</strong> The resolver queries the loaded
+OASIS catalog. If a matching <code>publicId</code> attribute is found,
+the resolver retrieves the corresponding local
+<code>uri</code>.</p></li>
+<li><p><strong>Local Resource Delivery:</strong> The resolver opens the
+local file specified by the catalog and returns it as an input stream to
+the parser.</p></li>
+<li><p><strong>Fallback Mechanism:</strong> If no matching public
+identifier is found, the catalog can fall back to mapping system
+identifiers via <code>&lt;system&gt;</code> or
+<code>&lt;rewriteSystem&gt;</code> entries, or delegate to sub-catalogs
+using <code>&lt;nextCatalog&gt;</code>. If all lookups fail, control
+returns to the parser to handle the external fetch or raise an
+error.</p></li>
+</ol>
+<p>Through this mechanism, OASIS XML Catalogs decouple XML documents
+from physical network locations, allowing systems to validate and parse
+XML files efficiently without external network dependencies.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

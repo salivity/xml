@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REST API Payloads: XML vs JSON Comparison - xml</title>
+    <meta name="description" content="RESTful web APIs commonly exchange data using either XML (Extensible Markup Language) or JSON (JavaScript Object Notation) payloads. While both formats serve the core purpose of structuring data transmitted between clients and servers over HTTP, they dif">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/rest-api-payloads-xml-vs-json-comparison">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="REST API Payloads: XML vs JSON Comparison - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/rest-api-payloads-xml-vs-json-comparison" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="RESTful web APIs commonly exchange data using either XML (Extensible Markup Language) or JSON (JavaScript Object Notation) payloads. While both formats serve the core purpose of structuring data transmitted between clients and servers over HTTP, they dif" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="rest-api-payloads-xml-vs-json-comparison">REST API Payloads: XML
+vs JSON Comparison</h1>
+<p>RESTful web APIs commonly exchange data using either XML (Extensible
+Markup Language) or JSON (JavaScript Object Notation) payloads. While
+both formats serve the core purpose of structuring data transmitted
+between clients and servers over HTTP, they differ significantly in
+syntax, overhead, schema support, and ease of parsing. This article
+explains how RESTful APIs utilize both formats, detailing content
+negotiation, structural differences, performance implications, and
+practical use cases.</p>
+<h2 id="content-negotiation-in-rest-apis">Content Negotiation in REST
+APIs</h2>
+<p>RESTful APIs determine whether to process XML or JSON through HTTP
+headers, a mechanism known as content negotiation.</p>
+<ul>
+<li><strong>Request Payload (<code>Content-Type</code>):</strong> When a
+client sends data to the server (e.g., via <code>POST</code> or
+<code>PUT</code>), the <code>Content-Type</code> header informs the
+server how to parse the incoming payload. Setting
+<code>Content-Type: application/json</code> prompts the API to parse
+JSON, while <code>Content-Type: application/xml</code> tells the API to
+parse XML.</li>
+<li><strong>Response Format (<code>Accept</code>):</strong> The client
+indicates its preferred response format using the <code>Accept</code>
+header. Sending <code>Accept: application/json</code> requests a JSON
+response, whereas <code>Accept: application/xml</code> requests an XML
+response. A well-designed REST API will inspect this header and
+serialize the response data into the requested format.</li>
+</ul>
+<h2 id="structural-and-syntactic-differences">Structural and Syntactic
+Differences</h2>
+<p>XML and JSON represent the same data models in fundamentally
+different ways:</p>
+<ul>
+<li><strong>JSON:</strong> Uses lightweight key-value pairs, arrays,
+numbers, booleans, and strings. It maps directly to data structures
+commonly used in modern programming languages like JavaScript, Python,
+and Java.</li>
+<li><strong>XML:</strong> Uses a tag-based tree hierarchy similar to
+HTML. XML supports attributes within tags, namespaces to prevent naming
+collisions, and nested child elements.</li>
+</ul>
+<p>Because XML requires opening and closing tags for every element, XML
+payloads are naturally more verbose and result in larger payload sizes
+compared to the equivalent JSON representation.</p>
+<h2 id="schema-validation-and-typing">Schema Validation and Typing</h2>
+<ul>
+<li><strong>XML (XSD &amp; DTD):</strong> XML offers native support for
+strict schema definition languages like XML Schema Definition (XSD).
+This allows REST APIs to automatically validate the structure, data
+types, and constraints of an incoming payload before executing business
+logic.</li>
+<li><strong>JSON (JSON Schema):</strong> JSON is inherently schema-less,
+relying on the native types defined in its specification. While
+standards like JSON Schema exist for structural validation, they are
+decoupled from the core format and require third-party libraries for
+enforcement.</li>
+</ul>
+<h2 id="parsing-and-performance">Parsing and Performance</h2>
+<ul>
+<li><strong>Serialization/Deserialization:</strong> JSON parsing is
+natively supported in web browsers and modern runtime environments,
+resulting in fast serialization and low CPU overhead. XML parsing
+requires dedicated DOM or SAX parsers, which consume more memory and
+processing power to traverse the document tree.</li>
+<li><strong>Network Bandwidth:</strong> The compact nature of JSON
+reduces bandwidth consumption, making it ideal for mobile networks and
+high-throughput microservices.</li>
+</ul>
+<h2 id="when-rest-apis-use-each-payload-format">When REST APIs Use Each
+Payload Format</h2>
+<ul>
+<li><p><strong>JSON is Preferred For:</strong></p>
+<ul>
+<li>Modern web and mobile applications.</li>
+<li>Public-facing APIs and microservices architectures.</li>
+<li>Scenarios requiring high throughput and low latency.</li>
+<li>Native integration with JavaScript-based frontends.</li>
+</ul></li>
+<li><p><strong>XML is Preferred For:</strong></p>
+<ul>
+<li>Enterprise systems requiring strict schema validation and
+document-level security.</li>
+<li>Legacy system modernization where REST wrappers are built over older
+SOAP or messaging architectures.</li>
+<li>Industries with established XML standards, such as finance,
+telecommunications, and healthcare.</li>
+</ul></li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

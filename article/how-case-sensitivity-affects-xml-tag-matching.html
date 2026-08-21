@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Case Sensitivity Affects XML Tag Matching - xml</title>
+    <meta name="description" content="This article explores the fundamental role of case sensitivity in XML and its direct impact on tag matching. Unlike more forgiving markup languages, XML enforces strict case sensitivity across all element names, attributes, and tags. Below is a detailed">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/how-case-sensitivity-affects-xml-tag-matching">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Case Sensitivity Affects XML Tag Matching - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/how-case-sensitivity-affects-xml-tag-matching" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explores the fundamental role of case sensitivity in XML and its direct impact on tag matching. Unlike more forgiving markup languages, XML enforces strict case sensitivity across all element names, attributes, and tags. Below is a detailed" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-case-sensitivity-affects-xml-tag-matching">How Case
+Sensitivity Affects XML Tag Matching</h1>
+<p>This article explores the fundamental role of case sensitivity in XML
+and its direct impact on tag matching. Unlike more forgiving markup
+languages, XML enforces strict case sensitivity across all element
+names, attributes, and tags. Below is a detailed breakdown of how this
+rule operates, the technical consequences of mismatched tags, and how
+developers can avoid syntax errors when writing and parsing XML
+documents.</p>
+<h3 id="the-rule-of-strict-case-sensitivity">The Rule of Strict Case
+Sensitivity</h3>
+<p>In Extensible Markup Language (XML), every component of a tag name is
+case-sensitive. The XML specification mandates that an opening tag and
+its corresponding closing tag must match character for character,
+including capitalization.</p>
+<p>Because of this rule:</p>
+<ul>
+<li><code>&lt;Product&gt;</code> is completely different from
+<code>&lt;product&gt;</code>.</li>
+<li><code>&lt;PRODUCT&gt;</code> is treated as a third, entirely
+distinct element.</li>
+</ul>
+<h3 id="how-tag-matching-works">How Tag Matching Works</h3>
+<p>When an XML processor or parser reads a document, it tracks open
+elements using an exact string-matching algorithm.</p>
+<p>Consider the following valid example:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">UserAccount</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">UserName</span>&gt;JohnDoe&lt;/<span class="kw">UserName</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">UserAccount</span>&gt;</span></code></pre></div>
+<p>In this snippet, <code>&lt;UserAccount&gt;</code> pairs correctly
+with <code>&lt;/UserAccount&gt;</code>, and
+<code>&lt;UserName&gt;</code> pairs with
+<code>&lt;/UserName&gt;</code>.</p>
+<p>However, if casing differs even slightly:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">UserAccount</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">UserName</span>&gt;JohnDoe&lt;/<span class="kw">username</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">UserAccount</span>&gt;</span></code></pre></div>
+<p>The parser encounters <code>&lt;UserName&gt;</code> and expects an
+exact closing match (<code>&lt;/UserName&gt;</code>). When it encounters
+<code>&lt;/username&gt;</code>, the strings do not match. As a result,
+the parser treats <code>&lt;/username&gt;</code> as an unexpected
+closing tag for an element that was never opened.</p>
+<h3 id="impact-on-document-well-formedness-and-parsers">Impact on
+Document Well-Formedness and Parsers</h3>
+<p>XML does not permit parsing errors to be silently ignored. According
+to the W3C XML specification, a failure in tag matching violates the
+basic requirement of a "well-formed" document.</p>
+<ol type="1">
+<li><strong>Fatal Parsing Errors:</strong> Unlike web browsers parsing
+HTML, which attempt to auto-correct mismatched tags, XML parsers must
+halt processing immediately upon encountering a case mismatch. The
+parser will throw a fatal error such as
+<code>XML Parsing Error: mismatched tag</code>.</li>
+<li><strong>Schema Invalidation:</strong> If the XML is validated
+against an XML Schema Definition (XSD) or Document Type Definition
+(DTD), a case mismatch causes validation failure. If the schema defines
+<code>&lt;userID&gt;</code>, submitting <code>&lt;UserID&gt;</code> will
+be rejected as an undefined element.</li>
+<li><strong>Data Extraction Failures:</strong> Query languages like
+XPath and XQuery are also case-sensitive. Querying
+<code>/catalog/book</code> will fail to return results if the XML
+elements are defined as
+<code>&lt;Catalog&gt;&lt;Book&gt;...&lt;/Book&gt;&lt;/Catalog&gt;</code>.</li>
+</ol>
+<h3 id="attributes-and-case-sensitivity">Attributes and Case
+Sensitivity</h3>
+<p>Case sensitivity also extends to attribute names within tags. For
+instance:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">file</span> <span class="ot">format=</span><span class="st">&quot;pdf&quot;</span> /&gt;</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">file</span> <span class="ot">FORMAT=</span><span class="st">&quot;pdf&quot;</span> /&gt;</span></code></pre></div>
+<p>These are treated as two distinct attributes. Furthermore, having
+<code>&lt;file id="1" ID="2" /&gt;</code> inside the same element is
+technically valid syntax in standard XML because the names differ by
+case, though it is widely discouraged due to confusion and potential
+conflicts in downstream applications.</p>
+<h3 id="best-practices-for-tag-matching">Best Practices for Tag
+Matching</h3>
+<p>To prevent parsing failures caused by case sensitivity:</p>
+<ul>
+<li><strong>Adopt a Uniform Naming Convention:</strong> Standardize on
+one casing convention across your project, such as lowerCamelCase
+(<code>&lt;orderItem&gt;</code>), UpperCamelCase/PascalCase
+(<code>&lt;OrderItem&gt;</code>), or kebab-case
+(<code>&lt;order-item&gt;</code>).</li>
+<li><strong>Use Automated Schema Validation:</strong> Validate files
+against an XSD before sending them to processing pipelines to catch
+casing discrepancies early.</li>
+<li><strong>Leverage Linters and XML Editors:</strong> Modern code
+editors provide syntax highlighting and auto-closing tag features that
+guarantee casing consistency.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

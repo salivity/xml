@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Parse HTML and XML with Ruby Nokogiri - xml</title>
+    <meta name="description" content="Ruby's Nokogiri gem is a powerful, high-performance library used for parsing, searching, and manipulating HTML and XML documents. Built as a Ruby wrapper around the native C libraries libxml2 and libxslt, Nokogiri provides developers with a fast and intu">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/how-to-parse-html-and-xml-with-ruby-nokogiri">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Parse HTML and XML with Ruby Nokogiri - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/how-to-parse-html-and-xml-with-ruby-nokogiri" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Ruby's Nokogiri gem is a powerful, high-performance library used for parsing, searching, and manipulating HTML and XML documents. Built as a Ruby wrapper around the native C libraries libxml2 and libxslt, Nokogiri provides developers with a fast and intu" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-to-parse-html-and-xml-with-ruby-nokogiri">How to Parse HTML
+and XML with Ruby Nokogiri</h1>
+<p>Ruby's Nokogiri gem is a powerful, high-performance library used for
+parsing, searching, and manipulating HTML and XML documents. Built as a
+Ruby wrapper around the native C libraries <code>libxml2</code> and
+<code>libxslt</code>, Nokogiri provides developers with a fast and
+intuitive interface. This article explains how Nokogiri loads raw
+markup, queries elements using CSS selectors and XPath, and updates or
+modifies document structures programmatically.</p>
+<h2 id="1-parsing-documents">1. Parsing Documents</h2>
+<p>Nokogiri converts raw HTML or XML strings, files, or open network
+streams into an in-memory Document Object Model (DOM).</p>
+<h3 id="parsing-html">Parsing HTML</h3>
+<p>To parse an HTML document, pass a string or file stream to
+<code>Nokogiri::HTML5</code> (for modern HTML5 standards) or
+<code>Nokogiri::HTML4</code>:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span> <span class="vs">&#39;nokogiri&#39;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>html_data <span class="op">=</span> <span class="vs">&#39;&lt;div&gt;&lt;p class=&quot;intro&quot;&gt;Hello World&lt;/p&gt;&lt;/div&gt;&#39;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>doc <span class="op">=</span> <span class="dt">Nokogiri</span><span class="op">::</span><span class="cn">HTML5</span>(html_data)</span></code></pre></div>
+<h3 id="parsing-xml">Parsing XML</h3>
+<p>Parsing XML works similarly using the <code>Nokogiri::XML</code>
+method:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>xml_data <span class="op">=</span> <span class="vs">&#39;&lt;catalog&gt;&lt;book id=&quot;1&quot;&gt;&lt;title&gt;Ruby Basics&lt;/title&gt;&lt;/book&gt;&lt;/catalog&gt;&#39;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>doc <span class="op">=</span> <span class="dt">Nokogiri</span><span class="op">::</span><span class="cn">XML</span>(xml_data)</span></code></pre></div>
+<p>Nokogiri automatically handles malformed documents by attempting to
+correct syntax errors during parsing.</p>
+<hr />
+<h2 id="2-searching-documents">2. Searching Documents</h2>
+<p>Once a document is parsed, Nokogiri allows you to traverse and query
+nodes using either standard CSS selectors or XPath expressions.</p>
+<h3 id="using-css-selectors">Using CSS Selectors</h3>
+<p>The <code>.css</code> method returns a <code>NodeSet</code> (an
+array-like collection of elements) matching the provided selector:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieve all matching elements</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>paragraphs <span class="op">=</span> doc<span class="at">.css</span>(<span class="vs">&#39;p.intro&#39;</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieve the first matching element</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>first_para <span class="op">=</span> doc<span class="at">.at_css</span>(<span class="vs">&#39;p.intro&#39;</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">puts</span> first_para<span class="at">.text</span> <span class="co"># Output: Hello World</span></span></code></pre></div>
+<h3 id="using-xpath">Using XPath</h3>
+<p>XPath allows for complex queries, such as selecting nodes based on
+their exact hierarchy or inner text content:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieve all titles inside book tags</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>titles <span class="op">=</span> doc<span class="at">.xpath</span>(<span class="vs">&#39;//catalog/book/title&#39;</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieve a single element using XPath</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>first_title <span class="op">=</span> doc<span class="at">.at_xpath</span>(<span class="vs">&#39;//catalog/book/title&#39;</span>)</span></code></pre></div>
+<hr />
+<h2 id="3-manipulating-nodes-and-content">3. Manipulating Nodes and
+Content</h2>
+<p>Nokogiri provides direct methods to edit content, change attributes,
+and add or remove elements in the document tree.</p>
+<h3 id="updating-text-and-attributes">Updating Text and Attributes</h3>
+<p>You can read and modify the inner text or attributes of any selected
+node:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>node <span class="op">=</span> doc<span class="at">.at_css</span>(<span class="vs">&#39;p.intro&#39;</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Modify text content</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>node<span class="at">.content</span> <span class="op">=</span> <span class="vs">&#39;Welcome to Nokogiri&#39;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Modify or add attributes</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>node<span class="kw">[</span><span class="vs">&#39;class&#39;</span><span class="kw">]</span> <span class="op">=</span> <span class="vs">&#39;highlighted&#39;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>node<span class="kw">[</span><span class="vs">&#39;id&#39;</span><span class="kw">]</span> <span class="op">=</span> <span class="vs">&#39;main-text&#39;</span></span></code></pre></div>
+<h3 id="adding-new-elements">Adding New Elements</h3>
+<p>You can create new elements or insert markup relative to an existing
+node using methods like <code>add_child</code>, <code>before</code>, or
+<code>after</code>:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Append a child node</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>container <span class="op">=</span> doc<span class="at">.at_css</span>(<span class="vs">&#39;div&#39;</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>container<span class="at">.add_child</span>(<span class="vs">&#39;&lt;span&gt;Additional Info&lt;/span&gt;&#39;</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Insert a sibling node</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>node<span class="at">.after</span>(<span class="vs">&#39;&lt;p&gt;Second paragraph&lt;/p&gt;&#39;</span>)</span></code></pre></div>
+<h3 id="removing-elements">Removing Elements</h3>
+<p>To delete an element completely from the document tree, call
+<code>.remove</code> (or its alias <code>.unlink</code>):</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>doc<span class="at">.css</span>(<span class="vs">&#39;.remove-me&#39;</span>)<span class="at">.remove</span></span></code></pre></div>
+<hr />
+<h2 id="4-outputting-serialized-markup">4. Outputting Serialized
+Markup</h2>
+<p>After modifying the DOM, convert the document or any individual node
+back into a formatted string:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Output full HTML</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>clean_html <span class="op">=</span> doc<span class="at">.to_html</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Output full XML</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>clean_xml <span class="op">=</span> doc<span class="at">.to_xml</span>(<span class="wa">indent:</span> <span class="dv">2</span>)</span></code></pre></div>
+<p>Nokogiri ensures that the exported markup is valid, properly nested,
+and formatted according to the document's specification.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

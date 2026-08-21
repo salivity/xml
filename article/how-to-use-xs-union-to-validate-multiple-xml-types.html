@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Use xs:union to Validate Multiple XML Types - xml</title>
+    <meta name="description" content="The xs:union simple type in XML Schema (XSD) provides a mechanism to validate an element or attribute against a set of multiple distinct simple types. Instead of restricting a value to a single data type, xs:union merges the value spaces of multiple simp">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/how-to-use-xs-union-to-validate-multiple-xml-types">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Use xs:union to Validate Multiple XML Types - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/how-to-use-xs-union-to-validate-multiple-xml-types" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The xs:union simple type in XML Schema (XSD) provides a mechanism to validate an element or attribute against a set of multiple distinct simple types. Instead of restricting a value to a single data type, xs:union merges the value spaces of multiple simp" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-to-use-xsunion-to-validate-multiple-xml-types">How to Use
+xs:union to Validate Multiple XML Types</h1>
+<p>The <code>xs:union</code> simple type in XML Schema (XSD) provides a
+mechanism to validate an element or attribute against a set of multiple
+distinct simple types. Instead of restricting a value to a single data
+type, <code>xs:union</code> merges the value spaces of multiple simple
+types into one unified type. This article explains the mechanics of
+<code>xs:union</code>, how the XML Schema processor validates data
+against it, and how to implement it in your schema designs.</p>
+<h2 id="what-is-xsunion">What is xs:union?</h2>
+<p>In standard XSD design, an element or attribute is typically assigned
+a single simple type, such as <code>xs:integer</code> or
+<code>xs:date</code>. However, real-world data often requires
+flexibility, such as accepting an integer or a string like
+<code>"N/A"</code>.</p>
+<p>The <code>&lt;xs:union&gt;</code> element enables this flexibility by
+creating a new simple type that is the logical union of two or more
+<em>member types</em>. If a document value is valid according to at
+least one of these member types, the element passes validation.</p>
+<h2 id="how-validation-works">How Validation Works</h2>
+<p>When an XML processor encounters an element defined by an
+<code>xs:union</code>, it follows a specific validation process:</p>
+<ol type="1">
+<li><strong>Member Type Evaluation:</strong> The validator tests the
+lexical representation of the target value against the member types in
+the order they are declared.</li>
+<li><strong>First Match Resolution:</strong> If the value satisfies the
+rules, facets, and constraints of any member type, the validation
+succeeds.</li>
+<li><strong>Type Assignment:</strong> The value is mapped to the first
+member type that validates it successfully.</li>
+<li><strong>Validation Failure:</strong> If the value fails to match any
+of the member types defined in the union, the processor throws a schema
+validation error.</li>
+</ol>
+<h2 id="defining-xsunion-in-xml-schema">Defining xs:union in XML
+Schema</h2>
+<p>You can define member types within an <code>xs:union</code> in two
+ways: using the <code>memberTypes</code> attribute to reference
+predefined types, or embedding anonymous simple types directly within
+the <code>&lt;xs:union&gt;</code> element.</p>
+<h3 id="example-using-predefined-member-types">Example: Using Predefined
+Member Types</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:simpleType</span> <span class="ot">name=</span><span class="st">&quot;SizeCodeType&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">xs:restriction</span> <span class="ot">base=</span><span class="st">&quot;xs:string&quot;</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:enumeration</span> <span class="ot">value=</span><span class="st">&quot;S&quot;</span>/&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:enumeration</span> <span class="ot">value=</span><span class="st">&quot;M&quot;</span>/&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:enumeration</span> <span class="ot">value=</span><span class="st">&quot;L&quot;</span>/&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:enumeration</span> <span class="ot">value=</span><span class="st">&quot;XL&quot;</span>/&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">xs:restriction</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:simpleType</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:simpleType</span> <span class="ot">name=</span><span class="st">&quot;SizeNumberType&quot;</span>&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">xs:restriction</span> <span class="ot">base=</span><span class="st">&quot;xs:positiveInteger&quot;</span>&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:maxInclusive</span> <span class="ot">value=</span><span class="st">&quot;50&quot;</span>/&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">xs:restriction</span>&gt;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:simpleType</span>&gt;</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:simpleType</span> <span class="ot">name=</span><span class="st">&quot;ClothingSizeType&quot;</span>&gt;</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">xs:union</span> <span class="ot">memberTypes=</span><span class="st">&quot;SizeCodeType SizeNumberType&quot;</span>/&gt;</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:simpleType</span>&gt;</span></code></pre></div>
+<p>In this example, an element using <code>ClothingSizeType</code> is
+valid if it contains either a standard size code (<code>"S"</code>,
+<code>"M"</code>, etc.) or a numeric size value (<code>1</code> through
+<code>50</code>).</p>
+<h3 id="example-combining-built-in-and-anonymous-types">Example:
+Combining Built-in and Anonymous Types</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:simpleType</span> <span class="ot">name=</span><span class="st">&quot;ZIPOrUnknownType&quot;</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">xs:union</span> <span class="ot">memberTypes=</span><span class="st">&quot;xs:integer&quot;</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:simpleType</span>&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">xs:restriction</span> <span class="ot">base=</span><span class="st">&quot;xs:string&quot;</span>&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">xs:enumeration</span> <span class="ot">value=</span><span class="st">&quot;UNKNOWN&quot;</span>/&gt;</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">xs:enumeration</span> <span class="ot">value=</span><span class="st">&quot;PENDING&quot;</span>/&gt;</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>      &lt;/<span class="kw">xs:restriction</span>&gt;</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">xs:simpleType</span>&gt;</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">xs:union</span>&gt;</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:simpleType</span>&gt;</span></code></pre></div>
+<p>In this definition, the value can either be a standard integer (such
+as <code>90210</code>) or one of the literal string values:
+<code>"UNKNOWN"</code> or <code>"PENDING"</code>.</p>
+<h2 id="key-considerations">Key Considerations</h2>
+<ul>
+<li><strong>Order of Member Types:</strong> Order matters when types
+overlap (for instance, <code>xs:integer</code> and
+<code>xs:string</code>). The validator attempts validation in the order
+listed, which can affect the post-schema-validation infoset (PSVI) type
+assignment.</li>
+<li><strong>Simple Types Only:</strong> <code>xs:union</code> can only
+combine simple types. It cannot be used to combine complex types or
+elements with child nodes.</li>
+<li><strong>Facet Restrictions:</strong> You can further restrict a
+union by wrapping it inside another <code>xs:simpleType</code> with an
+<code>&lt;xs:restriction&gt;</code> element to apply facets like
+<code>pattern</code> or <code>enumeration</code> to the combined
+set.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

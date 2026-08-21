@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Blind XXE and Out-of-Band Exfiltration - xml</title>
+    <meta name="description" content="Blind XML External Entity (XXE) vulnerabilities occur when an application processes untrusted XML input without returning the parsed data directly within its responses. In these scenarios, attackers attempt to leverage XML parameter entities and out-of-b">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/understanding-blind-xxe-and-out-of-band-exfiltration">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Understanding Blind XXE and Out-of-Band Exfiltration - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/understanding-blind-xxe-and-out-of-band-exfiltration" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Blind XML External Entity (XXE) vulnerabilities occur when an application processes untrusted XML input without returning the parsed data directly within its responses. In these scenarios, attackers attempt to leverage XML parameter entities and out-of-b" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1
+id="understanding-blind-xxe-and-out-of-band-exfiltration">Understanding
+Blind XXE and Out-of-Band Exfiltration</h1>
+<p>Blind XML External Entity (XXE) vulnerabilities occur when an
+application processes untrusted XML input without returning the parsed
+data directly within its responses. In these scenarios, attackers
+attempt to leverage XML parameter entities and out-of-band (OOB)
+communication channels to verify the vulnerability and potentially
+exfiltrate sensitive local files. This article explains the theoretical
+mechanics behind blind XXE attacks using external parameter entities and
+outlines standard defensive measures to mitigate these risks.</p>
+<h3 id="the-mechanics-of-blind-xxe">The Mechanics of Blind XXE</h3>
+<p>Standard XXE vulnerabilities allow an entity definition to read local
+resources, which are then reflected back in the application's immediate
+response. When an application does not return the parsed XML content in
+the response (a "blind" context), direct data extraction is impossible
+through normal output.</p>
+<p>To bypass this limitation, security analysts and attackers examine
+whether the XML parser supports parameter entities. Parameter entities
+are special XML entities that can only be declared and referenced within
+the Document Type Definition (DTD). They are defined using a percent
+sign (<code>%</code>) syntax:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;</span>!ENTITY % name &quot;value&quot;&gt;</span></code></pre></div>
+<p>Because parameter entities are evaluated during DTD parsing, they
+allow for dynamic entity expansion, enabling the construction of
+secondary requests.</p>
+<h3 id="out-of-band-oob-data-exfiltration-concepts">Out-of-Band (OOB)
+Data Exfiltration Concepts</h3>
+<p>When direct response reflection is unavailable, out-of-band
+techniques are used. This process involves forcing the target XML parser
+to send a secondary request—such as an HTTP or FTP request—to an
+external server controlled by the tester.</p>
+<p>The conceptual workflow functions as follows:</p>
+<ol type="1">
+<li><strong>External DTD Hosting</strong>: An external DTD file is
+hosted on an accessible server. This external DTD defines a parameter
+entity that attempts to load the contents of a local file (such as a
+system configuration file) via a URI handler (e.g.,
+<code>file://</code>).</li>
+<li><strong>Dynamic Entity Creation</strong>: Within the external DTD,
+another parameter entity is defined dynamically. This entity references
+an external URL where the parameter containing the file content is
+appended as a query parameter or URL path.</li>
+<li><strong>Payload Delivery</strong>: The initial XML payload submitted
+to the target application references the external DTD using a parameter
+entity.</li>
+<li><strong>Triggering the Request</strong>: When the XML parser
+resolves the external DTD, it reads the targeted local file and attempts
+to construct a request back to the external server, carrying the file
+contents in the request path or query string.</li>
+</ol>
+<p>Due to XML parsing rules, parameter entities cannot be nested and
+evaluated simultaneously within an internal DTD subset; loading an
+external DTD is required to trigger the dynamic entity expansion needed
+for out-of-band data transfer.</p>
+<h3 id="common-constraints-and-limitations">Common Constraints and
+Limitations</h3>
+<p>Out-of-band exfiltration via parameter entities frequently encounters
+practical barriers:</p>
+<ul>
+<li><strong>Egress Filtering</strong>: Firewalls and network
+segmentation often block outbound HTTP/HTTPS or FTP connections from
+backend application servers.</li>
+<li><strong>Character Encoding and Newlines</strong>: Multi-line files
+or files containing special XML characters (like <code>&lt;</code>,
+<code>&gt;</code>, or <code>&amp;</code>) often break URL formatting or
+cause XML parser errors during evaluation, preventing successful
+exfiltration without specialized encoding schemes.</li>
+<li><strong>Parser Hardening</strong>: Modern XML parsers often disable
+external DTD resolution or parameter entity expansion by default.</li>
+</ul>
+<h3 id="prevention-and-mitigation">Prevention and Mitigation</h3>
+<p>The most effective strategy against XXE attacks is to disable
+features related to external entity resolution and DTD processing
+entirely in the XML parser configuration.</p>
+<ul>
+<li><strong>Disable DTDs</strong>: Completely disable
+<code>DOCTYPE</code> declarations if the application does not require
+them (e.g.,
+<code>http://apache.org/xml/features/disallow-doctype-decl</code> set to
+<code>true</code> in Java parsers).</li>
+<li><strong>Disable External Entities</strong>: If DTDs are strictly
+necessary, explicitly disable the resolution of external general
+entities and external parameter entities (e.g.,
+<code>external-general-entities</code> and
+<code>external-parameter-entities</code> set to
+<code>false</code>).</li>
+<li><strong>Use Safer Formats</strong>: Where feasible, transition to
+simpler data formats such as JSON or Protocol Buffers, which do not
+incorporate complex entity parsing mechanisms.</li>
+<li><strong>Network Egress Controls</strong>: Enforce strict firewall
+rules on application servers to block unauthorized outbound network
+traffic, mitigating the risk of out-of-band data exfiltration.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

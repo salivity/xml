@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple vs Complex Types in XML Schema - xml</title>
+    <meta name="description" content="In XML Schema Definition (XSD), data types govern the structure, constraints, and valid contents of elements and attributes within an XML document. The core distinction between simple types and complex types lies in whether an element can contain child e">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/simple-vs-complex-types-in-xml-schema">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Simple vs Complex Types in XML Schema - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/simple-vs-complex-types-in-xml-schema" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In XML Schema Definition (XSD), data types govern the structure, constraints, and valid contents of elements and attributes within an XML document. The core distinction between simple types and complex types lies in whether an element can contain child e" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="simple-vs-complex-types-in-xml-schema">Simple vs Complex Types
+in XML Schema</h1>
+<p>In XML Schema Definition (XSD), data types govern the structure,
+constraints, and valid contents of elements and attributes within an XML
+document. The core distinction between simple types and complex types
+lies in whether an element can contain child elements or attributes.
+While simple types are strictly limited to text-only values with no
+attributes or nested tags, complex types can hold child elements,
+attributes, or mixed content. Understanding this distinction is
+essential for designing well-structured, valid XML architectures.</p>
+<h2 id="what-is-a-simple-type">What is a Simple Type?</h2>
+<p>A simple type defines an element or attribute that contains only text
+(character data). Elements defined with a simple type cannot contain
+child elements, nor can they carry attributes.</p>
+<p>XSD provides numerous built-in simple types, such as
+<code>xs:string</code>, <code>xs:integer</code>,
+<code>xs:boolean</code>, and <code>xs:date</code>. Developers can also
+derive custom simple types using the <code>&lt;xs:simpleType&gt;</code>
+tag to enforce restrictions, patterns, lists, or unions on existing data
+types.</p>
+<h3 id="example-of-a-simple-type">Example of a Simple Type</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- XSD Definition --&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:simpleType</span> <span class="ot">name=</span><span class="st">&quot;PostalCodeType&quot;</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">xs:restriction</span> <span class="ot">base=</span><span class="st">&quot;xs:string&quot;</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:pattern</span> <span class="ot">value=</span><span class="st">&quot;\d{5}&quot;</span>/&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">xs:restriction</span>&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:simpleType</span>&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- XML Usage --&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">postalCode</span>&gt;90210&lt;/<span class="kw">postalCode</span>&gt;</span></code></pre></div>
+<h2 id="what-is-a-complex-type">What is a Complex Type?</h2>
+<p>A complex type defines an element that can contain child elements,
+attributes, or a combination of both. Complex types structure the
+hierarchical relationships and container nodes within an XML
+document.</p>
+<p>Defined using the <code>&lt;xs:complexType&gt;</code> tag, complex
+types support multiple content models:</p>
+<ul>
+<li><strong>Element-only content:</strong> Contains only nested child
+elements.</li>
+<li><strong>Mixed content:</strong> Contains both text and child
+elements.</li>
+<li><strong>Empty content:</strong> Contains no text or child elements,
+typically holding only attributes.</li>
+<li><strong>Simple content:</strong> Contains only text, but is extended
+to include one or more attributes.</li>
+</ul>
+<h3 id="example-of-a-complex-type">Example of a Complex Type</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- XSD Definition --&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:complexType</span> <span class="ot">name=</span><span class="st">&quot;AddressType&quot;</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">xs:sequence</span>&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:element</span> <span class="ot">name=</span><span class="st">&quot;street&quot;</span> <span class="ot">type=</span><span class="st">&quot;xs:string&quot;</span>/&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:element</span> <span class="ot">name=</span><span class="st">&quot;city&quot;</span> <span class="ot">type=</span><span class="st">&quot;xs:string&quot;</span>/&gt;</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:element</span> <span class="ot">name=</span><span class="st">&quot;postalCode&quot;</span> <span class="ot">type=</span><span class="st">&quot;PostalCodeType&quot;</span>/&gt;</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">xs:sequence</span>&gt;</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">xs:attribute</span> <span class="ot">name=</span><span class="st">&quot;type&quot;</span> <span class="ot">type=</span><span class="st">&quot;xs:string&quot;</span> <span class="ot">use=</span><span class="st">&quot;optional&quot;</span>/&gt;</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:complexType</span>&gt;</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- XML Usage --&gt;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">address</span> <span class="ot">type=</span><span class="st">&quot;billing&quot;</span>&gt;</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">street</span>&gt;123 Main St&lt;/<span class="kw">street</span>&gt;</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">city</span>&gt;Springfield&lt;/<span class="kw">city</span>&gt;</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">postalCode</span>&gt;90210&lt;/<span class="kw">postalCode</span>&gt;</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">address</span>&gt;</span></code></pre></div>
+<h2 id="key-differences">Key Differences</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;">Simple Type</th>
+<th style="text-align: left;">Complex Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Child Elements</strong></td>
+<td style="text-align: left;">Cannot contain child elements</td>
+<td style="text-align: left;">Can contain child elements</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Attributes</strong></td>
+<td style="text-align: left;">Cannot have attributes</td>
+<td style="text-align: left;">Can have attributes</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>XSD Element</strong></td>
+<td style="text-align: left;"><code>&lt;xs:simpleType&gt;</code></td>
+<td style="text-align: left;"><code>&lt;xs:complexType&gt;</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Application</strong></td>
+<td style="text-align: left;">Applies to elements and attributes</td>
+<td style="text-align: left;">Applies only to elements</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Primary Role</strong></td>
+<td style="text-align: left;">Validating values and formats</td>
+<td style="text-align: left;">Defining structural hierarchy</td>
+</tr>
+</tbody>
+</table>
+<h2 id="summary-of-usage">Summary of Usage</h2>
+<ul>
+<li>Use <strong>Simple Types</strong> for leaf nodes in your XML tree
+where you need to validate specific data formats, values, ranges, or
+text lengths (e.g., email addresses, ages, dates).</li>
+<li>Use <strong>Complex Types</strong> for container elements, parent
+structures, or any element that requires metadata via attributes.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

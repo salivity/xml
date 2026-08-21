@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>duration vs yearMonthDuration vs dayTimeDuration in XML Schema - xml</title>
+    <meta name="description" content="In XML Schema (W3C XSD), managing elapsed time involves three distinct data types: xs:duration, xs:yearMonthDuration, and xs:dayTimeDuration. While all three represent time spans rather than specific points in time, they differ significantly in the time">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/duration-vs-yearmonthduration-vs-daytimeduration-in-xml-schema">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="duration vs yearMonthDuration vs dayTimeDuration in XML Schema - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/duration-vs-yearmonthduration-vs-daytimeduration-in-xml-schema" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In XML Schema (W3C XSD), managing elapsed time involves three distinct data types: xs:duration, xs:yearMonthDuration, and xs:dayTimeDuration. While all three represent time spans rather than specific points in time, they differ significantly in the time" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1
+id="duration-vs-yearmonthduration-vs-daytimeduration-in-xml-schema">duration
+vs yearMonthDuration vs dayTimeDuration in XML Schema</h1>
+<p>In XML Schema (W3C XSD), managing elapsed time involves three
+distinct data types: <code>xs:duration</code>,
+<code>xs:yearMonthDuration</code>, and <code>xs:dayTimeDuration</code>.
+While all three represent time spans rather than specific points in
+time, they differ significantly in the time components they permit,
+their standard format, and whether they can be deterministically
+compared and ordered against one another.</p>
+<h3 id="xsduration">xs:duration</h3>
+<p><code>xs:duration</code> is the universal base data type for all time
+intervals in XML Schema. It represents an interval of time defined by
+both calendar components (years and months) and clock components (days,
+hours, minutes, and seconds).</p>
+<ul>
+<li><strong>Format:</strong> Follows the ISO 8601 format
+<code>PnYnMnDTnHnMnS</code> (e.g., <code>P1Y2M3DT4H5M6S</code>
+represents 1 year, 2 months, 3 days, 4 hours, 5 minutes, and 6
+seconds).</li>
+<li><strong>Ordering Limitation:</strong> Values of
+<code>xs:duration</code> are only <strong>partially ordered</strong>.
+Because the length of a month or year varies depending on the calendar
+context (e.g., a month can be 28, 29, 30, or 31 days), direct
+mathematical comparisons between calendar and clock intervals cannot
+always be definitively resolved without a starting reference point. For
+instance, it is impossible to definitively determine whether
+<code>P1M</code> (1 month) is greater than, equal to, or less than
+<code>P30D</code> (30 days).</li>
+</ul>
+<h3 id="xsyearmonthduration">xs:yearMonthDuration</h3>
+<p><code>xs:yearMonthDuration</code> is a derived restriction of
+<code>xs:duration</code> that includes exclusively calendar-based year
+and month components. All day and time components are prohibited.</p>
+<ul>
+<li><strong>Format:</strong> Uses the structure <code>PnYnM</code>
+(e.g., <code>P2Y6M</code> for 2 years and 6 months, or <code>P5Y</code>
+for 5 years).</li>
+<li><strong>Ordering:</strong> Values are <strong>totally
+ordered</strong>. Since a year always consists of exactly 12 months, any
+<code>xs:yearMonthDuration</code> can be normalized into a total number
+of months, enabling precise comparison and arithmetic operations (e.g.,
+<code>P1Y</code> is always strictly greater than
+<code>P11M</code>).</li>
+</ul>
+<h3 id="xsdaytimeduration">xs:dayTimeDuration</h3>
+<p><code>xs:dayTimeDuration</code> is a derived restriction of
+<code>xs:duration</code> that includes exclusively fixed-length time
+units: days, hours, minutes, and seconds. Year and month components are
+prohibited.</p>
+<ul>
+<li><strong>Format:</strong> Uses the structure <code>PnDTnHnMnS</code>
+(e.g., <code>P3DT12H</code> for 3 days and 12 hours, or
+<code>PT45S</code> for 45 seconds).</li>
+<li><strong>Ordering:</strong> Values are <strong>totally
+ordered</strong>. Because days, hours, minutes, and seconds have fixed
+relative values (1 day = 24 hours, 1 hour = 60 minutes, 1 minute = 60
+seconds), any instance can be converted into an exact number of seconds.
+This allows direct ordering, sorting, and arithmetic comparisons without
+ambiguity.</li>
+</ul>
+<h3 id="key-differences-summary">Key Differences Summary</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;"><code>xs:duration</code></th>
+<th style="text-align: left;"><code>xs:yearMonthDuration</code></th>
+<th style="text-align: left;"><code>xs:dayTimeDuration</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Allowed Units</strong></td>
+<td style="text-align: left;">Years, Months, Days, Hours, Minutes,
+Seconds</td>
+<td style="text-align: left;">Years, Months only</td>
+<td style="text-align: left;">Days, Hours, Minutes, Seconds only</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Example Value</strong></td>
+<td style="text-align: left;"><code>P1Y3MT10H</code></td>
+<td style="text-align: left;"><code>P1Y3M</code></td>
+<td style="text-align: left;"><code>P5DT10H</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Ordering Property</strong></td>
+<td style="text-align: left;">Partially ordered</td>
+<td style="text-align: left;">Totally ordered</td>
+<td style="text-align: left;">Totally ordered</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Common Use Case</strong></td>
+<td style="text-align: left;">General durations with mixed calendar/time
+components</td>
+<td style="text-align: left;">Subscriptions, contractual terms,
+historical spans</td>
+<td style="text-align: left;">Execution times, timeouts, precise
+durations</td>
+</tr>
+</tbody>
+</table></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

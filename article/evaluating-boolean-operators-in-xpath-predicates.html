@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluating Boolean Operators in XPath Predicates - xml</title>
+    <meta name="description" content="This article explains how boolean operators—specifically and, or, and the not() function—are evaluated within XML XPath predicates. It covers the rules of operator precedence, short-circuit evaluation behavior, and how non-boolean data types are impl">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/evaluating-boolean-operators-in-xpath-predicates">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Evaluating Boolean Operators in XPath Predicates - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/evaluating-boolean-operators-in-xpath-predicates" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how boolean operators—specifically and, or, and the not() function—are evaluated within XML XPath predicates. It covers the rules of operator precedence, short-circuit evaluation behavior, and how non-boolean data types are impl" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="evaluating-boolean-operators-in-xpath-predicates">Evaluating
+Boolean Operators in XPath Predicates</h1>
+<p>This article explains how boolean operators—specifically
+<code>and</code>, <code>or</code>, and the <code>not()</code>
+function—are evaluated within XML XPath predicates. It covers the rules
+of operator precedence, short-circuit evaluation behavior, and how
+non-boolean data types are implicitly converted into boolean values
+(Effective Boolean Value) to determine which XML nodes are selected.</p>
+<hr />
+<h3 id="predicate-context-and-truth-values">Predicate Context and Truth
+Values</h3>
+<p>In XPath, a predicate is an expression enclosed in square brackets
+(<code>[...]</code>) appended to a node-set expression. It filters nodes
+by testing whether the expression inside the brackets resolves to
+<code>true</code> or <code>false</code> for each context node.</p>
+<p>When expressions inside a predicate do not natively produce a
+boolean, XPath converts them into an <strong>Effective Boolean Value
+(EBV)</strong> according to standard coercion rules:</p>
+<ul>
+<li><strong>Node-sets:</strong> Evaluates to <code>true</code> if the
+node-set contains at least one node; <code>false</code> if it is
+empty.</li>
+<li><strong>Strings:</strong> Evaluates to <code>true</code> if the
+string length is greater than zero; <code>false</code> if it is an empty
+string (<code>""</code>).</li>
+<li><strong>Numbers:</strong> Evaluates to <code>true</code> if the
+number is non-zero and not <code>NaN</code>; <code>false</code> if it is
+<code>0</code>, <code>-0</code>, or <code>NaN</code>.</li>
+<li><strong>Booleans:</strong> Retains its literal <code>true</code> or
+<code>false</code> value.</li>
+</ul>
+<hr />
+<h3 id="the-operators-and-or-and-not">The Operators: <code>and</code>,
+<code>or</code>, and <code>not()</code></h3>
+<h4 id="1-the-and-operator">1. The <code>and</code> Operator</h4>
+<p>The <code>and</code> operator performs logical conjunction. It
+evaluates to <code>true</code> if and only if both its left and right
+operands evaluate to <code>true</code>.</p>
+<pre class="xpath"><code>//book[@price &lt; 30 and @in-stock=&#39;true&#39;]</code></pre>
+<p><em>Selection rule:</em> Selects <code>&lt;book&gt;</code> elements
+where the <code>@price</code> attribute is strictly less than 30
+<strong>and</strong> the <code>@in-stock</code> attribute equals
+<code>'true'</code>.</p>
+<h4 id="2-the-or-operator">2. The <code>or</code> Operator</h4>
+<p>The <code>or</code> operator performs logical disjunction. It
+evaluates to <code>true</code> if at least one of its operands evaluates
+to <code>true</code>.</p>
+<pre class="xpath"><code>//employee[@role=&#39;Admin&#39; or @role=&#39;Manager&#39;]</code></pre>
+<p><em>Selection rule:</em> Selects <code>&lt;employee&gt;</code>
+elements where the <code>@role</code> is either <code>'Admin'</code>,
+<code>'Manager'</code>, or both.</p>
+<h4 id="3-the-not-function">3. The <code>not()</code> Function</h4>
+<p>Unlike <code>and</code> and <code>or</code>, which are infix
+operators, negation in XPath is handled via the core library function
+<code>not()</code>. It accepts an argument, converts it to its Effective
+Boolean Value, and returns the inverse.</p>
+<pre class="xpath"><code>//product[not(@discontinued)]</code></pre>
+<p><em>Selection rule:</em> Selects <code>&lt;product&gt;</code>
+elements that do not possess a <code>@discontinued</code> attribute (or
+where the attribute evaluates to false).</p>
+<hr />
+<h3 id="operator-precedence">Operator Precedence</h3>
+<p>When multiple boolean operators are combined in a single predicate,
+XPath applies the following order of precedence (from highest to
+lowest):</p>
+<ol type="1">
+<li><strong>Parentheses <code>()</code> and Function Calls (e.g.,
+<code>not()</code>):</strong> Expressions inside parentheses or
+functions are evaluated first.</li>
+<li><strong><code>and</code> Operator:</strong> Conjunction takes
+precedence over disjunction.</li>
+<li><strong><code>or</code> Operator:</strong> Disjunction is evaluated
+last.</li>
+</ol>
+<h4 id="example-of-precedence">Example of Precedence:</h4>
+<pre class="xpath"><code>//item[@active=&#39;true&#39; or @featured=&#39;true&#39; and @priority=&#39;high&#39;]</code></pre>
+<p>Because <code>and</code> has higher precedence than <code>or</code>,
+the expression is implicitly evaluated as:</p>
+<pre class="xpath"><code>//item[@active=&#39;true&#39; or (@featured=&#39;true&#39; and @priority=&#39;high&#39;)]</code></pre>
+<p>To force <code>or</code> to evaluate before <code>and</code>,
+explicit parentheses must be used:</p>
+<pre class="xpath"><code>//item[(@active=&#39;true&#39; or @featured=&#39;true&#39;) and @priority=&#39;high&#39;]</code></pre>
+<hr />
+<h3 id="short-circuit-evaluation">Short-Circuit Evaluation</h3>
+<p>Standard XPath implementations use short-circuit evaluation for
+boolean expressions to optimize performance:</p>
+<ul>
+<li>For <code>A and B</code>: If <code>A</code> evaluates to
+<code>false</code>, the processor immediately returns <code>false</code>
+without evaluating <code>B</code>.</li>
+<li>For <code>A or B</code>: If <code>A</code> evaluates to
+<code>true</code>, the processor immediately returns <code>true</code>
+without evaluating <code>B</code>.</li>
+</ul>
+<p>This allows safe condition chaining, such as checking for the
+existence of an element or attribute before evaluating its specific
+value or running a computationally expensive function on it.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

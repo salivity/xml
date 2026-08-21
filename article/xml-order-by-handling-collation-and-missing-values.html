@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML Order By: Handling Collation and Missing Values - xml</title>
+    <meta name="description" content="Sorting XML query results requires a clear understanding of how the order by clause processes linguistic rules and absent data. In standard XML query technologies such as XQuery and SQL/XML, the order by clause sorts extracted nodes and atomic values bas">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/xml-order-by-handling-collation-and-missing-values">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="XML Order By: Handling Collation and Missing Values - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/xml-order-by-handling-collation-and-missing-values" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Sorting XML query results requires a clear understanding of how the order by clause processes linguistic rules and absent data. In standard XML query technologies such as XQuery and SQL/XML, the order by clause sorts extracted nodes and atomic values bas" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="xml-order-by-handling-collation-and-missing-values">XML Order
+By: Handling Collation and Missing Values</h1>
+<p>Sorting XML query results requires a clear understanding of how the
+<code>order by</code> clause processes linguistic rules and absent data.
+In standard XML query technologies such as XQuery and SQL/XML, the
+<code>order by</code> clause sorts extracted nodes and atomic values
+based on specified collation rules for text comparison and provides
+explicit keywords—such as <code>empty greatest</code> and
+<code>empty least</code>—to determine whether missing or empty values
+appear at the beginning or end of the result set.</p>
+<h3 id="collation-in-xml-sorting">Collation in XML Sorting</h3>
+<p>Collation dictates the rules for comparing and sorting character
+strings, accounting for cultural conventions, case sensitivity, and
+accents. When sorting string data within an XML query:</p>
+<ul>
+<li><strong>Default Collation:</strong> If no collation is explicitly
+declared, the query processor uses the default collation defined in the
+query context (often the Unicode Codepoint Collation or the host
+database's default collation). Under the Unicode Codepoint Collation,
+strings are sorted strictly by their binary character code values, which
+places all uppercase letters before lowercase letters.</li>
+<li><strong>Explicit Collation:</strong> XQuery allows developers to
+specify a collation URI directly within the <code>order by</code>
+expression using the <code>collation</code> keyword. For example:
+<pre class="xquery"><code>for $item in /catalog/book
+order by $item/title collation &quot;http://www.w3.org/2005/xpath-functions/collation/codepoint&quot;
+return $item</code></pre></li>
+<li><strong>Linguistic Ordering:</strong> Specifying a locale-specific
+collation (e.g., language- or region-specific URIs) ensures natural
+language sorting, where accents and case are treated according to
+specific cultural standards rather than raw code point values.</li>
+</ul>
+<h3 id="handling-missing-and-empty-values">Handling Missing and Empty
+Values</h3>
+<p>In XML structures, an element or attribute may be absent entirely, or
+it may evaluate to an empty sequence (<code>()</code>). The
+<code>order by</code> clause handles these missing values using explicit
+position specifiers:</p>
+<ul>
+<li><strong><code>empty greatest</code>:</strong> Forces missing or
+empty values to be treated as larger than any other value. In an
+<code>ascending</code> sort, missing values appear at the end of the
+results; in a <code>descending</code> sort, they appear at the
+beginning.</li>
+<li><strong><code>empty least</code>:</strong> Forces missing or empty
+values to be treated as smaller than any other value. In an
+<code>ascending</code> sort, missing values appear at the beginning; in
+a <code>descending</code> sort, they appear at the end.</li>
+<li><strong>Default Behavior:</strong> If neither
+<code>empty greatest</code> nor <code>empty least</code> is specified,
+the XQuery specification allows the implementation to choose a default.
+Consequently, explicitly declaring the empty handling modifier is best
+practice to ensure consistent and deterministic query results across
+different XML engines.</li>
+</ul>
+<h3 id="example-syntax">Example Syntax</h3>
+<p>A comprehensive XQuery <code>order by</code> clause combining
+collation, sort direction, and missing value management follows this
+structure:</p>
+<pre class="xquery"><code>for $employee in /company/employees/employee
+order by $employee/department 
+    collation &quot;http://www.w3.org/2005/xpath-functions/collation/codepoint&quot; 
+    descending 
+    empty least,
+    $employee/lastName ascending
+return $employee</code></pre>
+<p>In this example, employees without a <code>department</code> element
+will appear at the very end because the sort is descending and
+designated as <code>empty least</code>. Secondary sorting on
+<code>lastName</code> applies standard ascending order to resolve ties
+among identical departments.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

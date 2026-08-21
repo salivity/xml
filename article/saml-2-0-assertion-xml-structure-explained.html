@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAML 2.0 Assertion XML Structure Explained - xml</title>
+    <meta name="description" content="A Security Assertion Markup Language (SAML) 2.0 assertion is an XML-based security token issued by an Identity Provider (IdP) to communicate identity verification and user claims to a Service Provider (SP). This article outlines the architectural structu">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/saml-2-0-assertion-xml-structure-explained">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SAML 2.0 Assertion XML Structure Explained - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/saml-2-0-assertion-xml-structure-explained" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="A Security Assertion Markup Language (SAML) 2.0 assertion is an XML-based security token issued by an Identity Provider (IdP) to communicate identity verification and user claims to a Service Provider (SP). This article outlines the architectural structu" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="saml-20-assertion-xml-structure-explained">SAML 2.0 Assertion
+XML Structure Explained</h1>
+<p>A Security Assertion Markup Language (SAML) 2.0 assertion is an
+XML-based security token issued by an Identity Provider (IdP) to
+communicate identity verification and user claims to a Service Provider
+(SP). This article outlines the architectural structure of a SAML 2.0
+assertion, specifically detailing the root container, the
+<code>&lt;Subject&gt;</code> element for user identification, and the
+<code>&lt;AttributeStatement&gt;</code> element used for transmitting
+user profile and authorization data.</p>
+<h2 id="structural-overview-of-an-assertion">Structural Overview of an
+Assertion</h2>
+<p>A complete SAML 2.0 assertion containing subject information and
+attributes adheres to a standardized XML hierarchy. The root
+<code>&lt;saml:Assertion&gt;</code> tag envelops metadata, conditions,
+subject definitions, and statements.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">saml:Assertion</span> </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="ot">xmlns:saml=</span><span class="st">&quot;urn:oasis:names:tc:SAML:2.0:assertion&quot;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="ot">xmlns:xs=</span><span class="st">&quot;http://www.w3.org/2001/XMLSchema&quot;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="ot">xmlns:xsi=</span><span class="st">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="ot">ID=</span><span class="st">&quot;_a75932c0-8d5f-4a3b-9e48-e87f3b890a21&quot;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="ot">Version=</span><span class="st">&quot;2.0&quot;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="ot">IssueInstant=</span><span class="st">&quot;2023-10-24T12:00:00.000Z&quot;</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">saml:Issuer</span>&gt;https://idp.example.com/metadata&lt;/<span class="kw">saml:Issuer</span>&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Optional digital signature verifying authenticity --&gt;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">ds:Signature</span> <span class="ot">xmlns:ds=</span><span class="st">&quot;http://www.w3.org/2000/09/xmldsig#&quot;</span>&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="co">&lt;!-- XML Digital Signature Elements --&gt;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">ds:Signature</span>&gt;</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">saml:Subject</span>&gt;</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">saml:NameID</span> <span class="ot">Format=</span><span class="st">&quot;urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress&quot;</span>&gt;</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>            user@example.com</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">saml:NameID</span>&gt;</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">saml:SubjectConfirmation</span> <span class="ot">Method=</span><span class="st">&quot;urn:oasis:names:tc:SAML:2.0:cm:bearer&quot;</span>&gt;</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">saml:SubjectConfirmationData</span> </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>                <span class="ot">NotOnOrAfter=</span><span class="st">&quot;2023-10-24T12:05:00.000Z&quot;</span> </span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>                <span class="ot">Recipient=</span><span class="st">&quot;https://sp.example.com/saml/sso&quot;</span>/&gt;</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">saml:SubjectConfirmation</span>&gt;</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">saml:Subject</span>&gt;</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">saml:Conditions</span> </span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>        <span class="ot">NotBefore=</span><span class="st">&quot;2023-10-24T11:55:00.000Z&quot;</span> </span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>        <span class="ot">NotOnOrAfter=</span><span class="st">&quot;2023-10-24T12:05:00.000Z&quot;</span>&gt;</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">saml:AudienceRestriction</span>&gt;</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">saml:Audience</span>&gt;https://sp.example.com/metadata&lt;/<span class="kw">saml:Audience</span>&gt;</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">saml:AudienceRestriction</span>&gt;</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">saml:Conditions</span>&gt;</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">saml:AuthnStatement</span> </span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>        <span class="ot">AuthnInstant=</span><span class="st">&quot;2023-10-24T12:00:00.000Z&quot;</span> </span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>        <span class="ot">SessionIndex=</span><span class="st">&quot;_session_index_value&quot;</span>&gt;</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">saml:AuthnContext</span>&gt;</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">saml:AuthnContextClassRef</span>&gt;</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>                urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>            &lt;/<span class="kw">saml:AuthnContextClassRef</span>&gt;</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">saml:AuthnContext</span>&gt;</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">saml:AuthnStatement</span>&gt;</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">saml:AttributeStatement</span>&gt;</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">saml:Attribute</span> <span class="ot">Name=</span><span class="st">&quot;firstName&quot;</span> <span class="ot">NameFormat=</span><span class="st">&quot;urn:oasis:names:tc:SAML:2.0:attrname-format:basic&quot;</span>&gt;</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">saml:AttributeValue</span> <span class="ot">xsi:type=</span><span class="st">&quot;xs:string&quot;</span>&gt;Jane&lt;/<span class="kw">saml:AttributeValue</span>&gt;</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">saml:Attribute</span>&gt;</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">saml:Attribute</span> <span class="ot">Name=</span><span class="st">&quot;lastName&quot;</span> <span class="ot">NameFormat=</span><span class="st">&quot;urn:oasis:names:tc:SAML:2.0:attrname-format:basic&quot;</span>&gt;</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">saml:AttributeValue</span> <span class="ot">xsi:type=</span><span class="st">&quot;xs:string&quot;</span>&gt;Doe&lt;/<span class="kw">saml:AttributeValue</span>&gt;</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">saml:Attribute</span>&gt;</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">saml:Attribute</span> <span class="ot">Name=</span><span class="st">&quot;roles&quot;</span> <span class="ot">NameFormat=</span><span class="st">&quot;urn:oasis:names:tc:SAML:2.0:attrname-format:basic&quot;</span>&gt;</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">saml:AttributeValue</span> <span class="ot">xsi:type=</span><span class="st">&quot;xs:string&quot;</span>&gt;Administrator&lt;/<span class="kw">saml:AttributeValue</span>&gt;</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">saml:AttributeValue</span> <span class="ot">xsi:type=</span><span class="st">&quot;xs:string&quot;</span>&gt;Editor&lt;/<span class="kw">saml:AttributeValue</span>&gt;</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">saml:Attribute</span>&gt;</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">saml:AttributeStatement</span>&gt;</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">saml:Assertion</span>&gt;</span></code></pre></div>
+<h2 id="the-subject-statement">The Subject Statement</h2>
+<p>The <code>&lt;saml:Subject&gt;</code> element specifies the principal
+(the user or entity) authenticated by the IdP and describes the
+constraints under which the assertion is valid.</p>
+<ul>
+<li><strong><code>&lt;saml:NameID&gt;</code></strong>: Defines the
+unique identity handle for the subject. The <code>Format</code>
+attribute specifies the identifier type, such as
+<code>emailAddress</code>, <code>unspecified</code>,
+<code>transient</code>, or <code>persistent</code>.</li>
+<li><strong><code>&lt;saml:SubjectConfirmation&gt;</code></strong>:
+Establishes how the Service Provider can verify that the subject matches
+the entity presenting the assertion.
+<ul>
+<li><strong><code>Method</code></strong>: Typically set to
+<code>urn:oasis:names:tc:SAML:2.0:cm:bearer</code> for single sign-on
+flows.</li>
+<li><strong><code>&lt;saml:SubjectConfirmationData&gt;</code></strong>:
+Enforces security constraints including <code>NotOnOrAfter</code> (token
+expiration) and <code>Recipient</code> (the exact endpoint URL at the SP
+authorized to receive the token).</li>
+</ul></li>
+</ul>
+<h2 id="the-attribute-statement">The Attribute Statement</h2>
+<p>The <code>&lt;saml:AttributeStatement&gt;</code> element delivers
+user identity claims, profile information, and authorization roles to
+the Service Provider.</p>
+<ul>
+<li><strong><code>&lt;saml:Attribute&gt;</code></strong>: Represents an
+individual claim or property.
+<ul>
+<li><code>Name</code>: The machine-readable or standardized identifier
+for the attribute (e.g., <code>firstName</code>, <code>email</code>,
+<code>memberOf</code>).</li>
+<li><code>NameFormat</code>: Specifies the URI format standard for
+interpreting the name (e.g.,
+<code>urn:oasis:names:tc:SAML:2.0:attrname-format:basic</code> or
+<code>urn:oasis:names:tc:SAML:2.0:attrname-format:uri</code>).</li>
+<li><code>FriendlyName</code>: An optional, human-readable label.</li>
+</ul></li>
+<li><strong><code>&lt;saml:AttributeValue&gt;</code></strong>: Contains
+the actual value of the attribute. Multiple
+<code>&lt;saml:AttributeValue&gt;</code> tags can exist within a single
+<code>&lt;saml:Attribute&gt;</code> tag to convey multi-valued
+attributes, such as multiple user roles or group memberships. The
+<code>xsi:type</code> attribute can explicitly define data types such as
+<code>xs:string</code> or <code>xs:integer</code>.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

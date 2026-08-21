@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML 1.1 Changes and Backward Compatibility - xml</title>
+    <meta name="description" content="The XML 1.1 specification was published by the W3C in 2004 to address long-standing limitations in XML 1.0 regarding Unicode evolution, control characters, and line-ending conventions. While designed to modernize XML processing for emerging international">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/xml-1-1-changes-and-backward-compatibility">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="XML 1.1 Changes and Backward Compatibility - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/xml-1-1-changes-and-backward-compatibility" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The XML 1.1 specification was published by the W3C in 2004 to address long-standing limitations in XML 1.0 regarding Unicode evolution, control characters, and line-ending conventions. While designed to modernize XML processing for emerging international" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="xml-11-changes-and-backward-compatibility">XML 1.1 Changes and
+Backward Compatibility</h1>
+<p>The XML 1.1 specification was published by the W3C in 2004 to address
+long-standing limitations in XML 1.0 regarding Unicode evolution,
+control characters, and line-ending conventions. While designed to
+modernize XML processing for emerging international standards and
+mainframe environments, XML 1.1 introduced critical forward- and
+backward-compatibility challenges. This article details the core
+technical changes introduced in XML 1.1, the architectural friction they
+caused with XML 1.0, and the reasons XML 1.1 saw minimal adoption across
+the software industry.</p>
+<h2 id="key-changes-introduced-in-xml-11">Key Changes Introduced in XML
+1.1</h2>
+<p>XML 1.1 introduced several fundamental adjustments to how characters,
+element names, and whitespace are handled by XML parsers.</p>
+<h3 id="1-inverted-character-set-model">1. Inverted Character Set
+Model</h3>
+<p>In XML 1.0 (specifically up through the Fourth Edition), the
+specification defined element and attribute names using an inclusive
+list of allowed characters based on Unicode 2.0. As Unicode evolved and
+added thousands of new scripts, XML 1.0 could not use those new
+characters in element or attribute names without updating the XML
+specification itself.</p>
+<p>XML 1.1 inverted this logic:</p>
+<ul>
+<li><strong>XML 1.0 approach:</strong> Everything is forbidden in names
+except what is explicitly permitted.</li>
+<li><strong>XML 1.1 approach:</strong> Everything is permitted in names
+except what is explicitly forbidden (such as punctuation, symbols, and
+whitespace).</li>
+</ul>
+<p>This allowed XML 1.1 documents to use characters from future Unicode
+versions in tag names without requiring subsequent XML standard
+revisions.</p>
+<h3 id="2-expanded-support-for-control-characters">2. Expanded Support
+for Control Characters</h3>
+<p>XML 1.0 completely prohibited most ASCII/C0 control characters (such
+as <code>0x01</code> through <code>0x1F</code>), even as numeric
+character references, with only tab, carriage return, and line feed
+allowed. This created severe issues when serializing legacy binary data
+or mainframe terminal streams.</p>
+<p>XML 1.1 permitted C0 and C1 control characters (except the null byte
+<code>0x00</code>) to be used, provided they were represented as
+character entity references (e.g., <code>&amp;#x01;</code> or
+<code>&amp;#x7F;</code>).</p>
+<h3 id="3-extended-line-ending-normalization">3. Extended Line-Ending
+Normalization</h3>
+<p>XML 1.0 normalized only standard carriage return (<code>CR</code> /
+<code>\r</code>) and line feed (<code>LF</code> / <code>\n</code>)
+sequences to a single <code>LF</code>.</p>
+<p>XML 1.1 added support for line endings common in IBM mainframe and
+Unicode environments:</p>
+<ul>
+<li><strong>NEL</strong> (Next Line, <code>\u0085</code>)</li>
+<li><strong>LS</strong> (Line Separator, <code>\u2028</code>)</li>
+</ul>
+<p>Under XML 1.1, these characters were treated as line breaks and
+normalized to line feed characters during processing.</p>
+<hr />
+<h2 id="backward-compatibility-challenges">Backward-Compatibility
+Challenges</h2>
+<p>Although intended as an upgrade, XML 1.1 broke fundamental
+compatibility rules with existing XML infrastructure.</p>
+<h3 id="line-ending-semantic-drift">Line-Ending Semantic Drift</h3>
+<p>The inclusion of <code>NEL</code> (<code>\u0085</code>) in
+line-ending normalization introduced a breaking change. In XML 1.0, a
+<code>NEL</code> character inside character data was treated as ordinary
+data and preserved as-is. In XML 1.1, the parser automatically replaced
+it with a standard line feed. Consequently, an XML document processed as
+XML 1.0 could yield different data values when processed under XML 1.1
+rules.</p>
+<h3 id="broken-parser-interoperability">Broken Parser
+Interoperability</h3>
+<p>XML 1.0 parsers are required to fail when encountering a document
+with the declaration <code>&lt;?xml version="1.1"?&gt;</code>. Because
+XML 1.1 is not a strict superset of XML 1.0 in terms of behavioral
+semantics, existing XML 1.0 processing pipelines, databases, and message
+brokers could not transparently consume XML 1.1 documents without
+updating their core parsing engines.</p>
+<h3 id="ecosystem-fragmentation">Ecosystem Fragmentation</h3>
+<p>Adopting XML 1.1 required updates across the entire stack:</p>
+<ul>
+<li><strong>XML Schema and DTDs:</strong> Validation engines needed
+distinct validation rules for XML 1.1 naming constructs.</li>
+<li><strong>XPath, XSLT, and XQuery:</strong> Query engines had to be
+refactored to support the expanded character sets and altered whitespace
+normalization.</li>
+<li><strong>Database Systems:</strong> Native XML databases and indexing
+engines built around XML 1.0 rules faced indexing and hashing mismatches
+when handling XML 1.1 text.</li>
+</ul>
+<hr />
+<h2 id="the-outcome-of-xml-11">The Outcome of XML 1.1</h2>
+<p>Because of the severe compatibility friction and the limited subset
+of users affected by the mainframe-specific line-ending issues,
+widespread adoption of XML 1.1 failed to materialize.</p>
+<p>The W3C eventually resolved the character set issue for XML 1.0 by
+releasing the <strong>XML 1.0 Fifth Edition</strong> in 2008. The Fifth
+Edition backported the relaxed Unicode naming rules from XML 1.1 to XML
+1.0 while leaving the original line-ending and control character
+behaviors intact. This update eliminated the primary reason to migrate
+to XML 1.1, leaving XML 1.0 as the definitive standard for modern XML
+processing.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

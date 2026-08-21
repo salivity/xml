@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XPath Data Model: Elements, Attributes, and Text Nodes - xml</title>
+    <meta name="description" content="The XPath data model conceptualizes an XML document as a hierarchical tree of nodes rather than raw text. Within this tree, XML structures are mapped to specific node types, each possessing distinct properties, parent-child relationships, and value-extra">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/xpath-data-model-elements-attributes-and-text-nodes">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="XPath Data Model: Elements, Attributes, and Text Nodes - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/xpath-data-model-elements-attributes-and-text-nodes" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The XPath data model conceptualizes an XML document as a hierarchical tree of nodes rather than raw text. Within this tree, XML structures are mapped to specific node types, each possessing distinct properties, parent-child relationships, and value-extra" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="xpath-data-model-elements-attributes-and-text-nodes">XPath Data
+Model: Elements, Attributes, and Text Nodes</h1>
+<p>The XPath data model conceptualizes an XML document as a hierarchical
+tree of nodes rather than raw text. Within this tree, XML structures are
+mapped to specific node types, each possessing distinct properties,
+parent-child relationships, and value-extraction rules. This article
+examines how the XPath data model specifically represents the three most
+common node types: element nodes, attribute nodes, and text nodes.</p>
+<h2 id="the-xpath-node-tree-structure">The XPath Node Tree
+Structure</h2>
+<p>Before examining specific nodes, it is essential to understand that
+the XPath data model represents an XML document as a connected tree
+starting from a root node (also known as the document node). Every
+component of the XML document—including tags, attributes, and text
+content—is mapped into an abstract node object with defined properties
+such as node-name, parent, children, and string-value.</p>
+<h2 id="element-nodes">Element Nodes</h2>
+<p>Element nodes represent the primary structural tags within an XML
+document. Every XML tag pair (e.g.,
+<code>&lt;item&gt;...&lt;/item&gt;</code>) or self-closing tag (e.g.,
+<code>&lt;item/&gt;</code>) becomes an element node in the XPath
+tree.</p>
+<ul>
+<li><strong>Identity and Naming:</strong> An element node has an
+expanded name consisting of a local name and an optional namespace
+URI.</li>
+<li><strong>Hierarchy and Relationships:</strong>
+<ul>
+<li><strong>Parent:</strong> An element node's parent is either the
+document root node or another element node.</li>
+<li><strong>Children:</strong> An element node can have zero or more
+child nodes, which may include other element nodes, text nodes, comment
+nodes, and processing instruction nodes.</li>
+</ul></li>
+<li><strong>Attribute Association:</strong> While an element node has
+associated attribute nodes, <strong>attributes are not considered child
+nodes</strong> of the element. Instead, the element is the parent of its
+attributes, but attributes exist on a separate <code>attribute::</code>
+axis.</li>
+<li><strong>String Value:</strong> The string-value of an element node
+is the direct concatenation of all character data contained within its
+descendant text nodes, in document order.</li>
+</ul>
+<h2 id="attribute-nodes">Attribute Nodes</h2>
+<p>Attribute nodes represent the name-value pairs defined inside an
+element's opening tag (e.g., <code>&lt;item id="101"&gt;</code>).</p>
+<ul>
+<li><strong>Identity and Naming:</strong> Like element nodes, attribute
+nodes possess an expanded name (namespace URI and local name). Default
+attributes declared in a DTD or XML Schema are also instantiated as
+attribute nodes.</li>
+<li><strong>Hierarchy and Relationships:</strong>
+<ul>
+<li><strong>Parent:</strong> Each attribute node has a parent element
+node (the element on which it is declared).</li>
+<li><strong>No Children:</strong> Attribute nodes are leaf nodes and
+cannot have child nodes.</li>
+<li><strong>Axis Separation:</strong> Because attributes are not
+children, selecting children using XPath expressions like
+<code>/item/*</code> will never return attribute nodes; they must be
+queried using the attribute axis (e.g., <code>/item/@id</code> or
+<code>/item/attribute::id</code>).</li>
+</ul></li>
+<li><strong>String Value:</strong> The string-value of an attribute node
+is the normalized text value assigned to that attribute.</li>
+</ul>
+<h2 id="text-nodes">Text Nodes</h2>
+<p>Text nodes encapsulate the character data (PCDATA) found between
+element tags.</p>
+<ul>
+<li><strong>Identity and Naming:</strong> Text nodes do not have an
+expanded name; their node-name property is empty.</li>
+<li><strong>Hierarchy and Relationships:</strong>
+<ul>
+<li><strong>Parent:</strong> A text node always has an element node as
+its parent.</li>
+<li><strong>No Children:</strong> Text nodes are leaf nodes and cannot
+contain child nodes or attributes.</li>
+</ul></li>
+<li><strong>Normalization and Merging:</strong> In the XPath data model,
+text nodes are normalized. Adjacent character data is merged into a
+single text node, meaning an element node will never have two
+consecutive text node children. Empty text nodes (zero-length strings)
+are not created in the data model.</li>
+<li><strong>String Value:</strong> The string-value of a text node is
+the character string itself.</li>
+</ul>
+<h2 id="node-characteristics-comparison">Node Characteristics
+Comparison</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Node Type</th>
+<th style="text-align: left;">Has Expanded Name?</th>
+<th style="text-align: left;">Can Have Children?</th>
+<th style="text-align: left;">Considered a Child of Element?</th>
+<th style="text-align: left;">String Value Calculation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Element</strong></td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Yes (elements, text, comments, PIs)</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Concatenation of all descendant text
+nodes</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Attribute</strong></td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">No (accessed via <code>attribute::</code>
+axis)</td>
+<td style="text-align: left;">The normalized attribute value string</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Text</strong></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">The character data itself</td>
+</tr>
+</tbody>
+</table></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

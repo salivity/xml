@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Declare Permissions in AndroidManifest.xml - xml</title>
+    <meta name="description" content="This guide explains how to declare application permissions within the AndroidManifest.xml file for Android development. You will learn the exact XML syntax required, the proper tag placement within the manifest hierarchy, how to specify hardware-dependen">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/how-to-declare-permissions-in-androidmanifest-xml">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Declare Permissions in AndroidManifest.xml - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/how-to-declare-permissions-in-androidmanifest-xml" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This guide explains how to declare application permissions within the AndroidManifest.xml file for Android development. You will learn the exact XML syntax required, the proper tag placement within the manifest hierarchy, how to specify hardware-dependen" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-to-declare-permissions-in-androidmanifestxml">How to Declare
+Permissions in AndroidManifest.xml</h1>
+<p>This guide explains how to declare application permissions within the
+<code>AndroidManifest.xml</code> file for Android development. You will
+learn the exact XML syntax required, the proper tag placement within the
+manifest hierarchy, how to specify hardware-dependent permissions, and
+the relationship between manifest declarations and modern Android
+runtime permissions.</p>
+<h2 id="the-uses-permission-element">The
+<code>&lt;uses-permission&gt;</code> Element</h2>
+<p>In Android, permissions are declared using the
+<code>&lt;uses-permission&gt;</code> element. This tag informs the
+Android operating system and the Google Play Store about the system
+features, user data, and APIs your application needs to access (such as
+the camera, internet, or contacts).</p>
+<h3 id="syntax-and-placement">Syntax and Placement</h3>
+<p>The <code>&lt;uses-permission&gt;</code> tag must be placed as a
+direct child of the root <code>&lt;manifest&gt;</code> element and must
+reside outside the <code>&lt;application&gt;</code> element.</p>
+<p>Here is the standard syntax:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">manifest</span> <span class="ot">xmlns:android=</span><span class="st">&quot;http://schemas.android.com/apk/res/android&quot;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="ot">package=</span><span class="st">&quot;com.example.myapp&quot;</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Declaring permissions --&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">uses-permission</span> <span class="ot">android:name=</span><span class="st">&quot;android.permission.INTERNET&quot;</span> /&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">uses-permission</span> <span class="ot">android:name=</span><span class="st">&quot;android.permission.CAMERA&quot;</span> /&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">uses-permission</span> <span class="ot">android:name=</span><span class="st">&quot;android.permission.ACCESS_FINE_LOCATION&quot;</span> /&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">application</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        <span class="ot">android:allowBackup=</span><span class="st">&quot;true&quot;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="ot">android:icon=</span><span class="st">&quot;@mipmap/ic_launcher&quot;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="ot">android:label=</span><span class="st">&quot;@string/app_name&quot;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="ot">android:theme=</span><span class="st">&quot;@style/AppTheme&quot;</span>&gt;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        <span class="co">&lt;!-- Application components (activities, services, etc.) --&gt;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">application</span>&gt;</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">manifest</span>&gt;</span></code></pre></div>
+<h2 id="conditional-and-version-specific-declarations">Conditional and
+Version-Specific Declarations</h2>
+<p>You can restrict a permission to specific Android API levels using
+the <code>android:maxSdkVersion</code> attribute. This is useful when
+newer Android versions no longer require a permission for certain
+actions (such as reading external storage in modern scoped storage
+environments).</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">uses-permission</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="ot">android:name=</span><span class="st">&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="ot">android:maxSdkVersion=</span><span class="st">&quot;28&quot;</span> /&gt;</span></code></pre></div>
+<h2 id="declaring-hardware-requirements-with-uses-feature">Declaring
+Hardware Requirements with <code>&lt;uses-feature&gt;</code></h2>
+<p>When you declare permissions that correspond to device hardware (such
+as <code>CAMERA</code> or <code>ACCESS_FINE_LOCATION</code>), Google
+Play assumes your app requires that hardware by default. If your app can
+function without the hardware, pair the permission with a
+<code>&lt;uses-feature&gt;</code> tag set to
+<code>android:required="false"</code>:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">uses-permission</span> <span class="ot">android:name=</span><span class="st">&quot;android.permission.CAMERA&quot;</span> /&gt;</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">uses-feature</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="ot">android:name=</span><span class="st">&quot;android.hardware.camera&quot;</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="ot">android:required=</span><span class="st">&quot;false&quot;</span> /&gt;</span></code></pre></div>
+<h2 id="normal-vs-dangerous-runtime-permissions">Normal vs. Dangerous
+(Runtime) Permissions</h2>
+<p>Declaring a permission in <code>AndroidManifest.xml</code> is
+mandatory for all permission types, but how they are granted depends on
+the protection level:</p>
+<ul>
+<li><strong>Normal Permissions (Install-time):</strong> Permissions that
+do not pose a direct risk to user privacy (e.g.,
+<code>android.permission.INTERNET</code>). The system grants these
+automatically at install time once declared in the manifest.</li>
+<li><strong>Dangerous Permissions (Runtime):</strong> Permissions that
+access private data or critical hardware (e.g.,
+<code>android.permission.READ_CONTACTS</code>,
+<code>android.permission.CAMERA</code>). These must still be declared in
+the <code>AndroidManifest.xml</code> file, but your application must
+also explicitly request them at runtime from the user within your Kotlin
+or Java code before executing the protected actions.</li>
+</ul>
+<h2 id="declaring-custom-permissions">Declaring Custom Permissions</h2>
+<p>If you are exposing your own app components to other apps securely,
+you can define custom permissions using the
+<code>&lt;permission&gt;</code> element:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">permission</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="ot">android:name=</span><span class="st">&quot;com.example.myapp.CUSTOM_PERMISSION&quot;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="ot">android:protectionLevel=</span><span class="st">&quot;dangerous&quot;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="ot">android:label=</span><span class="st">&quot;@string/permission_label&quot;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="ot">android:description=</span><span class="st">&quot;@string/permission_description&quot;</span> /&gt;</span></code></pre></div>
+<p>Other applications wishing to interact with your secured components
+must then include a
+<code>&lt;uses-permission android:name="com.example.myapp.CUSTOM_PERMISSION" /&gt;</code>
+tag inside their own manifest files.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

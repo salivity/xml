@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saxon Processor Guide: XML, XSLT, and XQuery - xml</title>
+    <meta name="description" content="The Saxon processor is the industry-standard software library used to parse, transform, and query XML documents using W3C standard technologies. Developed by Saxonica under the leadership of Michael Kay, Saxon has established itself as the benchmark impl">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/saxon-processor-guide-xml-xslt-and-xquery">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Saxon Processor Guide: XML, XSLT, and XQuery - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/saxon-processor-guide-xml-xslt-and-xquery" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Saxon processor is the industry-standard software library used to parse, transform, and query XML documents using W3C standard technologies. Developed by Saxonica under the leadership of Michael Kay, Saxon has established itself as the benchmark impl" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="saxon-processor-guide-xml-xslt-and-xquery">Saxon Processor
+Guide: XML, XSLT, and XQuery</h1>
+<p>The Saxon processor is the industry-standard software library used to
+parse, transform, and query XML documents using W3C standard
+technologies. Developed by Saxonica under the leadership of Michael Kay,
+Saxon has established itself as the benchmark implementation for XSLT,
+XQuery, and XPath. This article explores the core architecture of Saxon,
+its role in enforcing and advancing W3C standards compliance, and how it
+enables modern enterprise data processing across multiple platforms.</p>
+<h3 id="what-is-the-saxon-processor">What Is the Saxon Processor?</h3>
+<p>Saxon is an open-source and commercial processing engine designed for
+handling structured data. It compiles and executes Extensible Stylesheet
+Language Transformations (XSLT) and XML Query (XQuery) against XML and
+JSON data sources. Saxon is available primarily for the Java, .NET, and
+C/C++ platforms, alongside a specialized client-side JavaScript version
+called SaxonJS.</p>
+<p>Saxon is distributed across three main editions:</p>
+<ul>
+<li><strong>Saxon-HE (Home Edition):</strong> An open-source edition
+providing standard compliance for non-commercial or baseline
+transformation needs.</li>
+<li><strong>Saxon-PE (Professional Edition):</strong> A commercial
+edition offering performance optimizations, extension functions, and
+support for compiled stylesheets.</li>
+<li><strong>Saxon-EE (Enterprise Edition):</strong> The full enterprise
+tier featuring advanced optimizations, streaming processing for very
+large documents, and full XML Schema validation.</li>
+</ul>
+<h3 id="advancing-w3c-standards-compliance">Advancing W3C Standards
+Compliance</h3>
+<p>W3C (World Wide Web Consortium) standards define how data
+transformation and querying should behave across the web and enterprise
+systems. Saxon is uniquely positioned in the standards ecosystem because
+its lead architect, Michael Kay, has served as the editor of the W3C
+XSLT specifications. Consequently, Saxon serves not just as a consumer
+of W3C standards, but often as their de facto reference
+implementation.</p>
+<h4 id="1-full-support-for-xslt-30-and-beyond">1. Full Support for XSLT
+3.0 and Beyond</h4>
+<p>While many older processors remain limited to XSLT 1.0, Saxon fully
+implements the W3C XSLT 3.0 recommendation. This standard introduces
+major capabilities, including:</p>
+<ul>
+<li><strong>Streaming Transformations:</strong> Enabling the processing
+of multi-gigabyte XML documents without loading the entire document tree
+into memory.</li>
+<li><strong>Packages and Modularity:</strong> Providing software
+engineering constructs like visibility controls (public/private) for
+reusable stylesheet components.</li>
+<li><strong>Native JSON Handling:</strong> Allowing developers to
+transform, parse, and serialize JSON data natively within XSLT
+workflows.</li>
+</ul>
+<h4 id="2-xquery-31-and-xpath-31-implementation">2. XQuery 3.1 and XPath
+3.1 Implementation</h4>
+<p>Saxon provides complete support for XPath 3.1 and XQuery 3.1. These
+standards represent a significant evolution from pure XML querying by
+introducing first-class support for maps, arrays, and JSON data types.
+Through Saxon, developers can query complex, mixed data structures (both
+XML and JSON) using a single, declarative querying language.</p>
+<h4 id="3-xml-schema-10-and-11-validation">3. XML Schema 1.0 and 1.1
+Validation</h4>
+<p>Saxon-EE provides strict validation against both W3C XML Schema 1.0
+and XML Schema 1.1 specifications. By incorporating Schema-Aware
+processing, Saxon allows stylesheets and queries to operate on strongly
+typed data rather than raw text. This improves reliability, allows for
+early type-checking at compile time, and unlocks engine-level execution
+optimizations.</p>
+<h3 id="the-role-of-saxon-in-modern-data-workflows">The Role of Saxon in
+Modern Data Workflows</h3>
+<p>Saxon bridges the gap between legacy XML architectures and modern
+data formats. By continually aligning with and driving W3C standards,
+Saxon ensures that developers have access to declarative,
+memory-efficient, and strictly validated tools for complex document
+processing, publishing pipelines, and enterprise data integration.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>
