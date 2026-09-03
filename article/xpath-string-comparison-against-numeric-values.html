@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XPath String Comparison Against Numeric Values - xml</title>
+    <meta name="description" content="When evaluating XML attributes against numeric values, XPath does not perform a textual comparison; instead, it automatically coerces strings and node-sets into numbers before executing the comparison. If an attribute contains a valid numeric representat">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/xpath-string-comparison-against-numeric-values">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="XPath String Comparison Against Numeric Values - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/xpath-string-comparison-against-numeric-values" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="When evaluating XML attributes against numeric values, XPath does not perform a textual comparison; instead, it automatically coerces strings and node-sets into numbers before executing the comparison. If an attribute contains a valid numeric representat" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="xpath-string-comparison-against-numeric-values">XPath String
+Comparison Against Numeric Values</h1>
+<p>When evaluating XML attributes against numeric values, XPath does not
+perform a textual comparison; instead, it automatically coerces strings
+and node-sets into numbers before executing the comparison. If an
+attribute contains a valid numeric representation, it is cast to a
+floating-point number and compared mathematically. If the attribute
+string cannot be parsed as a valid number, it converts to
+<code>NaN</code> (Not-a-Number), which causes the comparison to evaluate
+to <code>false</code>.</p>
+<h3 id="the-core-type-coercion-rule">The Core Type Coercion Rule</h3>
+<p>In XPath 1.0, comparison operators (<code>=</code>, <code>!=</code>,
+<code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>,
+<code>&gt;=</code>) follow strict precedence rules for data types. If
+one operand in an expression is a number and the other is a string or a
+node-set (such as an XML attribute), the non-numeric operand is
+automatically converted to a number using the internal
+<code>number()</code> function.</p>
+<p>For example, consider the following XML element:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">product</span> <span class="ot">id=</span><span class="st">&quot;101&quot;</span> <span class="ot">price=</span><span class="st">&quot;29.99&quot;</span> <span class="ot">code=</span><span class="st">&quot;A50&quot;</span> /&gt;</span></code></pre></div>
+<p>When evaluating the XPath query:</p>
+<pre class="xpath"><code>//product[@price &gt; 20]</code></pre>
+<p>XPath processes the expression in these steps:</p>
+<ol type="1">
+<li>Identifies that the right-hand operand (<code>20</code>) is a
+number.</li>
+<li>Extracts the string value of the <code>@price</code> attribute
+(<code>"29.99"</code>).</li>
+<li>Converts <code>"29.99"</code> to the numeric float
+<code>29.99</code>.</li>
+<li>Evaluates <code>29.99 &gt; 20</code>, which returns
+<code>true</code>.</li>
+</ol>
+<h3 id="handling-non-numeric-strings-and-nan">Handling Non-Numeric
+Strings and <code>NaN</code></h3>
+<p>If an attribute contains characters that do not form a valid numeric
+literal, the <code>number()</code> conversion fails and produces
+<code>NaN</code>.</p>
+<p>In XPath, any comparison involving <code>NaN</code> using standard
+relational operators (<code>=</code>, <code>&lt;</code>,
+<code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>) returns
+<code>false</code>.</p>
+<p>For example, with the expression:</p>
+<pre class="xpath"><code>//product[@code &gt; 10]</code></pre>
+<ol type="1">
+<li>The string value <code>"A50"</code> is converted via
+<code>number("A50")</code>, resulting in <code>NaN</code>.</li>
+<li>The comparison <code>NaN &gt; 10</code> is evaluated.</li>
+<li>The result is <code>false</code>, and the element is not
+selected.</li>
+</ol>
+<p><em>Note on inequality (<code>!=</code>):</em> In XPath 1.0,
+comparing a string that becomes <code>NaN</code> with a number using
+<code>!=</code> also evaluates to <code>true</code> if comparing
+primitives directly, but comparing a node-set containing
+<code>NaN</code> to a number via <code>!=</code> can yield
+counter-intuitive results because <code>NaN != number</code> is
+mathematically true.</p>
+<h3 id="equality-vs-relational-comparisons">Equality vs. Relational
+Comparisons</h3>
+<p>Type conversion behavior depends on the operator and operand
+types:</p>
+<ul>
+<li><strong>Number to String Equality (<code>@attr = 5</code>):</strong>
+The string attribute is converted to a number. If <code>@attr</code> is
+<code>"05"</code>, <code>number("05")</code> becomes <code>5</code>, and
+<code>5 = 5</code> evaluates to <code>true</code>.</li>
+<li><strong>String to String Equality
+(<code>@attr = '5'</code>):</strong> Both operands are strings, so
+lexical comparison occurs. If <code>@attr</code> is <code>"05"</code>,
+<code>"05" = "5"</code> evaluates to <code>false</code>.</li>
+</ul>
+<h3 id="xpath-20-and-schema-awareness">XPath 2.0+ and Schema
+Awareness</h3>
+<p>In XPath 2.0, 3.0, and 3.1:</p>
+<ul>
+<li>Without an XML Schema, attribute values are typed as
+<code>xs:untypedAtomic</code>. When compared with a numeric literal, the
+<code>xs:untypedAtomic</code> value is implicitly cast to
+<code>xs:double</code>.</li>
+<li>If the cast fails (e.g., comparing <code>"A50"</code> to
+<code>10</code>), XPath 2.0+ raises a dynamic error
+(<code>FORG0001</code>) rather than silently converting the value to
+<code>NaN</code>.</li>
+<li>With an XML Schema, if the attribute is explicitly typed (e.g.,
+<code>xs:integer</code> or <code>xs:decimal</code>), strong typing rules
+apply, and direct numeric comparison is performed natively without
+fallback casting errors.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

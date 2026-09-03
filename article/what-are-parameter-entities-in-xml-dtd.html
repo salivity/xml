@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Are Parameter Entities in XML DTD? - xml</title>
+    <meta name="description" content="Parameter entities in an XML Document Type Definition (DTD) are specialized macros used exclusively to define and reuse DTD code components. Unlike general entities, which insert replacement text into the XML document body, parameter entities are used en">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/what-are-parameter-entities-in-xml-dtd">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Are Parameter Entities in XML DTD? - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/what-are-parameter-entities-in-xml-dtd" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Parameter entities in an XML Document Type Definition (DTD) are specialized macros used exclusively to define and reuse DTD code components. Unlike general entities, which insert replacement text into the XML document body, parameter entities are used en" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-are-parameter-entities-in-xml-dtd">What Are Parameter
+Entities in XML DTD?</h1>
+<p>Parameter entities in an XML Document Type Definition (DTD) are
+specialized macros used exclusively to define and reuse DTD code
+components. Unlike general entities, which insert replacement text into
+the XML document body, parameter entities are used entirely within the
+DTD itself to streamline schema maintenance, reduce redundancy, and
+manage external modular definitions. This article explains what
+parameter entities are, their syntax, and the specific scenarios where
+they are applied.</p>
+<h2 id="definition-and-syntax">Definition and Syntax</h2>
+<p>A parameter entity acts as a variable within a DTD. It allows schema
+authors to define a string of text, a list of attributes, an element
+content model, or an external file reference once and reuse it across
+multiple declarations.</p>
+<p>Parameter entities are identified by the percent sign
+(<code>%</code>).</p>
+<h3 id="declaration-syntax">Declaration Syntax</h3>
+<p>To declare a parameter entity within an internal or external DTD:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode dtd"><code class="sourceCode dtd"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ENTITY</span> <span class="dv">% </span><span class="fu">EntityName</span> <span class="st">&quot;replacement_text&quot;</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>For external parameter entities pointing to separate DTD files:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode dtd"><code class="sourceCode dtd"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ENTITY</span> <span class="dv">% </span><span class="fu">EntityName</span> <span class="kw">SYSTEM</span> <span class="st">&quot;URI_to_file.dtd&quot;</span><span class="dt">&gt;</span></span></code></pre></div>
+<h3 id="reference-syntax">Reference Syntax</h3>
+<p>To call or expand a parameter entity inside the DTD, prefix the
+entity name with <code>%</code> and terminate it with
+<code>;</code>:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode dtd"><code class="sourceCode dtd"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dv">%EntityName;</span></span></code></pre></div>
+<hr />
+<h2 id="where-parameter-entities-are-used">Where Parameter Entities Are
+Used</h2>
+<p>Parameter entities are strictly restricted to the DTD subset and
+cannot be referenced within the XML document content. Their primary use
+cases include:</p>
+<h3 id="1-reusable-content-models">1. Reusable Content Models</h3>
+<p>When multiple elements share identical or similar child elements, a
+parameter entity can define the shared structure. This prevents
+duplicate code and ensures consistency.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode dtd"><code class="sourceCode dtd"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Define a common group of inline elements --&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ENTITY</span> <span class="dv">% </span><span class="fu">inline</span> <span class="st">&quot;b | i | u | span&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Use the entity in element declarations --&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ENTITY</span> <span class="dv">% </span><span class="fu">text_content</span> <span class="st">&quot;(#PCDATA | </span><span class="dv">%inline;</span><span class="st">)*&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ELEMENT</span> <span class="fu">p</span> <span class="dv">%text_content;</span><span class="dt">&gt;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ELEMENT</span> <span class="fu">li</span> <span class="dv">%text_content;</span><span class="dt">&gt;</span></span></code></pre></div>
+<h3 id="2-common-attribute-lists">2. Common Attribute Lists</h3>
+<p>If multiple XML elements share a standard set of attributes (such as
+<code>id</code>, <code>class</code>, or localization tags), a parameter
+entity can bundle these attributes.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode dtd"><code class="sourceCode dtd"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Define common attributes --&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ENTITY</span> <span class="dv">% </span><span class="fu">core_attrs</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;id ID #IMPLIED</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="st">   class CDATA #IMPLIED&quot;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="dt">&gt;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Apply to multiple elements --&gt;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ATTLIST</span> <span class="fu">header</span> <span class="dv">%core_attrs;</span><span class="dt">&gt;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ATTLIST</span> <span class="fu">section</span> <span class="dv">%core_attrs;</span><span class="dt">&gt;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ATTLIST</span> <span class="fu">footer</span> <span class="dv">%core_attrs;</span><span class="dt">&gt;</span></span></code></pre></div>
+<h3 id="3-modularizing-large-dtds">3. Modularizing Large DTDs</h3>
+<p>Parameter entities allow large, complex DTDs to be split into
+smaller, manageable files. An external parameter entity imports
+components such as table definitions or mathematical markup modules into
+the main DTD.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode dtd"><code class="sourceCode dtd"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Import an external DTD module --&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ENTITY</span> <span class="dv">% </span><span class="fu">table_module</span> <span class="kw">SYSTEM</span> <span class="st">&quot;tables.dtd&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="dv">%table_module;</span></span></code></pre></div>
+<h3 id="4-managing-conditional-sections">4. Managing Conditional
+Sections</h3>
+<p>In external DTD subsets, parameter entities frequently control
+conditional parsing blocks (<code>INCLUDE</code> and
+<code>IGNORE</code>). This allows developers to toggle specific rules or
+modules on and off dynamically.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode dtd"><code class="sourceCode dtd"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ENTITY</span> <span class="dv">% </span><span class="fu">draft</span> <span class="st">&quot;INCLUDE&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ENTITY</span> <span class="dv">% </span><span class="fu">final</span> <span class="st">&quot;IGNORE&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="cf">&lt;![</span><span class="dv">%draft;</span><span class="cf">[</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;!ELEMENT</span> <span class="fu">comment</span> <span class="dv">(</span><span class="kw">#PCDATA</span><span class="dv">)</span><span class="dt">&gt;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="cf">]]&gt;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="cf">&lt;![</span><span class="dv">%final;</span><span class="cf">[</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Draft elements are omitted in final production --&gt;</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="cf">]]&gt;</span></span></code></pre></div>
+<h2 id="summary-of-differences-parameter-vs-general-entities">Summary of
+Differences: Parameter vs. General Entities</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;">Parameter Entities</th>
+<th style="text-align: left;">General Entities</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Declaration Marker</strong></td>
+<td style="text-align: left;">Contains <code>%</code>
+(<code>&lt;!ENTITY % name "..."&gt;</code>)</td>
+<td style="text-align: left;">No <code>%</code>
+(<code>&lt;!ENTITY name "..."&gt;</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Reference Syntax</strong></td>
+<td style="text-align: left;"><code>%name;</code></td>
+<td style="text-align: left;"><code>&amp;name;</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Scope of Use</strong></td>
+<td style="text-align: left;">Only inside the DTD</td>
+<td style="text-align: left;">Inside the XML instance document</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Primary Purpose</strong></td>
+<td style="text-align: left;">DTD modularity, code reuse, and schema
+maintenance</td>
+<td style="text-align: left;">Document content macros and character
+shortcuts</td>
+</tr>
+</tbody>
+</table></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

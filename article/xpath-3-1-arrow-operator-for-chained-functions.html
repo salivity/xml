@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XPath 3.1 Arrow Operator for Chained Functions - xml</title>
+    <meta name="description" content="The XPath 3.1 arrow operator (=>) simplifies chained function calls by transforming deeply nested, inside-out function syntax into a linear, left-to-right processing pipeline. By automatically passing the result of the left-hand expression as the first a">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/xpath-3-1-arrow-operator-for-chained-functions">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="XPath 3.1 Arrow Operator for Chained Functions - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/xpath-3-1-arrow-operator-for-chained-functions" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The XPath 3.1 arrow operator (=>) simplifies chained function calls by transforming deeply nested, inside-out function syntax into a linear, left-to-right processing pipeline. By automatically passing the result of the left-hand expression as the first a" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="xpath-31-arrow-operator-for-chained-functions">XPath 3.1 Arrow
+Operator for Chained Functions</h1>
+<p>The XPath 3.1 arrow operator (<code>=&gt;</code>) simplifies chained
+function calls by transforming deeply nested, inside-out function syntax
+into a linear, left-to-right processing pipeline. By automatically
+passing the result of the left-hand expression as the first argument to
+the function on the right, it eliminates excessive parentheses and makes
+complex data transformations significantly easier to read, write, and
+maintain.</p>
+<h3 id="the-problem-nested-function-calls">The Problem: Nested Function
+Calls</h3>
+<p>In standard XPath expressions prior to version 3.1, applying multiple
+transformations to an XML node required nesting functions inside one
+another. This "inside-out" evaluation structure forced developers to
+read code from the middle outward, making it difficult to trace the
+execution flow and prone to mismatched parentheses.</p>
+<p>For example, normalizing whitespace, extracting a substring, and
+converting the result to uppercase traditionally looks like this:</p>
+<pre class="xpath"><code>fn:upper-case(fn:substring(fn:normalize-space(//book/title), 1, 10))</code></pre>
+<h3 id="the-solution-pipeline-syntax-with-">The Solution: Pipeline
+Syntax with <code>=&gt;</code></h3>
+<p>XPath 3.1 introduced the arrow operator to streamline this workflow.
+The syntax <code>A =&gt; f(B, C)</code> is functionally equivalent to
+<code>f(A, B, C)</code>. The expression on the left side of the operator
+evaluates first and is automatically supplied as the first argument to
+the function on the right side.</p>
+<p>Rewriting the previous example using the arrow operator creates a
+clean pipeline:</p>
+<pre class="xpath"><code>//book/title =&gt; fn:normalize-space() =&gt; fn:substring(1, 10) =&gt; fn:upper-case()</code></pre>
+<h3 id="key-advantages-of-the-arrow-operator">Key Advantages of the
+Arrow Operator</h3>
+<ul>
+<li><strong>Left-to-Right Readability:</strong> The sequence of
+operations matches the chronological order of data processing,
+reflecting natural data flow rather than nested mathematical function
+notation.</li>
+<li><strong>Simplified Parameter Management:</strong> Subsequent
+arguments within the parentheses map directly to the function’s
+secondary parameters, reducing visual clutter.</li>
+<li><strong>Easier Refactoring and Maintenance:</strong> Adding,
+removing, or reordering steps in a transformation pipeline only requires
+adding or removing a single chained segment, eliminating the need to
+carefully adjust matching opening and closing parentheses across the
+entire expression.</li>
+<li><strong>Compatibility with Custom and Anonymous Functions:</strong>
+The arrow operator works seamlessly with built-in XPath functions,
+user-defined functions in XQuery and XSLT, and inline (anonymous)
+functions.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

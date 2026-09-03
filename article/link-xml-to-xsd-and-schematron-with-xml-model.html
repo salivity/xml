@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link XML to XSD and Schematron with xml-model - xml</title>
+    <meta name="description" content="Associating an XML document with multiple schemas allows developers to enforce both structural validity and complex business rules simultaneously. By utilizing multiple <?xml-model?> processing instructions, an XML document can explicitly bind to both a">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/link-xml-to-xsd-and-schematron-with-xml-model">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Link XML to XSD and Schematron with xml-model - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/link-xml-to-xsd-and-schematron-with-xml-model" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Associating an XML document with multiple schemas allows developers to enforce both structural validity and complex business rules simultaneously. By utilizing multiple <?xml-model?> processing instructions, an XML document can explicitly bind to both a" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="link-xml-to-xsd-and-schematron-with-xml-model">Link XML to XSD
+and Schematron with xml-model</h1>
+<p>Associating an XML document with multiple schemas allows developers
+to enforce both structural validity and complex business rules
+simultaneously. By utilizing multiple <code>&lt;?xml-model?&gt;</code>
+processing instructions, an XML document can explicitly bind to both a
+W3C XML Schema (XSD) for structural typing and an ISO Schematron file
+for semantic assertions without modifying the root element
+attributes.</p>
+<h2 id="using-multiple-xml-model-processing-instructions">Using Multiple
+<code>xml-model</code> Processing Instructions</h2>
+<p>The <code>xml-model</code> processing instruction is defined by the
+W3C to associate XML documents with schema resources. Rather than
+relying on parser-specific attributes like
+<code>xsi:noNamespaceSchemaLocation</code>, you can place multiple
+<code>&lt;?xml-model?&gt;</code> directives in the document prolog.</p>
+<p>Each schema declaration requires specific pseudo-attributes:</p>
+<ul>
+<li><strong><code>href</code></strong>: The relative or absolute URI
+locating the schema file.</li>
+<li><strong><code>type</code></strong>: The MIME type of the schema
+(typically <code>application/xml</code>).</li>
+<li><strong><code>schematypens</code></strong>: The namespace URI that
+identifies the schema language being used.</li>
+</ul>
+<h3 id="schema-namespace-identifiers-schematypens">Schema Namespace
+Identifiers (schematypens)</h3>
+<p>To inform validating parsers of the exact schema engine to invoke,
+assign the standardized namespace URIs:</p>
+<ul>
+<li><strong>W3C XML Schema (XSD):</strong>
+<code>http://www.w3.org/2001/XMLSchema</code></li>
+<li><strong>ISO Schematron:</strong>
+<code>http://purl.oclc.org/dsdl/schematron</code></li>
+</ul>
+<h2 id="complete-implementation-example">Complete Implementation
+Example</h2>
+<p>Below is a complete XML document referencing both an XSD file
+(<code>schema.xsd</code>) and a Schematron file
+(<code>rules.sch</code>):</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span> <span class="ot">version=</span><span class="st">&quot;1.0&quot;</span> <span class="ot">encoding=</span><span class="st">&quot;UTF-8&quot;</span><span class="fu">?&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml-model</span> href=&quot;schema.xsd&quot; </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>            type=&quot;application/xml&quot; </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>            schematypens=&quot;http://www.w3.org/2001/XMLSchema&quot;<span class="fu">?&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml-model</span> href=&quot;rules.sch&quot; </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>            type=&quot;application/xml&quot; </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>            schematypens=&quot;http://purl.oclc.org/dsdl/schematron&quot;<span class="fu">?&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">order</span> <span class="ot">id=</span><span class="st">&quot;ord-10492&quot;</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">customer</span>&gt;Jane Doe&lt;/<span class="kw">customer</span>&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">items</span>&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">item</span> <span class="ot">sku=</span><span class="st">&quot;A12&quot;</span> <span class="ot">quantity=</span><span class="st">&quot;2&quot;</span> <span class="ot">unitPrice=</span><span class="st">&quot;15.00&quot;</span>/&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">items</span>&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">total</span>&gt;30.00&lt;/<span class="kw">total</span>&gt;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">order</span>&gt;</span></code></pre></div>
+<h2 id="how-validation-engines-process-the-rules">How Validation Engines
+Process the Rules</h2>
+<p>When an <code>xml-model</code>-aware processor reads the
+document:</p>
+<ol type="1">
+<li><strong>Phase 1 (Structural Validation):</strong> The processor
+evaluates <code>schema.xsd</code> via the
+<code>http://www.w3.org/2001/XMLSchema</code> namespace to ensure
+elements, attributes, datatypes, and order follow the structural
+definition.</li>
+<li><strong>Phase 2 (Business Rule Validation):</strong> The processor
+loads <code>rules.sch</code> via the
+<code>http://purl.oclc.org/dsdl/schematron</code> namespace to validate
+dynamic constraints, such as verifying that the
+<code>&lt;total&gt;</code> matches the sum of the item quantities
+multiplied by their prices.</li>
+</ol>
+<p>This dual association ensures complete validation coverage while
+keeping structural grammar separated from contextual business logic.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embed Custom XML Parts in Word for Data Binding - xml</title>
+    <meta name="description" content="This article explains how custom XML parts are integrated into Microsoft Word documents to enable structured, two-way data binding. Custom XML embedding separates business data from presentation, allowing document automation systems and users to update c">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/embed-custom-xml-parts-in-word-for-data-binding">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Embed Custom XML Parts in Word for Data Binding - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/embed-custom-xml-parts-in-word-for-data-binding" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how custom XML parts are integrated into Microsoft Word documents to enable structured, two-way data binding. Custom XML embedding separates business data from presentation, allowing document automation systems and users to update c" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="embed-custom-xml-parts-in-word-for-data-binding">Embed Custom
+XML Parts in Word for Data Binding</h1>
+<p>This article explains how custom XML parts are integrated into
+Microsoft Word documents to enable structured, two-way data binding.
+Custom XML embedding separates business data from presentation, allowing
+document automation systems and users to update content seamlessly. You
+will learn the architecture behind OpenXML storage, the methods for
+injecting custom data, and how to map XML nodes to Word content controls
+using XPath.</p>
+<h3 id="the-architecture-of-custom-xml-in-word">The Architecture of
+Custom XML in Word</h3>
+<p>A Microsoft Word document (<code>.docx</code>) is an OpenXML package
+composed of compressed XML files and folders. Custom data is stored
+within the <code>customXml</code> directory inside the package.</p>
+<p>A standard custom XML part consists of three primary components:</p>
+<ol type="1">
+<li><strong>The XML Data File (<code>item1.xml</code>)</strong>:
+Contains the raw, structured data conforming to your custom schema.</li>
+<li><strong>The Properties File (<code>itemProps1.xml</code>)</strong>:
+Contains metadata, most importantly a unique XML namespace identifier
+and an associated Globally Unique Identifier (GUID).</li>
+<li><strong>The Relationship File
+(<code>item1.xml.rels</code>)</strong>: Defines relationships between
+the custom XML part and other components, such as associated XSD
+schemas.</li>
+</ol>
+<h3 id="methods-for-embedding-custom-xml-parts">Methods for Embedding
+Custom XML Parts</h3>
+<p>Custom XML can be embedded into a document using several approaches
+depending on the development environment.</p>
+<h4 id="1-using-the-word-user-interface-xml-mapping-pane">1. Using the
+Word User Interface (XML Mapping Pane)</h4>
+<p>For manual template creation:</p>
+<ul>
+<li>Enable the <strong>Developer</strong> tab in Microsoft Word.</li>
+<li>Click <strong>XML Mapping Pane</strong>.</li>
+<li>Open the <strong>Custom XML Part</strong> dropdown and select
+<strong>Add new part...</strong>.</li>
+<li>Select your local <code>.xml</code> file to embed it directly into
+the active document.</li>
+</ul>
+<h4 id="2-using-the-open-xml-sdk-net">2. Using the Open XML SDK
+(.NET)</h4>
+<p>In automated workflows, developers use the Open XML SDK to inject
+custom XML without running Word:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> DocumentFormat<span class="op">.</span><span class="fu">OpenXml</span><span class="op">.</span><span class="fu">Packaging</span><span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> System<span class="op">.</span><span class="fu">IO</span><span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> System<span class="op">.</span><span class="fu">Xml</span><span class="op">.</span><span class="fu">Linq</span><span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">AddCustomXmlPart</span><span class="op">(</span><span class="dt">string</span> documentPath<span class="op">,</span> XDocument customXmlData<span class="op">)</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">using</span> <span class="op">(</span>WordprocessingDocument wordDoc <span class="op">=</span> WordprocessingDocument<span class="op">.</span><span class="fu">Open</span><span class="op">(</span>documentPath<span class="op">,</span> <span class="kw">true</span><span class="op">))</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        MainDocumentPart mainPart <span class="op">=</span> wordDoc<span class="op">.</span><span class="fu">MainDocumentPart</span><span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Add a new CustomXmlPart</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        CustomXmlPart customXmlPart <span class="op">=</span> mainPart<span class="op">.</span><span class="fu">AddCustomXmlPart</span><span class="op">(</span>CustomXmlPartType<span class="op">.</span><span class="fu">CustomXml</span><span class="op">);</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Write the XML data into the part</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        <span class="kw">using</span> <span class="op">(</span>Stream stream <span class="op">=</span> customXmlPart<span class="op">.</span><span class="fu">GetStream</span><span class="op">(</span>FileMode<span class="op">.</span><span class="fu">Create</span><span class="op">))</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>            customXmlData<span class="op">.</span><span class="fu">Save</span><span class="op">(</span>stream<span class="op">);</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h4 id="3-using-vba">3. Using VBA</h4>
+<p>Within the document environment, Visual Basic for Applications (VBA)
+can insert custom XML parts:</p>
+<pre class="vba"><code>Sub AddCustomXml()
+    Dim xmlString As String
+    xmlString = &quot;&lt;Invoice&gt;&lt;CustomerName&gt;Acme Corp&lt;/CustomerName&gt;&lt;/Invoice&gt;&quot;
+    ActiveDocument.CustomXMLParts.Add xmlString
+End Sub</code></pre>
+<h3 id="binding-xml-elements-to-content-controls">Binding XML Elements
+to Content Controls</h3>
+<p>Embedding XML alone does not display the data on the page. You must
+bind specific XML nodes to Structured Document Tags (Content
+Controls).</p>
+<h4 id="the-binding-mechanism-wdatabinding">The Binding Mechanism
+(<code>w:dataBinding</code>)</h4>
+<p>Content Controls are represented in Word OpenXML by the
+<code>&lt;w:sdt&gt;</code> element. Inside the control's properties
+(<code>&lt;w:sdtPr&gt;</code>), the <code>&lt;w:dataBinding&gt;</code>
+element links the control to the XML node using three main
+attributes:</p>
+<ul>
+<li><strong><code>w:xpath</code></strong>: The XPath expression that
+selects the exact target node (e.g.,
+<code>/Invoice/CustomerName</code>).</li>
+<li><strong><code>w:prefixMappings</code></strong>: The namespace
+prefixes used within the XPath query.</li>
+<li><strong><code>w:storeItemID</code></strong>: The GUID of the custom
+XML part containing the data.</li>
+</ul>
+<h4 id="binding-via-word-interface">Binding via Word Interface</h4>
+<ol type="1">
+<li>Insert a Plain Text or Date Picker Content Control from the
+Developer tab.</li>
+<li>In the <strong>XML Mapping Pane</strong>, navigate to the desired
+XML element.</li>
+<li>Right-click the element and select <strong>Map to Selected Content
+Control</strong>.</li>
+</ol>
+<h3 id="bidirectional-synchronization">Bidirectional
+Synchronization</h3>
+<p>Once bound, Word handles data synchronization natively:</p>
+<ul>
+<li><strong>UI to XML</strong>: When a user types into a mapped content
+control, Word immediately updates the corresponding node in the custom
+XML part.</li>
+<li><strong>XML to UI</strong>: When the underlying XML node value is
+modified programmatically and the document is opened, all linked content
+controls reflect the new value across the entire document. Multiple
+controls mapped to the same XML node stay automatically in sync.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

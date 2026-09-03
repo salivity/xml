@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What is Sensor Observation Service (SOS) in XML? - xml</title>
+    <meta name="description" content="This article provides an overview of the Sensor Observation Service (SOS), an open standard for accessing real-time and historical sensor data. It details the architecture of SOS within the Open Geospatial Consortium (OGC) framework, the primary service">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/what-is-sensor-observation-service-sos-in-xml">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What is Sensor Observation Service (SOS) in XML? - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/what-is-sensor-observation-service-sos-in-xml" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides an overview of the Sensor Observation Service (SOS), an open standard for accessing real-time and historical sensor data. It details the architecture of SOS within the Open Geospatial Consortium (OGC) framework, the primary service" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-sensor-observation-service-sos-in-xml">What is Sensor
+Observation Service (SOS) in XML?</h1>
+<p>This article provides an overview of the Sensor Observation Service
+(SOS), an open standard for accessing real-time and historical sensor
+data. It details the architecture of SOS within the Open Geospatial
+Consortium (OGC) framework, the primary service operations used to query
+data, and the precise role XML formats—specifically Observations and
+Measurements (O&amp;M) and SensorML—play in structuring and delivering
+sensor readings.</p>
+<h3 id="what-is-the-sensor-observation-service">What is the Sensor
+Observation Service?</h3>
+<p>The Sensor Observation Service (SOS) is an open API standard defined
+by the Open Geospatial Consortium (OGC) as part of its Sensor Web
+Enablement (SWE) initiative. SOS provides a standardized web service
+interface that allows clients to query, retrieve, and manage real-time
+or archived observation data from heterogeneous sensors, sensor
+platforms, and sensor networks.</p>
+<p>By standardizing the interface, SOS abstracts the underlying hardware
+and database details, allowing systems ranging from weather stations to
+satellite feeds to be accessed using a single, unified protocol.</p>
+<h3 id="core-operations-of-sos">Core Operations of SOS</h3>
+<p>An SOS server processes requests using standardized operations, which
+clients typically invoke over HTTP via GET, POST, or SOAP requests:</p>
+<ul>
+<li><strong>GetCapabilities:</strong> Returns service metadata, listing
+supported operations, coordinate reference systems, and the available
+sensor offerings and observation types.</li>
+<li><strong>DescribeSensor:</strong> Retrieves detailed metadata about a
+specific sensor, such as its calibration, accuracy, physical location,
+and vendor data.</li>
+<li><strong>GetObservation:</strong> Retrieves actual observation data
+and measurements based on spatial, temporal, and thematic filters
+defined by the client.</li>
+</ul>
+<h3 id="how-sos-delivers-sensor-readings-using-xml">How SOS Delivers
+Sensor Readings Using XML</h3>
+<p>SOS utilizes Extensible Markup Language (XML) to format both requests
+and responses. The transmission of sensor data relies on two fundamental
+OGC XML encoding standards: <strong>SensorML</strong> and
+<strong>Observations and Measurements (O&amp;M)</strong>.</p>
+<h4 id="1-sensor-description-via-sensorml">1. Sensor Description via
+SensorML</h4>
+<p>When a client executes a <code>DescribeSensor</code> request, the SOS
+responds with an XML document formatted according to the <strong>Sensor
+Model Language (SensorML)</strong> schema. SensorML describes the
+sensor's physical and mechanical properties, inputs, outputs, and
+internal processes.</p>
+<h4 id="2-delivering-readings-via-observations-and-measurements-om">2.
+Delivering Readings via Observations and Measurements (O&amp;M)</h4>
+<p>When a client requests sensor readings using
+<code>GetObservation</code>, the SOS packages the output into an XML
+payload defined by the <strong>Observations and Measurements
+(O&amp;M)</strong> standard (OGC / ISO 19156).</p>
+<p>An O&amp;M XML response encapsulates several key elements:</p>
+<ul>
+<li><strong><code>om:phenomenonTime</code>:</strong> The exact timestamp
+or time interval during which the measurement occurred.</li>
+<li><strong><code>om:resultTime</code>:</strong> The time when the
+measurement result was generated or recorded.</li>
+<li><strong><code>om:observedProperty</code>:</strong> The phenomenon
+being measured (e.g., air temperature, water level, atmospheric
+pressure).</li>
+<li><strong><code>om:featureOfInterest</code>:</strong> The real-world
+object or location targeted by the observation (e.g., a specific river
+basin or weather station coordinate).</li>
+<li><strong><code>om:procedure</code>:</strong> A link or reference to
+the sensor that generated the measurement.</li>
+<li><strong><code>om:result</code>:</strong> The actual data payload.
+This can be a simple scalar value, a structured record, or a compact
+array of values separated by standard delimiters.</li>
+</ul>
+<h3 id="the-data-delivery-workflow">The Data Delivery Workflow</h3>
+<ol type="1">
+<li><strong>Request:</strong> A client sends an XML-encoded
+<code>GetObservation</code> request to the SOS endpoint, specifying
+parameters like temporal range (e.g., last 24 hours), geographic
+bounding box, and the target observed property.</li>
+<li><strong>Processing:</strong> The SOS server parses the request,
+queries its connected sensor database, and maps the proprietary sensor
+data into standard OGC data models.</li>
+<li><strong>Response:</strong> The server serializes the retrieved data
+into an O&amp;M-compliant XML document and returns it over HTTP with an
+XML MIME type.</li>
+<li><strong>Consumption:</strong> The client parses the standardized XML
+tags to extract the measurement results, timestamps, and locations for
+visualization, analysis, or integration into geographic information
+systems (GIS).</li>
+</ol></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

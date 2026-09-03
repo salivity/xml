@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why XML Beats JSON in Document Authoring - xml</title>
+    <meta name="description" content="While JSON has become the dominant format for web APIs and lightweight data interchange, Extensible Markup Language (XML) remains the superior architecture for document authoring, publishing, and complex textual markup. This article examines the core cap">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/why-xml-beats-json-in-document-authoring">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why XML Beats JSON in Document Authoring - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/why-xml-beats-json-in-document-authoring" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="While JSON has become the dominant format for web APIs and lightweight data interchange, Extensible Markup Language (XML) remains the superior architecture for document authoring, publishing, and complex textual markup. This article examines the core cap" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="why-xml-beats-json-in-document-authoring">Why XML Beats JSON in
+Document Authoring</h1>
+<p>While JSON has become the dominant format for web APIs and
+lightweight data interchange, Extensible Markup Language (XML) remains
+the superior architecture for document authoring, publishing, and
+complex textual markup. This article examines the core capabilities of
+XML—such as native mixed-content handling, sophisticated schema
+validation, namespace support, and dedicated transformation
+toolchains—that make it uniquely suited for text-centric workflows where
+JSON struggles to remain clean and efficient.</p>
+<h2 id="native-mixed-content-handling">Native Mixed-Content
+Handling</h2>
+<p>The most significant advantage XML holds in document authoring is its
+native support for mixed content. In publishing workflows, text
+frequently contains inline markup, such as formatting, annotations,
+links, or semantic tags.</p>
+<p>In XML, mixed content is intuitive:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">p</span>&gt;The standard treatment is &lt;<span class="kw">dosage</span> <span class="ot">unit=</span><span class="st">&quot;mg&quot;</span>&gt;50&lt;/<span class="kw">dosage</span>&gt; daily, but consult a &lt;<span class="kw">ref</span> <span class="ot">target=</span><span class="st">&quot;glossary.xml#physician&quot;</span>&gt;physician&lt;/<span class="kw">ref</span>&gt; first.&lt;/<span class="kw">p</span>&gt;</span></code></pre></div>
+<p>In JSON, representing this inline hierarchy requires either embedding
+raw markup strings inside JSON values (defeating the purpose of
+structured data) or creating overly complex, nested abstract syntax
+trees (ASTs) that are difficult to read, author, and maintain
+manually:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;paragraph&quot;</span><span class="fu">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;children&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">&quot;text&quot;</span><span class="fu">:</span> <span class="st">&quot;The standard treatment is &quot;</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;dosage&quot;</span><span class="fu">,</span> <span class="dt">&quot;attributes&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;unit&quot;</span><span class="fu">:</span> <span class="st">&quot;mg&quot;</span> <span class="fu">},</span> <span class="dt">&quot;text&quot;</span><span class="fu">:</span> <span class="st">&quot;50&quot;</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">&quot;text&quot;</span><span class="fu">:</span> <span class="st">&quot; daily, but consult a &quot;</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;ref&quot;</span><span class="fu">,</span> <span class="dt">&quot;attributes&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;target&quot;</span><span class="fu">:</span> <span class="st">&quot;glossary.xml#physician&quot;</span> <span class="fu">},</span> <span class="dt">&quot;text&quot;</span><span class="fu">:</span> <span class="st">&quot;physician&quot;</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">&quot;text&quot;</span><span class="fu">:</span> <span class="st">&quot; first.&quot;</span> <span class="fu">}</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h2 id="clear-separation-of-metadata-and-content">Clear Separation of
+Metadata and Content</h2>
+<p>XML differentiates between element text and attributes. This allows
+authors to cleanly separate the actual human-readable text from the
+metadata describing that text:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">term</span> <span class="ot">id=</span><span class="st">&quot;t104&quot;</span> <span class="ot">status=</span><span class="st">&quot;approved&quot;</span> <span class="ot">lang=</span><span class="st">&quot;en&quot;</span>&gt;Semantics&lt;/<span class="kw">term</span>&gt;</span></code></pre></div>
+<p>Because JSON represents both text and metadata as key-value pairs, it
+requires an arbitrary convention to differentiate between what
+constitutes document content and what constitutes document
+configuration.</p>
+<h2 id="advanced-document-validation-ecosystems">Advanced Document
+Validation Ecosystems</h2>
+<p>Document authoring demands structural validation rules that go beyond
+data types like strings, numbers, and booleans. Editorial standards
+require rules governing element sequence, conditional presence, and
+context-sensitive constraints.</p>
+<p>XML provides a comprehensive validation ecosystem:</p>
+<ul>
+<li><strong>XML Schema (XSD) &amp; RELAX NG:</strong> Enforce strict
+element ordering, occurrence constraints, and granular text
+patterns.</li>
+<li><strong>Schematron:</strong> Allows rule-based assertions using
+XPath to enforce business and editorial logic (e.g., "A section must
+have an introduction before a list" or "Footnotes cannot appear within
+table headers").</li>
+</ul>
+<p>JSON Schema supports basic data typing and structure, but it lacks
+the expressiveness needed to validate complex, sequential document
+structures.</p>
+<h2 id="namespaces-and-modular-vocabularies">Namespaces and Modular
+Vocabularies</h2>
+<p>Documents frequently integrate multiple distinct markup languages
+into a single file. XML Namespaces allow seamless blending of different
+vocabularies—such as embedding MathML for equations or SVG for diagrams
+inside a technical document—without naming collisions:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">doc</span> <span class="ot">xmlns=</span><span class="st">&quot;http://example.org/doc&quot;</span> <span class="ot">xmlns:math=</span><span class="st">&quot;http://www.w3.org/1998/Math/MathML&quot;</span>&gt;</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">para</span>&gt;Calculate the area using &lt;<span class="kw">math:math</span>&gt;&lt;<span class="kw">math:mi</span>&gt;π&lt;/<span class="kw">math:mi</span>&gt;&lt;<span class="kw">math:msup</span>&gt;&lt;<span class="kw">math:mi</span>&gt;r&lt;/<span class="kw">math:mi</span>&gt;&lt;<span class="kw">math:mn</span>&gt;2&lt;/<span class="kw">math:mn</span>&gt;&lt;/<span class="kw">math:msup</span>&gt;&lt;/<span class="kw">math:math</span>&gt;.&lt;/<span class="kw">para</span>&gt;</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">doc</span>&gt;</span></code></pre></div>
+<p>JSON has no standardized mechanism for multi-vocabulary namespaces,
+making multi-domain document composition difficult to standardize.</p>
+<h2 id="mature-publishing-standards-and-toolchains">Mature Publishing
+Standards and Toolchains</h2>
+<p>Decades of enterprise publishing development have created
+specialized, declarative XML standards that have no direct JSON
+equivalents:</p>
+<ul>
+<li><strong>Transformations:</strong> XSLT (Extensible Stylesheet
+Language Transformations) and XPath allow declarative conversion of
+source documents into HTML, PDF, EPUB, and print formats.</li>
+<li><strong>Standardized Frameworks:</strong> Standards like DITA
+(Darwin Information Typing Architecture), DocBook, and TEI (Text
+Encoding Initiative) provide mature, industry-standard models for
+technical manuals, academic texts, and historical manuscripts.</li>
+</ul>
+<p>XML remains the primary format for document authoring because
+documents are fundamentally composed of ordered, annotated text rather
+than isolated key-value pairs.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

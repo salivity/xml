@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is Geography Markup Language (GML)? - xml</title>
+    <meta name="description" content="Geography Markup Language (GML) is an XML-based encoding standard developed by the Open Geospatial Consortium (OGC) and standardized under ISO 19136 to express geographical features. This article provides a clear overview of what GML is, how it models sp">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/what-is-geography-markup-language-gml">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is Geography Markup Language (GML)? - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/what-is-geography-markup-language-gml" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Geography Markup Language (GML) is an XML-based encoding standard developed by the Open Geospatial Consortium (OGC) and standardized under ISO 19136 to express geographical features. This article provides a clear overview of what GML is, how it models sp" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-geography-markup-language-gml">What Is Geography Markup
+Language (GML)?</h1>
+<p>Geography Markup Language (GML) is an XML-based encoding standard
+developed by the Open Geospatial Consortium (OGC) and standardized under
+ISO 19136 to express geographical features. This article provides a
+clear overview of what GML is, how it models spatial and non-spatial
+data using XML grammar, and how it enables seamless data interchange
+across diverse Geographic Information Systems (GIS).</p>
+<h2 id="understanding-geography-markup-language-gml">Understanding
+Geography Markup Language (GML)</h2>
+<p>Geography Markup Language serves as an open, vendor-neutral standard
+for modeling, transporting, and storing geographic information. Instead
+of relying on proprietary binary formats, GML utilizes Extensible Markup
+Language (XML) syntax. This makes geographic data human-readable,
+machine-parsable, and easily transmittable over the web via standard
+protocols like HTTP.</p>
+<p>In GIS workflows, GML acts as the default data exchange format for
+OGC web services, particularly Web Feature Service (WFS), allowing
+different mapping platforms to share vector data without format
+conversion conflicts.</p>
+<h2 id="how-gml-represents-spatial-data">How GML Represents Spatial
+Data</h2>
+<p>GML models the world using the concept of <strong>Features</strong>.
+A feature is an abstraction of a real-world phenomenon (such as a road,
+a river, a building, or a boundary). A GML feature consists of two
+primary components:</p>
+<ol type="1">
+<li><strong>Non-spatial Properties:</strong> Descriptive attributes such
+as names, identifiers, dates, or measurements.</li>
+<li><strong>Spatial Properties (Geometry):</strong> The mathematical
+description of the feature's location and shape.</li>
+</ol>
+<h3 id="geometric-elements-in-gml">Geometric Elements in GML</h3>
+<p>GML defines basic and complex geometric primitives within dedicated
+XML tags. Common geometry elements include:</p>
+<ul>
+<li><code>&lt;gml:Point&gt;</code>: Defines a single location using
+coordinate pairs (<code>&lt;gml:pos&gt;</code>).</li>
+<li><code>&lt;gml:LineString&gt;</code>: Defines linear paths using a
+sequence of points (<code>&lt;gml:posList&gt;</code>).</li>
+<li><code>&lt;gml:Polygon&gt;</code>: Defines bounded planar surfaces
+using outer boundaries (<code>&lt;gml:exterior&gt;</code>) and optional
+inner boundaries (<code>&lt;gml:interior&gt;</code>) for holes.</li>
+<li><strong>Aggregates and Complexes:</strong> Structures like
+<code>&lt;gml:MultiPoint&gt;</code> or
+<code>&lt;gml:MultiSurface&gt;</code> to represent multi-part
+geometries.</li>
+</ul>
+<h3 id="coordinate-reference-systems-crs">Coordinate Reference Systems
+(CRS)</h3>
+<p>Spatial coordinates are meaningless without context. GML embeds
+spatial reference systems directly into geometry elements using the
+<code>srsName</code> attribute (typically referencing an EPSG code).
+This ensures that parsing software projects coordinates correctly onto
+the Earth's surface.</p>
+<h2 id="example-spatial-xml-representation-in-gml">Example: Spatial XML
+Representation in GML</h2>
+<p>Below is a standard example showing how a geographic feature (a
+landmark building) is encoded in GML:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">Landmark</span> <span class="ot">gml:id=</span><span class="st">&quot;landmark.101&quot;</span> <span class="ot">xmlns:gml=</span><span class="st">&quot;http://www.opengis.net/gml/3.2&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Non-spatial properties --&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">name</span>&gt;Central City Tower&lt;/<span class="kw">name</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">height</span> <span class="ot">units=</span><span class="st">&quot;meters&quot;</span>&gt;185&lt;/<span class="kw">height</span>&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">yearBuilt</span>&gt;2015&lt;/<span class="kw">yearBuilt</span>&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Spatial geometry property --&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">location</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">gml:Point</span> <span class="ot">srsName=</span><span class="st">&quot;urn:ogc:def:crs:EPSG::4326&quot;</span>&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">gml:pos</span>&gt;37.7749 -122.4194&lt;/<span class="kw">gml:pos</span>&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">gml:Point</span>&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">location</span>&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">Landmark</span>&gt;</span></code></pre></div>
+<p>In this representation:</p>
+<ul>
+<li><code>&lt;Landmark&gt;</code> defines the application-specific
+feature.</li>
+<li><code>&lt;name&gt;</code>, <code>&lt;height&gt;</code>, and
+<code>&lt;yearBuilt&gt;</code> store standard alphanumeric
+metadata.</li>
+<li><code>&lt;location&gt;</code> wraps the spatial geometry.</li>
+<li><code>&lt;gml:Point&gt;</code> and <code>&lt;gml:pos&gt;</code>
+define the latitude and longitude coordinates according to the EPSG:4326
+coordinate reference system.</li>
+</ul>
+<h2 id="key-benefits-of-gml">Key Benefits of GML</h2>
+<ul>
+<li><strong>Interoperability:</strong> Decouples spatial data from
+specific software vendors or database engines.</li>
+<li><strong>Extensibility via Application Schemas:</strong> Developers
+can create domain-specific standards built on top of GML, such as
+CityGML (for 3D urban models) and WaterML (for hydrological data).</li>
+<li><strong>Support for Complex Data:</strong> Beyond basic 2D shapes,
+GML supports 3D geometries, topological networks, temporal properties
+(features that change over time), and coordinate transformations.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

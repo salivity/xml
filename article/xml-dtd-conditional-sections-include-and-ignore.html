@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML DTD Conditional Sections: INCLUDE and IGNORE - xml</title>
+    <meta name="description" content="Conditional sections in an XML Document Type Definition (DTD) provide a mechanism to selectively enable or disable specific markup declarations. By using the keywords INCLUDE and IGNORE, schema designers can control which parts of a DTD are processed by">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/xml-dtd-conditional-sections-include-and-ignore">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="XML DTD Conditional Sections: INCLUDE and IGNORE - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/xml-dtd-conditional-sections-include-and-ignore" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Conditional sections in an XML Document Type Definition (DTD) provide a mechanism to selectively enable or disable specific markup declarations. By using the keywords INCLUDE and IGNORE, schema designers can control which parts of a DTD are processed by" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="xml-dtd-conditional-sections-include-and-ignore">XML DTD
+Conditional Sections: INCLUDE and IGNORE</h1>
+<p>Conditional sections in an XML Document Type Definition (DTD) provide
+a mechanism to selectively enable or disable specific markup
+declarations. By using the keywords <code>INCLUDE</code> and
+<code>IGNORE</code>, schema designers can control which parts of a DTD
+are processed by an XML parser. This article explains the purpose of
+conditional sections, how <code>INCLUDE</code> and <code>IGNORE</code>
+function, and how they are commonly implemented with parameter entities
+for modular schema management.</p>
+<h2 id="understanding-conditional-sections">Understanding Conditional
+Sections</h2>
+<p>A conditional section is a construct within an external DTD subset
+that allows declarations to be parsed or skipped based on a defined
+keyword. They cannot be used in internal DTD subsets.</p>
+<p>The basic syntax for a conditional section is:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode dtd"><code class="sourceCode dtd"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">&lt;![ </span>KEYWORD [</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>   <span class="co">&lt;!-- Markup declarations here --&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>]]&gt;</span></code></pre></div>
+<p>The <code>KEYWORD</code> is replaced by either <code>INCLUDE</code>
+or <code>IGNORE</code>.</p>
+<h2 id="the-purpose-of-include">The Purpose of <code>INCLUDE</code></h2>
+<p>When a conditional section uses the <code>INCLUDE</code> keyword, the
+XML processor treats the declarations within the section normally.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode dtd"><code class="sourceCode dtd"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">&lt;![ INCLUDE [</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&lt;!ELEMENT</span> <span class="fu">notes</span> <span class="dv">(</span><span class="kw">#PCDATA</span><span class="dv">)</span><span class="dt">&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">]]&gt;</span></span></code></pre></div>
+<p>In this example, the <code>notes</code> element declaration is active
+and fully evaluated by the XML parser as part of the document validation
+process.</p>
+<h2 id="the-purpose-of-ignore">The Purpose of <code>IGNORE</code></h2>
+<p>When a conditional section uses the <code>IGNORE</code> keyword, the
+XML parser ignores everything between the opening
+<code>&lt;![ IGNORE [</code> and the closing <code>]]&gt;</code>.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode dtd"><code class="sourceCode dtd"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">&lt;![ IGNORE [</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&lt;!ELEMENT</span> <span class="fu">draftComments</span> <span class="dv">(</span><span class="kw">#PCDATA</span><span class="dv">)</span><span class="dt">&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">]]&gt;</span></span></code></pre></div>
+<p>In this case, the <code>draftComments</code> declaration is ignored.
+It acts similarly to an XML comment, but it allows you to retain
+alternative schemas or deprecated rules without permanently deleting
+them or manually commenting out complex declaration blocks.</p>
+<h2 id="dynamic-control-using-parameter-entities">Dynamic Control Using
+Parameter Entities</h2>
+<p>The primary utility of conditional sections comes from pairing them
+with parameter entities rather than hardcoding <code>INCLUDE</code> or
+<code>IGNORE</code>. By referencing a parameter entity as the keyword,
+developers can toggle entire sections of a DTD from a single
+location.</p>
+<h3 id="example-switching-between-draft-and-production-modes">Example:
+Switching Between Draft and Production Modes</h3>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode dtd"><code class="sourceCode dtd"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Define the switch --&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ENTITY</span> <span class="dv">% </span><span class="fu">draft</span> <span class="st">&quot;IGNORE&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ENTITY</span> <span class="dv">% </span><span class="fu">final</span> <span class="st">&quot;INCLUDE&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Draft-only elements --&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="cf">&lt;![ </span><span class="dv">%draft;</span><span class="cf"> [</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&lt;!ELEMENT</span> <span class="fu">reviewStatus</span> <span class="dv">(</span><span class="kw">#PCDATA</span><span class="dv">)</span><span class="dt">&gt;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&lt;!ELEMENT</span> <span class="fu">internalNotes</span> <span class="dv">(</span><span class="kw">#PCDATA</span><span class="dv">)</span><span class="dt">&gt;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="cf">]]&gt;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Production elements --&gt;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="cf">&lt;![ </span><span class="dv">%final;</span><span class="cf"> [</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&lt;!ELEMENT</span> <span class="fu">publicationDate</span> <span class="dv">(</span><span class="kw">#PCDATA</span><span class="dv">)</span><span class="dt">&gt;</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="cf">]]&gt;</span></span></code></pre></div>
+<p>Changing the value of <code>%draft;</code> from <code>"IGNORE"</code>
+to <code>"INCLUDE"</code> instantly activates the draft elements across
+the entire document without modifying the underlying declarations.</p>
+<h2 id="key-rules-and-behaviors">Key Rules and Behaviors</h2>
+<ul>
+<li><strong>External Subsets Only:</strong> Conditional sections are
+only recognized in external DTD subsets or external parameter
+entities.</li>
+<li><strong>Precedence in Nesting:</strong> If a conditional section
+marked <code>IGNORE</code> contains a nested conditional section marked
+<code>INCLUDE</code>, the outer <code>IGNORE</code> takes precedence,
+and the entire block—including the nested <code>INCLUDE</code>—is
+ignored.</li>
+<li><strong>Character Matching:</strong> Within an <code>IGNORE</code>
+section, the parser only scans for nested conditional markers
+(<code>&lt;![</code> and <code>]]&gt;</code>) to ensure proper closure;
+normal markup errors inside the ignored block will not halt parser
+execution.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

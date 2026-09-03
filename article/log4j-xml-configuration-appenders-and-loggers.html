@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log4j XML Configuration: Appenders and Loggers - xml</title>
+    <meta name="description" content="This article provides a practical overview of how Apache Log4j uses XML configuration files to control application logging. It details the structural roles of appenders and loggers, explains how they interact to process and format output, and presents a">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/log4j-xml-configuration-appenders-and-loggers">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Log4j XML Configuration: Appenders and Loggers - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/log4j-xml-configuration-appenders-and-loggers" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a practical overview of how Apache Log4j uses XML configuration files to control application logging. It details the structural roles of appenders and loggers, explains how they interact to process and format output, and presents a" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="log4j-xml-configuration-appenders-and-loggers">Log4j XML
+Configuration: Appenders and Loggers</h1>
+<p>This article provides a practical overview of how Apache Log4j uses
+XML configuration files to control application logging. It details the
+structural roles of appenders and loggers, explains how they interact to
+process and format output, and presents a complete configuration example
+to demonstrate how Log4j parses and applies these XML settings at
+runtime.</p>
+<hr />
+<h3 id="core-structure-of-log4j-xml-configuration">Core Structure of
+Log4j XML Configuration</h3>
+<p>Log4j (specifically Log4j 2) relies on a structured XML
+file—typically named <code>log4j2.xml</code>—placed on the application's
+classpath. The root element is <code>&lt;Configuration&gt;</code>, which
+primarily encapsulates two main child elements:
+<code>&lt;Appenders&gt;</code> and <code>&lt;Loggers&gt;</code>.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span> <span class="ot">version=</span><span class="st">&quot;1.0&quot;</span> <span class="ot">encoding=</span><span class="st">&quot;UTF-8&quot;</span><span class="fu">?&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">Configuration</span> <span class="ot">status=</span><span class="st">&quot;WARN&quot;</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">Appenders</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="co">&lt;!-- Appender definitions go here --&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">Appenders</span>&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">Loggers</span>&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">&lt;!-- Logger definitions go here --&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">Loggers</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">Configuration</span>&gt;</span></code></pre></div>
+<hr />
+<h3 id="understanding-and-configuring-appenders">Understanding and
+Configuring Appenders</h3>
+<p>Appenders define the delivery mechanism and output destination for
+log messages. An appender receives log events from loggers and writes
+them to destinations such as the console, files, sockets, or
+databases.</p>
+<ol type="1">
+<li><p><strong>Appender Types:</strong></p>
+<ul>
+<li><strong>ConsoleAppender (<code>&lt;Console&gt;</code>):</strong>
+Directs logs to <code>System.out</code> or <code>System.err</code>.</li>
+<li><strong>FileAppender (<code>&lt;File&gt;</code>):</strong> Writes
+log entries to a designated file.</li>
+<li><strong>RollingFileAppender
+(<code>&lt;RollingFile&gt;</code>):</strong> Writes to files and
+automatically rotates/archives them based on size or time-based
+policies.</li>
+</ul></li>
+<li><p><strong>Layouts:</strong> Inside an appender, the
+<code>&lt;PatternLayout&gt;</code> element specifies how the log message
+should be formatted using conversion patterns (e.g., date, log level,
+thread name, class name, and message).</p></li>
+</ol>
+<hr />
+<h3 id="understanding-and-configuring-loggers">Understanding and
+Configuring Loggers</h3>
+<p>Loggers are the entry points used by application code to record
+events. They filter and route messages according to the configured
+logging level (<code>TRACE</code>, <code>DEBUG</code>,
+<code>INFO</code>, <code>WARN</code>, <code>ERROR</code>,
+<code>FATAL</code>).</p>
+<ol type="1">
+<li><strong>The Root Logger (<code>&lt;Root&gt;</code>):</strong> The
+mandatory baseline logger that captures all log events not handled by a
+more specific logger, or all events passed up the hierarchy.</li>
+<li><strong>Named Loggers (<code>&lt;Logger&gt;</code>):</strong>
+Targeted loggers mapped to specific package or class hierarchies using
+the <code>name</code> attribute.</li>
+<li><strong>Appender References
+(<code>&lt;AppenderRef&gt;</code>):</strong> Loggers associate with
+appenders using the <code>&lt;AppenderRef ref="AppenderName"/&gt;</code>
+tag to direct their filtered output.</li>
+<li><strong>Additivity:</strong> By default
+(<code>additivity="true"</code>), a named logger passes its events to
+its own appenders as well as the appenders of its parent loggers and the
+root logger. Setting <code>additivity="false"</code> isolates the log
+output exclusively to the appenders declared within that specific
+logger.</li>
+</ol>
+<hr />
+<h3 id="complete-xml-configuration-example">Complete XML Configuration
+Example</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span> <span class="ot">version=</span><span class="st">&quot;1.0&quot;</span> <span class="ot">encoding=</span><span class="st">&quot;UTF-8&quot;</span><span class="fu">?&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">Configuration</span> <span class="ot">status=</span><span class="st">&quot;WARN&quot;</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">Appenders</span>&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="co">&lt;!-- Console Appender --&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">Console</span> <span class="ot">name=</span><span class="st">&quot;ConsoleAppender&quot;</span> <span class="ot">target=</span><span class="st">&quot;SYSTEM_OUT&quot;</span>&gt;</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">PatternLayout</span> <span class="ot">pattern=</span><span class="st">&quot;%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n&quot;</span>/&gt;</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">Console</span>&gt;</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="co">&lt;!-- Rolling File Appender --&gt;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">RollingFile</span> <span class="ot">name=</span><span class="st">&quot;FileAppender&quot;</span> <span class="ot">fileName=</span><span class="st">&quot;logs/app.log&quot;</span> <span class="ot">filePattern=</span><span class="st">&quot;logs/app-%d{yyyy-MM-dd}-%i.log.gz&quot;</span>&gt;</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">PatternLayout</span> <span class="ot">pattern=</span><span class="st">&quot;%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n&quot;</span>/&gt;</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">Policies</span>&gt;</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>                &lt;<span class="kw">SizeBasedTriggeringPolicy</span> <span class="ot">size=</span><span class="st">&quot;10MB&quot;</span>/&gt;</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>            &lt;/<span class="kw">Policies</span>&gt;</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">RollingFile</span>&gt;</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">Appenders</span>&gt;</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">Loggers</span>&gt;</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        <span class="co">&lt;!-- Package-specific Logger --&gt;</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">Logger</span> <span class="ot">name=</span><span class="st">&quot;com.example.service&quot;</span> <span class="ot">level=</span><span class="st">&quot;DEBUG&quot;</span> <span class="ot">additivity=</span><span class="st">&quot;false&quot;</span>&gt;</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">AppenderRef</span> <span class="ot">ref=</span><span class="st">&quot;FileAppender&quot;</span>/&gt;</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">AppenderRef</span> <span class="ot">ref=</span><span class="st">&quot;ConsoleAppender&quot;</span>/&gt;</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">Logger</span>&gt;</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>        <span class="co">&lt;!-- Root Logger --&gt;</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">Root</span> <span class="ot">level=</span><span class="st">&quot;INFO&quot;</span>&gt;</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">AppenderRef</span> <span class="ot">ref=</span><span class="st">&quot;ConsoleAppender&quot;</span>/&gt;</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">Root</span>&gt;</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">Loggers</span>&gt;</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">Configuration</span>&gt;</span></code></pre></div>
+<hr />
+<h3 id="runtime-processing">Runtime Processing</h3>
+<p>When the application boots:</p>
+<ol type="1">
+<li>Log4j initializes and parses the XML hierarchy.</li>
+<li>Appender components are instantiated with their designated targets
+and formatters.</li>
+<li>Logger nodes are registered within a tree structure based on package
+naming.</li>
+<li>When a logging call (such as <code>logger.info()</code>) occurs,
+Log4j checks the logger's configured level. If the event is enabled, it
+dispatches the event to the linked appenders via
+<code>&lt;AppenderRef&gt;</code>, which format and write the log to the
+final destination.</li>
+</ol></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schematron XML Validation: Assert and Report Elements - xml</title>
+    <meta name="description" content="ISO Schematron is a structural and business-rule validation language for XML that uses XPath expressions to test documents. Unlike grammar-based schemas like XSD or DTD, Schematron relies on assertions to enforce complex, context-dependent constraints. A">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/schematron-xml-validation-assert-and-report-elements">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Schematron XML Validation: Assert and Report Elements - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/schematron-xml-validation-assert-and-report-elements" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="ISO Schematron is a structural and business-rule validation language for XML that uses XPath expressions to test documents. Unlike grammar-based schemas like XSD or DTD, Schematron relies on assertions to enforce complex, context-dependent constraints. A" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="schematron-xml-validation-assert-and-report-elements">Schematron
+XML Validation: Assert and Report Elements</h1>
+<p>ISO Schematron is a structural and business-rule validation language
+for XML that uses XPath expressions to test documents. Unlike
+grammar-based schemas like XSD or DTD, Schematron relies on assertions
+to enforce complex, context-dependent constraints. At the core of ISO
+Schematron (ISO/IEC 19757-3) are the <code>&lt;assert&gt;</code> and
+<code>&lt;report&gt;</code> elements, which evaluate XPath expressions
+against targeted nodes and generate human-readable messages when
+specific conditions are met or violated.</p>
+<h2 id="the-role-of-rules-and-context">The Role of Rules and
+Context</h2>
+<p>Before validating with <code>&lt;assert&gt;</code> or
+<code>&lt;report&gt;</code>, Schematron establishes a context using a
+<code>&lt;rule&gt;</code> element. The <code>context</code> attribute
+contains an XPath expression matching specific XML elements or
+attributes.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">pattern</span> <span class="ot">id=</span><span class="st">&quot;OrderValidation&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">rule</span> <span class="ot">context=</span><span class="st">&quot;Order&quot;</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        <span class="co">&lt;!-- Assert and Report elements go here --&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">rule</span>&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">pattern</span>&gt;</span></code></pre></div>
+<p>When a parser processes the XML document, it matches nodes to these
+rules, and every <code>&lt;assert&gt;</code> and
+<code>&lt;report&gt;</code> element inside that rule is evaluated
+relative to that context node.</p>
+<h2 id="the-assert-element-enforcing-positive-requirements">The
+<code>&lt;assert&gt;</code> Element: Enforcing Positive
+Requirements</h2>
+<p>The <code>&lt;assert&gt;</code> element declares a condition that
+<strong>must be true</strong> for the XML to be considered valid. Its
+<code>test</code> attribute contains an XPath expression evaluating to a
+boolean value.</p>
+<ul>
+<li><strong>Behavior:</strong> If the <code>test</code> expression
+evaluates to <code>false</code>, the assertion fails, and the validation
+processor outputs the message contained within the
+<code>&lt;assert&gt;</code> element.</li>
+<li><strong>Use Case:</strong> Ensuring required child elements exist,
+verifying minimum attribute values, or confirming that dates fall within
+valid ranges.</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">assert</span> <span class="ot">test=</span><span class="st">&quot;TotalAmount </span><span class="dv">&amp;gt;</span><span class="st"> 0&quot;</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    Error: The TotalAmount for Order &lt;<span class="kw">value-of</span> <span class="ot">select=</span><span class="st">&quot;@id&quot;</span>/&gt; must be greater than zero.</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">assert</span>&gt;</span></code></pre></div>
+<p>In this example, if <code>TotalAmount</code> is 0 or negative, the
+test evaluates to <code>false</code>, triggering the error message.</p>
+<h2 id="the-report-element-catching-prohibited-states">The
+<code>&lt;report&gt;</code> Element: Catching Prohibited States</h2>
+<p>The <code>&lt;report&gt;</code> element operates as the logical
+inverse of <code>&lt;assert&gt;</code>. It declares a condition that
+<strong>must not be true</strong>.</p>
+<ul>
+<li><strong>Behavior:</strong> If the <code>test</code> expression
+evaluates to <code>true</code>, the processor flags the occurrence and
+outputs the message contained within the <code>&lt;report&gt;</code>
+element.</li>
+<li><strong>Use Case:</strong> Flagging deprecated elements, alerting
+users to incompatible attribute combinations, or creating informational
+warnings.</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">report</span> <span class="ot">test=</span><span class="st">&quot;Discount and not(CustomerTier = &#39;VIP&#39;)&quot;</span>&gt;</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    Warning: A Discount was applied to Order &lt;<span class="kw">value-of</span> <span class="ot">select=</span><span class="st">&quot;@id&quot;</span>/&gt;, but the customer is not in the VIP tier.</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">report</span>&gt;</span></code></pre></div>
+<p>In this example, if a non-VIP order contains a discount, the test
+evaluates to <code>true</code>, triggering the report message.</p>
+<h2 id="assert-vs-report-summary-of-differences">Assert vs. Report:
+Summary of Differences</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;"><code>&lt;assert&gt;</code> Element</th>
+<th style="text-align: left;"><code>&lt;report&gt;</code> Element</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Logic</strong></td>
+<td style="text-align: left;">Validates that a condition <strong>is
+met</strong>.</td>
+<td style="text-align: left;">Validates that a condition <strong>is not
+met</strong>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Trigger Event</strong></td>
+<td style="text-align: left;">Fires when <code>test</code> is
+<strong><code>false</code></strong>.</td>
+<td style="text-align: left;">Fires when <code>test</code> is
+<strong><code>true</code></strong>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Primary Intent</strong></td>
+<td style="text-align: left;">Enforcing mandatory requirements.</td>
+<td style="text-align: left;">Detecting errors, edge cases, or
+anti-patterns.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dynamic-message-construction">Dynamic Message Construction</h2>
+<p>Both elements allow dynamic content inside their messages using
+<code>&lt;value-of select="..."/&gt;</code>. This embeds live data from
+the XML document into the diagnostic output, making Schematron error
+reporting precise and actionable for end users.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

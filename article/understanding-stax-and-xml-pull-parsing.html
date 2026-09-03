@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding StAX and XML Pull Parsing - xml</title>
+    <meta name="description" content="The Streaming API for XML (StAX) is a memory-efficient, standard Java processing API designed for reading and writing XML documents using a pull-parsing model. Unlike traditional tree-based models like DOM or push-based models like SAX, StAX allows clien">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/understanding-stax-and-xml-pull-parsing">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Understanding StAX and XML Pull Parsing - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/understanding-stax-and-xml-pull-parsing" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Streaming API for XML (StAX) is a memory-efficient, standard Java processing API designed for reading and writing XML documents using a pull-parsing model. Unlike traditional tree-based models like DOM or push-based models like SAX, StAX allows clien" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="understanding-stax-and-xml-pull-parsing">Understanding StAX and
+XML Pull Parsing</h1>
+<p>The Streaming API for XML (StAX) is a memory-efficient, standard Java
+processing API designed for reading and writing XML documents using a
+pull-parsing model. Unlike traditional tree-based models like DOM or
+push-based models like SAX, StAX allows client applications to drive the
+parsing process by requesting XML elements on demand. This article
+explains what StAX is, how the pull-parsing mechanism operates, its
+primary programming models, and the core benefits it provides for modern
+software development.</p>
+<h3 id="what-is-stax">What is StAX?</h3>
+<p>StAX (JSR 173) is a bidirectional XML processing API introduced to
+the Java Standard Edition platform. It acts as a middle ground between
+the Document Object Model (DOM) and the Simple API for XML (SAX):</p>
+<ul>
+<li><strong>DOM</strong> loads the entire XML hierarchy into memory as a
+tree structure. While this allows random access and modification, it
+results in high memory consumption for large files.</li>
+<li><strong>SAX</strong> is a push-parser that reads sequentially and
+pushes events (like element start or text) to registered handlers via
+callbacks. The parser controls the flow, making it difficult to pause,
+skip, or halt processing.</li>
+<li><strong>StAX</strong> gives control back to the application. It
+processes XML documents sequentially from a stream without loading the
+entire document into memory, while letting the developer request events
+when needed.</li>
+</ul>
+<h3 id="how-pull-parsing-works">How Pull-Parsing Works</h3>
+<p>In pull-parsing, the client application—not the parser—controls the
+loop. The application explicitly asks the parser for the next token or
+event in the document stream.</p>
+<p>The typical pull-parsing workflow follows these steps:</p>
+<ol type="1">
+<li><strong>Initialization:</strong> The application instantiates a StAX
+parser factory and opens an input stream targeting the XML source.</li>
+<li><strong>Iteration:</strong> The application enters a loop, calling a
+method (such as <code>next()</code> or <code>nextEvent()</code>) to pull
+the next chunk of XML data.</li>
+<li><strong>Inspection:</strong> The parser returns the current state
+(e.g., <code>START_ELEMENT</code>, <code>CHARACTERS</code>,
+<code>END_ELEMENT</code>).</li>
+<li><strong>Conditional Processing:</strong> The client evaluates the
+event. If the data is relevant, it processes the attributes or text. If
+not, it skips the node or terminates the loop entirely.</li>
+<li><strong>Closure:</strong> Once the required data is collected or the
+end of the document is reached, the stream is closed immediately,
+freeing resources.</li>
+</ol>
+<p>Because the consumer pulls data at its own pace, it can easily
+delegate sub-sections of a document to different handlers or stop
+reading once the required data is found.</p>
+<h3 id="the-two-stax-processing-models">The Two StAX Processing
+Models</h3>
+<p>StAX provides two distinct programming APIs to handle
+pull-parsing:</p>
+<h4 id="1-cursor-api-xmlstreamreader">1. Cursor API
+(<code>XMLStreamReader</code>)</h4>
+<p>The Cursor API operates like an internal pointer traversing the XML
+document.</p>
+<ul>
+<li>It exposes the current state through methods like
+<code>getEventType()</code>, <code>getLocalName()</code>, and
+<code>getText()</code>.</li>
+<li>Calling <code>next()</code> advances the cursor to the next
+item.</li>
+<li>It is the most memory-efficient and fastest approach because it
+avoids allocating new objects for each XML token.</li>
+</ul>
+<h4 id="2-event-iterator-api-xmleventreader">2. Event Iterator API
+(<code>XMLEventReader</code>)</h4>
+<p>The Event Iterator API is an object-oriented abstraction over the
+stream.</p>
+<ul>
+<li>Each element, attribute, or comment is encapsulated in an immutable
+<code>XMLEvent</code> object.</li>
+<li>It behaves like a standard Java iterator with <code>hasNext()</code>
+and <code>nextEvent()</code> methods.</li>
+<li>It provides features like <code>peek()</code>, allowing applications
+to look at upcoming tokens without consuming them, and supports custom
+event filtering.</li>
+</ul>
+<h3 id="advantages-of-stax">Advantages of StAX</h3>
+<ul>
+<li><strong>Low Memory Footprint:</strong> Documents of arbitrary size
+can be parsed because only the current node or event is kept in
+memory.</li>
+<li><strong>Client-Driven Flow:</strong> Developers can skip unneeded
+sub-trees, halt parsing early, or pipe parsing across multiple classes
+seamlessly.</li>
+<li><strong>Bidirectional Support:</strong> In addition to reading
+(<code>XMLStreamReader</code>, <code>XMLEventReader</code>), StAX
+provides corresponding writers (<code>XMLStreamWriter</code>,
+<code>XMLEventWriter</code>) for streaming XML generation.</li>
+<li><strong>Thread Flexibility:</strong> Because the client controls the
+loop, work can easily be coordinated across different threads or
+asynchronous pipelines.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

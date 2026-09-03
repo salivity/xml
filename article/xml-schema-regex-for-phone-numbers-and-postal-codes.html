@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML Schema Regex for Phone Numbers and Postal Codes - xml</title>
+    <meta name="description" content="XML Schema Definition (XSD) enforces lexical constraints on data elements using regular expressions defined within the xs:pattern facet. By applying these patterns to simple types derived from xs:string or xs:token, you can restrict element values to mat">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/xml-schema-regex-for-phone-numbers-and-postal-codes">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="XML Schema Regex for Phone Numbers and Postal Codes - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/xml-schema-regex-for-phone-numbers-and-postal-codes" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="XML Schema Definition (XSD) enforces lexical constraints on data elements using regular expressions defined within the xs:pattern facet. By applying these patterns to simple types derived from xs:string or xs:token, you can restrict element values to mat" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="xml-schema-regex-for-phone-numbers-and-postal-codes">XML Schema
+Regex for Phone Numbers and Postal Codes</h1>
+<p>XML Schema Definition (XSD) enforces lexical constraints on data
+elements using regular expressions defined within the
+<code>xs:pattern</code> facet. By applying these patterns to simple
+types derived from <code>xs:string</code> or <code>xs:token</code>, you
+can restrict element values to match specific structural rules. This
+article demonstrates how to construct and apply XML Schema patterns to
+validate international phone numbers and varied postal code formats
+accurately.</p>
+<h2 id="mechanism-for-enforcing-lexical-patterns">Mechanism for
+Enforcing Lexical Patterns</h2>
+<p>To constrain the lexical space of an element, create an
+<code>xs:simpleType</code> with an <code>xs:restriction</code> base of
+<code>xs:string</code> (or <code>xs:token</code>), and define the
+matching rules using one or more <code>&lt;xs:pattern&gt;</code>
+elements. In XSD, regular expressions are implicitly anchored, meaning
+the entire value must match the pattern from start to end without
+needing explicit <code>^</code> or <code>$</code> anchors.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:simpleType</span> <span class="ot">name=</span><span class="st">&quot;CustomPatternType&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:restriction</span> <span class="ot">base=</span><span class="st">&quot;xs:token&quot;</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">xs:pattern</span> <span class="ot">value=</span><span class="st">&quot;[A-Z]{2}[0-9]{4}&quot;</span>/&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">xs:restriction</span>&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:simpleType</span>&gt;</span></code></pre></div>
+<h2 id="enforcing-international-phone-numbers">Enforcing International
+Phone Numbers</h2>
+<p>International phone numbers vary widely, but standard validation
+typically follows the ITU-T E.164 standard or allows common
+human-readable formatting with spaces, dashes, and parentheses.</p>
+<h3 id="strict-e164-format">Strict E.164 Format</h3>
+<p>The E.164 format requires a leading <code>+</code> followed by a
+country code and subscriber number, totaling no more than 15 digits.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:simpleType</span> <span class="ot">name=</span><span class="st">&quot;E164PhoneNumber&quot;</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:restriction</span> <span class="ot">base=</span><span class="st">&quot;xs:token&quot;</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="co">&lt;!-- Requires a leading &#39;+&#39; followed by 1 to 15 digits (first digit 1-9) --&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">xs:pattern</span> <span class="ot">value=</span><span class="st">&quot;\+[1-9][0-9]{1,14}&quot;</span>/&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">xs:restriction</span>&gt;</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:simpleType</span>&gt;</span></code></pre></div>
+<h3 id="flexible-international-format">Flexible International
+Format</h3>
+<p>If your schema needs to accept human-formatted numbers containing
+hyphens, spaces, or parentheses:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:simpleType</span> <span class="ot">name=</span><span class="st">&quot;FormattedPhoneNumber&quot;</span>&gt;</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:restriction</span> <span class="ot">base=</span><span class="st">&quot;xs:token&quot;</span>&gt;</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="co">&lt;!-- Allows optional &#39;+&#39;, digits, spaces, parentheses, and hyphens (7 to 20 chars) --&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">xs:pattern</span> <span class="ot">value=</span><span class="st">&quot;(\+)?[0-9\s\-\(\)]{7,20}&quot;</span>/&gt;</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">xs:restriction</span>&gt;</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:simpleType</span>&gt;</span></code></pre></div>
+<h2 id="enforcing-international-postal-codes">Enforcing International
+Postal Codes</h2>
+<p>Because postal code formats differ significantly between countries,
+you can enforce them using a flexible universal pattern or
+country-specific patterns combined with an <code>xs:union</code> or
+multi-branch regex.</p>
+<h3 id="universal-international-pattern">Universal International
+Pattern</h3>
+<p>A general pattern accommodates alphanumeric codes, spaces, and
+hyphens used in most global postal systems (e.g., US ZIP codes, UK
+postcodes, Canadian alphanumeric codes).</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:simpleType</span> <span class="ot">name=</span><span class="st">&quot;InternationalPostalCode&quot;</span>&gt;</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:restriction</span> <span class="ot">base=</span><span class="st">&quot;xs:token&quot;</span>&gt;</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="co">&lt;!-- 3 to 10 characters consisting of uppercase letters, numbers, hyphens, and spaces --&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">xs:pattern</span> <span class="ot">value=</span><span class="st">&quot;[A-Z0-9\s\-]{3,10}&quot;</span>/&gt;</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">xs:restriction</span>&gt;</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:simpleType</span>&gt;</span></code></pre></div>
+<h3 id="multi-pattern-country-specific-validation">Multi-Pattern
+Country-Specific Validation</h3>
+<p>When strict validation is required for known formats, you can combine
+specific patterns into a single regular expression using the alternation
+operator (<code>|</code>):</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:simpleType</span> <span class="ot">name=</span><span class="st">&quot;StrictPostalCode&quot;</span>&gt;</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:restriction</span> <span class="ot">base=</span><span class="st">&quot;xs:token&quot;</span>&gt;</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="co">&lt;!-- US: 12345 or 12345-6789 --&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="co">&lt;!-- UK: e.g., SW1A 1AA --&gt;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">&lt;!-- Canada: e.g., K1A 0B1 --&gt;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">xs:pattern</span> <span class="ot">value=</span><span class="st">&quot;[0-9]{5}(-[0-9]{4})?|[A-Z]{1,2}[0-9][A-Z0-9]?\s?[0-9][A-Z]{2}|[A-Z][0-9][A-Z]\s?[0-9][A-Z][0-9]&quot;</span>/&gt;</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">xs:restriction</span>&gt;</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:simpleType</span>&gt;</span></code></pre></div>
+<p>Alternatively, you can define separate simple types for each country
+and combine them using <code>&lt;xs:union&gt;</code>:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:simpleType</span> <span class="ot">name=</span><span class="st">&quot;USPostalCode&quot;</span>&gt;</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:restriction</span> <span class="ot">base=</span><span class="st">&quot;xs:token&quot;</span>&gt;</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">xs:pattern</span> <span class="ot">value=</span><span class="st">&quot;\d{5}(-\d{4})?&quot;</span>/&gt;</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">xs:restriction</span>&gt;</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:simpleType</span>&gt;</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:simpleType</span> <span class="ot">name=</span><span class="st">&quot;CAPostalCode&quot;</span>&gt;</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:restriction</span> <span class="ot">base=</span><span class="st">&quot;xs:token&quot;</span>&gt;</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">xs:pattern</span> <span class="ot">value=</span><span class="st">&quot;[A-CEGHJ-NPR-TVXY]\d[A-CEGHJ-NPR-TV-Z] \d[A-CEGHJ-NPR-TV-Z]\d&quot;</span>/&gt;</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">xs:restriction</span>&gt;</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:simpleType</span>&gt;</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:simpleType</span> <span class="ot">name=</span><span class="st">&quot;PostalCodeUnion&quot;</span>&gt;</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:union</span> <span class="ot">memberTypes=</span><span class="st">&quot;USPostalCode CAPostalCode&quot;</span>/&gt;</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:simpleType</span>&gt;</span></code></pre></div>
+<h2 id="implementation-best-practices">Implementation Best
+Practices</h2>
+<ol type="1">
+<li><strong>Use <code>xs:token</code> Instead of
+<code>xs:string</code>:</strong> Deriving your simple types from
+<code>xs:token</code> automatically strips leading and trailing
+whitespace and collapses internal contiguous whitespace, preventing
+validation failures caused by formatting artifacts.</li>
+<li><strong>Avoid Redundant Anchors:</strong> Do not include
+<code>^</code> and <code>$</code> in the <code>value</code> attribute;
+XSD pattern matching inherently tests the full length of the
+string.</li>
+<li><strong>Account for Character Escaping:</strong> Ensure special
+characters such as hyphens within character classes are properly escaped
+(<code>\-</code>) or placed at the beginning or end of the bracketed
+expression.</li>
+</ol></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML XLink: Simple Links vs Extended Links - xml</title>
+    <meta name="description" content="The XML Linking Language (XLink) defines two distinct mechanisms for creating hyperlinks within XML documents: simple links and extended links. While simple links provide traditional, unidirectional, one-to-one connections similar to standard HTML hyperl">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/xml-xlink-simple-links-vs-extended-links">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="XML XLink: Simple Links vs Extended Links - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/xml-xlink-simple-links-vs-extended-links" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The XML Linking Language (XLink) defines two distinct mechanisms for creating hyperlinks within XML documents: simple links and extended links. While simple links provide traditional, unidirectional, one-to-one connections similar to standard HTML hyperl" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="xml-xlink-simple-links-vs-extended-links">XML XLink: Simple
+Links vs Extended Links</h1>
+<p>The XML Linking Language (XLink) defines two distinct mechanisms for
+creating hyperlinks within XML documents: simple links and extended
+links. While simple links provide traditional, unidirectional,
+one-to-one connections similar to standard HTML hyperlinks, extended
+links offer a sophisticated framework capable of connecting multiple
+resources simultaneously, defining multidirectional paths, and managing
+links independently from the resources they connect. Understanding the
+architectural and functional differences between these two link types is
+essential for structuring complex data relationships in XML.</p>
+<h3 id="understanding-simple-links">Understanding Simple Links</h3>
+<p>A simple link (<code>xlink:type="simple"</code>) creates a direct,
+one-way connection from the element containing the link to a target
+resource. It behaves almost identically to the <code>&lt;a&gt;</code>
+tag in HTML.</p>
+<ul>
+<li><strong>Directionality and Topology:</strong> Simple links are
+strictly unidirectional and connect one starting point (the local
+resource where the element resides) to one ending point (the remote
+resource).</li>
+<li><strong>Inline Nature:</strong> Simple links must be inline. The
+link definition is embedded directly within the element that serves as
+the link's source.</li>
+<li><strong>Basic Syntax:</strong> A simple link requires the
+<code>xlink:type="simple"</code> attribute and typically uses
+<code>xlink:href</code> to designate the target URI. It can also include
+descriptive attributes such as <code>xlink:title</code>,
+<code>xlink:show</code>, and <code>xlink:actuate</code>.</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">book</span> <span class="ot">xlink:type=</span><span class="st">&quot;simple&quot;</span> </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>      <span class="ot">xlink:href=</span><span class="st">&quot;https://example.com/books/123&quot;</span> </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>      <span class="ot">xlink:title=</span><span class="st">&quot;Book Details&quot;</span> </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      <span class="ot">xlink:show=</span><span class="st">&quot;replace&quot;</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      <span class="ot">xlink:actuate=</span><span class="st">&quot;onRequest&quot;</span>&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    XML Fundamentals</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">book</span>&gt;</span></code></pre></div>
+<h3 id="understanding-extended-links">Understanding Extended Links</h3>
+<p>An extended link (<code>xlink:type="extended"</code>) is a container
+that associates multiple resources, both local and remote, and defines
+complex relationship rules between them.</p>
+<ul>
+<li><strong>Multi-Resource Association:</strong> Extended links can
+connect an arbitrary number of resources in one-to-many, many-to-one, or
+many-to-many topologies.</li>
+<li><strong>Out-of-Line Linking (Linkbases):</strong> Extended links do
+not require the link element to be the source or destination. They can
+exist in an external document (a linkbase), enabling the creation of
+links between resources without modifying the original XML files.</li>
+<li><strong>Component-Based Structure:</strong> Extended links use
+specific sub-elements to define structure:
+<ul>
+<li><strong><code>locator</code>
+(<code>xlink:type="locator"</code>):</strong> Points to a remote
+resource using <code>xlink:href</code>.</li>
+<li><strong><code>resource</code>
+(<code>xlink:type="resource"</code>):</strong> Defines an internal/local
+resource.</li>
+<li><strong><code>arc</code> (<code>xlink:type="arc"</code>):</strong>
+Defines traversal paths and direction between resources using
+<code>xlink:from</code> and <code>xlink:to</code> attributes.</li>
+<li><strong><code>title</code>
+(<code>xlink:type="title"</code>):</strong> Provides human-readable
+descriptions for the link or its sub-components.</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">relatedDocs</span> <span class="ot">xlink:type=</span><span class="st">&quot;extended&quot;</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">document</span> <span class="ot">xlink:type=</span><span class="st">&quot;locator&quot;</span> <span class="ot">xlink:href=</span><span class="st">&quot;spec.xml&quot;</span> <span class="ot">xlink:label=</span><span class="st">&quot;spec&quot;</span> <span class="ot">xlink:title=</span><span class="st">&quot;Specification&quot;</span>/&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">document</span> <span class="ot">xlink:type=</span><span class="st">&quot;locator&quot;</span> <span class="ot">xlink:href=</span><span class="st">&quot;guide.xml&quot;</span> <span class="ot">xlink:label=</span><span class="st">&quot;guide&quot;</span> <span class="ot">xlink:title=</span><span class="st">&quot;User Guide&quot;</span>/&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">document</span> <span class="ot">xlink:type=</span><span class="st">&quot;locator&quot;</span> <span class="ot">xlink:href=</span><span class="st">&quot;errata.xml&quot;</span> <span class="ot">xlink:label=</span><span class="st">&quot;errata&quot;</span> <span class="ot">xlink:title=</span><span class="st">&quot;Errata&quot;</span>/&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Define bidirectional paths between specification, guide, and errata --&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">connection</span> <span class="ot">xlink:type=</span><span class="st">&quot;arc&quot;</span> <span class="ot">xlink:from=</span><span class="st">&quot;spec&quot;</span> <span class="ot">xlink:to=</span><span class="st">&quot;guide&quot;</span> <span class="ot">xlink:title=</span><span class="st">&quot;Refer to Guide&quot;</span>/&gt;</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">connection</span> <span class="ot">xlink:type=</span><span class="st">&quot;arc&quot;</span> <span class="ot">xlink:from=</span><span class="st">&quot;spec&quot;</span> <span class="ot">xlink:to=</span><span class="st">&quot;errata&quot;</span> <span class="ot">xlink:title=</span><span class="st">&quot;View Errata&quot;</span>/&gt;</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">relatedDocs</span>&gt;</span></code></pre></div>
+<h3 id="key-differences-summary">Key Differences Summary</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;">Simple Links</th>
+<th style="text-align: left;">Extended Links</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Element Type</strong></td>
+<td style="text-align: left;"><code>xlink:type="simple"</code></td>
+<td style="text-align: left;"><code>xlink:type="extended"</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Connections</strong></td>
+<td style="text-align: left;">Exclusively 1-to-1</td>
+<td style="text-align: left;">1-to-many, many-to-1, many-to-many</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Directionality</strong></td>
+<td style="text-align: left;">Unidirectional (source to target)</td>
+<td style="text-align: left;">Multidirectional via explicit arc
+definitions</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Location</strong></td>
+<td style="text-align: left;">Inline only</td>
+<td style="text-align: left;">Inline or Out-of-line (external
+linkbases)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Structure</strong></td>
+<td style="text-align: left;">Single self-contained XML element</td>
+<td style="text-align: left;">Complex container with child elements
+(<code>locator</code>, <code>arc</code>, <code>resource</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Use Case</strong></td>
+<td style="text-align: left;">Navigational references and basic file
+pointers</td>
+<td style="text-align: left;">Knowledge graphs, complex
+cross-references, annotations on read-only data</td>
+</tr>
+</tbody>
+</table></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

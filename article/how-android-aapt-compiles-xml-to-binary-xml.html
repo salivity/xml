@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Android AAPT Compiles XML to Binary XML - xml</title>
+    <meta name="description" content="The Android Asset Packaging Tool (AAPT and its successor, AAPT2) converts human-readable XML layouts into optimized binary XML (AXML) to maximize runtime performance and reduce APK size. This compilation process parses standard XML documents, replaces te">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/how-android-aapt-compiles-xml-to-binary-xml">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Android AAPT Compiles XML to Binary XML - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/how-android-aapt-compiles-xml-to-binary-xml" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Android Asset Packaging Tool (AAPT and its successor, AAPT2) converts human-readable XML layouts into optimized binary XML (AXML) to maximize runtime performance and reduce APK size. This compilation process parses standard XML documents, replaces te" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-android-aapt-compiles-xml-to-binary-xml">How Android AAPT
+Compiles XML to Binary XML</h1>
+<p>The Android Asset Packaging Tool (AAPT and its successor, AAPT2)
+converts human-readable XML layouts into optimized binary XML (AXML) to
+maximize runtime performance and reduce APK size. This compilation
+process parses standard XML documents, replaces textual attribute names
+and elements with constant 32-bit integer resource identifiers, extracts
+all unique strings into an indexed string pool, and writes the data into
+a chunk-based binary stream. The resulting binary representation
+eliminates the need for expensive text parsing, schema validation, and
+dynamic string allocation when Android instantiates layouts at
+runtime.</p>
+<h3 id="1-lexical-parsing-and-validation">1. Lexical Parsing and
+Validation</h3>
+<p>AAPT begins by parsing human-readable XML documents using a standard
+XML parser. During this phase, it validates the structure against
+Android layout rules and verifies that all custom elements, namespaces
+(such as <code>http://schemas.android.com/apk/res/android</code>), and
+attributes are syntactically correct. It checks whether referenced
+drawables, strings, dimensions, and custom view classes exist within the
+project or linked libraries.</p>
+<h3 id="2-string-pool-extraction-and-deduplication">2. String Pool
+Extraction and Deduplication</h3>
+<p>In standard XML, repeated tags and namespace declarations consume
+significant space. AAPT strips away structural redundancies by
+aggregating all unique strings—including element names, attribute
+values, and namespace URIs—into a unified <strong>String
+Pool</strong>.</p>
+<ul>
+<li>Every unique string is assigned a zero-based index.</li>
+<li>References to strings throughout the document are replaced with
+these compact integer indices.</li>
+<li>Deduplication ensures that frequently repeated tokens (such as
+<code>match_parent</code> or <code>android</code>) are stored only once
+in the final binary file.</li>
+</ul>
+<h3 id="3-resource-id-resolution">3. Resource ID Resolution</h3>
+<p>Human-readable attribute names are mapped to specific 32-bit integer
+identifiers defined in the Android SDK or the project's compiled
+<code>R.java</code>/<code>R.txt</code> symbol tables.</p>
+<ul>
+<li>A human-readable attribute like <code>android:orientation</code> is
+mapped to its framework resource ID (e.g.,
+<code>0x010100c4</code>).</li>
+<li>AAPT constructs a <strong>Resource Map Chunk</strong> that links the
+attribute indices in the string pool directly to their corresponding
+32-bit integer resource IDs.</li>
+<li>This mapping allows Android's <code>AssetManager</code> and
+<code>TypedArray</code> implementations to resolve attributes via direct
+array indexing rather than hash table lookups or string
+comparisons.</li>
+</ul>
+<h3 id="4-value-inlining-and-typing">4. Value Inlining and Typing</h3>
+<p>Instead of storing all attribute values as raw strings, AAPT
+evaluates and converts literal values into strongly typed binary
+representations:</p>
+<ul>
+<li>Dimensions (e.g., <code>16dp</code>), booleans
+(<code>true</code>/<code>false</code>), colors (<code>#FFFFFF</code>),
+and integers are encoded directly into compact <code>TypedValue</code>
+binary structs.</li>
+<li>References to other resources (e.g., <code>@string/app_name</code>
+or <code>@color/primary</code>) are resolved into their corresponding
+hexadecimal resource IDs (e.g., <code>0x7f040001</code>).</li>
+</ul>
+<h3 id="5-chunk-based-binary-layout-generation">5. Chunk-Based Binary
+Layout Generation</h3>
+<p>The final output is organized into a stream of standardized,
+memory-alignable binary chunks:</p>
+<ul>
+<li><strong>Header Chunk:</strong> Identifies the file type
+(<code>RES_XML_TYPE</code>) and the total file size.</li>
+<li><strong>String Pool Chunk:</strong> Contains the string offset
+table, string data (encoded in UTF-8 or UTF-16), and style spans.</li>
+<li><strong>Resource Map Chunk:</strong> Contains the array of 32-bit
+integer resource IDs corresponding to the attribute names in the string
+pool.</li>
+<li><strong>Node Chunks:</strong> Hierarchical tokens that represent the
+document structure:
+<ul>
+<li><code>RES_XML_START_NAMESPACE_TYPE</code> and
+<code>RES_XML_END_NAMESPACE_TYPE</code> define scope boundaries.</li>
+<li><code>RES_XML_START_ELEMENT_TYPE</code> contains the element name
+index, attribute count, and an array of serialized attribute structs
+(holding namespace index, name index, typed value, and resolved resource
+ID).</li>
+<li><code>RES_XML_END_ELEMENT_TYPE</code> marks the closure of view
+hierarchies.</li>
+</ul></li>
+</ul>
+<h3 id="runtime-impact">Runtime Impact</h3>
+<p>When an application calls <code>setContentView()</code> or
+<code>LayoutInflater.inflate()</code>, the Android OS memory-maps the
+compiled binary XML directly from the APK. The native
+<code>ResXMLTree</code> parser iterates over fixed-size binary chunks
+and reads attributes via offset arithmetic, bypassing string
+tokenization and character decoding entirely to achieve
+near-instantaneous layout inflation.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

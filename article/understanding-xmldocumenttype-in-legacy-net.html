@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding XmlDocumentType in Legacy .NET - xml</title>
+    <meta name="description" content="This article explains the purpose, features, and role of the XmlDocumentType class within legacy .NET Document Object Model (DOM) XML processing. The XmlDocumentType class, located in the System.Xml namespace, represents the Document Type Declaration (<!">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/understanding-xmldocumenttype-in-legacy-net">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Understanding XmlDocumentType in Legacy .NET - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/understanding-xmldocumenttype-in-legacy-net" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains the purpose, features, and role of the XmlDocumentType class within legacy .NET Document Object Model (DOM) XML processing. The XmlDocumentType class, located in the System.Xml namespace, represents the Document Type Declaration (<!" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="understanding-xmldocumenttype-in-legacy-net">Understanding
+XmlDocumentType in Legacy .NET</h1>
+<p>This article explains the purpose, features, and role of the
+<code>XmlDocumentType</code> class within legacy .NET Document Object
+Model (DOM) XML processing. The <code>XmlDocumentType</code> class,
+located in the <code>System.Xml</code> namespace, represents the
+Document Type Declaration (<code>&lt;!DOCTYPE ...&gt;</code>) node in an
+XML document. By encapsulating DTD definitions, public and system
+identifiers, and entity references, it enables .NET applications using
+<code>XmlDocument</code> to read, manipulate, and preserve document type
+metadata according to W3C DOM Level 1 and Level 2 specifications.</p>
+<h3 id="representation-of-the-doctype-declaration">Representation of the
+DOCTYPE Declaration</h3>
+<p>In XML, the Document Type Declaration defines the structure,
+constraints, and entities of a document via a Document Type Definition
+(DTD). When parsing an XML document into an <code>XmlDocument</code>
+tree, the parser instantiates an <code>XmlDocumentType</code> object
+whenever it encounters a <code>&lt;!DOCTYPE ...&gt;</code> markup
+declaration.</p>
+<p>This class directly corresponds to the
+<code>DOCUMENT_TYPE_NODE</code> in the W3C DOM specification, making it
+a critical component for applications that rely on standard-compliant
+DOM tree representations.</p>
+<h3 id="key-properties-and-metadata-access">Key Properties and Metadata
+Access</h3>
+<p>The <code>XmlDocumentType</code> class exposes several properties
+that allow developers to inspect and manipulate DTD metadata:</p>
+<ul>
+<li><strong>Name</strong>: Returns the name of the root element
+specified in the DOCTYPE declaration.</li>
+<li><strong>PublicId</strong>: Gets the public identifier of the
+external DTD subset (e.g.,
+<code>"-//W3C//DTD XHTML 1.0 Strict//EN"</code>).</li>
+<li><strong>SystemId</strong>: Gets the system identifier (often a URI
+or file path) of the external DTD subset.</li>
+<li><strong>InternalSubset</strong>: Returns the raw text of any
+internal DTD declarations defined within square brackets
+<code>[...]</code> inside the DOCTYPE declaration.</li>
+<li><strong>Entities</strong>: Provides an <code>XmlNamedNodeMap</code>
+containing the general and parameter entities declared within the
+DTD.</li>
+<li><strong>Notations</strong>: Provides an <code>XmlNamedNodeMap</code>
+containing the notations declared within the DTD.</li>
+</ul>
+<h3 id="primary-use-cases">Primary Use Cases</h3>
+<ol type="1">
+<li><strong>Preserving Document Fidelity</strong>: When loading an XML
+file, modifying its contents, and saving it back to disk, the
+<code>XmlDocumentType</code> node ensures that original DOCTYPE
+declarations are not lost during round-trip processing.</li>
+<li><strong>Dynamic DTD Creation</strong>: Developers can create a new
+DOCTYPE node programmatically using the
+<code>XmlDocument.CreateDocumentType(string name, string publicId, string systemId, string internalSubset)</code>
+method and append it before the document's root element.</li>
+<li><strong>Resolving Entity References</strong>: In scenarios where XML
+documents utilize internal or external entities,
+<code>XmlDocumentType</code> holds the lookup references necessary for
+resolving those entities during parsing and document traversal.</li>
+</ol>
+<h3 id="modern-context-and-security-considerations">Modern Context and
+Security Considerations</h3>
+<p>In modern .NET development, DTD processing is disabled by default
+(via <code>XmlReaderSettings.DtdProcessing</code>) to prevent XML
+External Entity (XXE) injection attacks and Denial of Service (DoS)
+risks like the "Billion Laughs" attack. While modern architectures favor
+XML Schema (XSD) and LINQ to XML
+(<code>System.Xml.Linq.XDocumentType</code>), the
+<code>XmlDocumentType</code> class remains an essential component for
+maintaining legacy .NET Framework applications that require
+standard-compliant, DOM-based DTD management.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

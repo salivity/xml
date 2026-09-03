@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML Canonicalization 1.0 vs 1.1 Differences - xml</title>
+    <meta name="description" content="XML Canonicalization converts XML documents into a standardized physical form so that logically equivalent documents yield identical byte sequences, which is essential for XML digital signatures. While Canonicalization 1.0 (C14N 1.0) established the foun">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/xml-canonicalization-1-0-vs-1-1-differences">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="XML Canonicalization 1.0 vs 1.1 Differences - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/xml-canonicalization-1-0-vs-1-1-differences" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="XML Canonicalization converts XML documents into a standardized physical form so that logically equivalent documents yield identical byte sequences, which is essential for XML digital signatures. While Canonicalization 1.0 (C14N 1.0) established the foun" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="xml-canonicalization-10-vs-11-differences">XML Canonicalization
+1.0 vs 1.1 Differences</h1>
+<p>XML Canonicalization converts XML documents into a standardized
+physical form so that logically equivalent documents yield identical
+byte sequences, which is essential for XML digital signatures. While
+Canonicalization 1.0 (C14N 1.0) established the foundational rules for
+sorting attributes, standardizing whitespace, and normalizing
+namespaces, it introduced significant flaws when processing subdocuments
+and document subsets. Canonicalization 1.1 (C14N 1.1) was developed
+specifically to address these limitations by refining the inheritance
+and processing of <code>xml:id</code>, <code>xml:base</code>, and other
+<code>xml:</code> prefixed attributes without breaking existing 1.0
+implementations.</p>
+<h3 id="handling-of-xmlid-attributes">Handling of <code>xml:id</code>
+Attributes</h3>
+<p>In C14N 1.0, all inherited attributes in the <code>xml</code>
+namespace are copied into the root of an extracted subdocument. This
+caused a critical issue with <code>xml:id</code>: if an ancestor element
+had an <code>xml:id</code>, extracting a child subdocument would inherit
+that <code>xml:id</code>, leading to duplicate IDs or invalid ID
+assignments in the canonicalized fragment.</p>
+<p>C14N 1.1 changes this behavior by ensuring that <code>xml:id</code>
+attributes are not inherited by child elements when subsetting an XML
+document, preserving document validity and uniqueness.</p>
+<h3 id="resolution-and-inheritance-of-xmlbase">Resolution and
+Inheritance of <code>xml:base</code></h3>
+<p>The handling of relative URIs and <code>xml:base</code> attributes is
+one of the most prominent changes in C14N 1.1:</p>
+<ul>
+<li><strong>C14N 1.0:</strong> When a subdocument is extracted,
+<code>xml:base</code> attributes are inherited plainly as simple string
+values. If an ancestor element used a relative URI in
+<code>xml:base</code>, the resulting canonicalized subdocument would
+fail to maintain the proper URI context because the relative path was
+not resolved against previous ancestor bases.</li>
+<li><strong>C14N 1.1:</strong> Implements a fix-up algorithm for
+<code>xml:base</code>. When extracting a subdocument, C14N 1.1
+recalculates and joins all <code>xml:base</code> values through the
+ancestor hierarchy to produce a corrected, properly resolved base URI
+for the output root element.</li>
+</ul>
+<h3 id="general-xml-attribute-inheritance">General <code>xml:</code>
+Attribute Inheritance</h3>
+<p>C14N 1.0 treated all <code>xml:*</code> attributes uniformly with a
+generic inheritance model. C14N 1.1 categorizes <code>xml:*</code>
+attributes into distinct groups with specific rules:</p>
+<ul>
+<li><strong>Simple Inheritance:</strong> Attributes like
+<code>xml:lang</code> and <code>xml:space</code> are inherited directly
+from the nearest ancestor if not explicitly defined on the element.</li>
+<li><strong>No Inheritance:</strong> Attributes like <code>xml:id</code>
+are never inherited.</li>
+<li><strong>Value-Fixup Inheritance:</strong> Attributes like
+<code>xml:base</code> are resolved and rewritten based on URI resolution
+rules.</li>
+</ul>
+<h3 id="performance-and-implementation-impact">Performance and
+Implementation Impact</h3>
+<p>Because C14N 1.1 requires traversing ancestor trees to compute merged
+base URIs and selectively filter attributes, it involves slightly more
+processing overhead than 1.0 when canonicalizing node-sets or
+subdocuments. However, for full-document canonicalization where no
+node-subsetting is applied, C14N 1.0 and C14N 1.1 produce identical
+results.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

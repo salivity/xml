@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is an Expanded Name in XML Namespaces? - xml</title>
+    <meta name="description" content="In the XML namespace specification, an expanded name is a two-part identifier consisting of a namespace URI and a local name that together uniquely identify an XML element or attribute. While XML documents use prefix-based qualified names (QNames) for re">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/what-is-an-expanded-name-in-xml-namespaces">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is an Expanded Name in XML Namespaces? - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/what-is-an-expanded-name-in-xml-namespaces" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In the XML namespace specification, an expanded name is a two-part identifier consisting of a namespace URI and a local name that together uniquely identify an XML element or attribute. While XML documents use prefix-based qualified names (QNames) for re" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-an-expanded-name-in-xml-namespaces">What Is an Expanded
+Name in XML Namespaces?</h1>
+<p>In the XML namespace specification, an expanded name is a two-part
+identifier consisting of a namespace URI and a local name that together
+uniquely identify an XML element or attribute. While XML documents use
+prefix-based qualified names (QNames) for readability and brevity,
+processing software resolves these into expanded names to eliminate
+naming collisions across different vocabularies. This article explains
+the structure, purpose, and standard representation of expanded names in
+XML.</p>
+<h3 id="structure-of-an-expanded-name">Structure of an Expanded
+Name</h3>
+<p>An expanded name consists strictly of two components:</p>
+<ol type="1">
+<li><strong>Namespace Name (URI):</strong> The Uniform Resource
+Identifier (URI) reference associated with the namespace. If an element
+or attribute does not belong to any namespace, this value is null or
+empty.</li>
+<li><strong>Local Name:</strong> The local part of the XML element or
+attribute name (the portion that appears after the colon in a prefixed
+name, or the entire name if no prefix exists).</li>
+</ol>
+<p>Unlike raw XML markup, an expanded name contains no prefix. Prefixes
+only serve as local placeholders within a document to map to a namespace
+URI.</p>
+<h3 id="purpose-and-functionality">Purpose and Functionality</h3>
+<p>In XML, different schemas might use the same local name for different
+concepts (for example, <code>&lt;title&gt;</code> in a book catalog
+versus <code>&lt;title&gt;</code> in an employee directory). XML
+namespaces solve this ambiguity.</p>
+<p>Because document authors can choose any arbitrary prefix (e.g.,
+<code>bk:title</code> vs. <code>book:title</code>), software processors
+cannot rely on the prefix to determine an element's identity. Instead,
+the XML parser resolves the prefix against the in-scope
+<code>xmlns</code> declaration to create an expanded name. Two elements
+are considered identical in identity if and only if both their namespace
+URIs and local names match.</p>
+<h3 id="common-notation-clark-notation">Common Notation: Clark
+Notation</h3>
+<p>The World Wide Web Consortium (W3C) XML Namespace specification
+defines the expanded name as a conceptual pair, rather than mandating a
+specific string serialization. However, the standard universal
+representation used across tools and specifications (such as XPath and
+XSLT) is James Clark's notation:</p>
+<p><code>{namespaceURI}localName</code></p>
+<p>For example, consider this XML element:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">bk:book</span> <span class="ot">xmlns:bk=</span><span class="st">&quot;http://example.org/books&quot;</span>&gt;</span></code></pre></div>
+<p>The QName is <code>bk:book</code>, and its corresponding expanded
+name is:</p>
+<p><code>{http://example.org/books}book</code></p>
+<h3 id="qnames-vs-expanded-names">QNames vs. Expanded Names</h3>
+<ul>
+<li><strong>Qualified Name (QName):</strong> The lexical representation
+used inside the XML document text (e.g., <code>prefix:localPart</code>).
+It is context-dependent because the prefix depends on active namespace
+declarations within the document tree.</li>
+<li><strong>Expanded Name:</strong> The resolved, context-independent
+logical identity (e.g., URI + <code>localPart</code>). It remains
+identical regardless of what prefix was used in the original
+document.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

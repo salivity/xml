@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XmlSerializer vs DataContractSerializer in .NET - xml</title>
+    <meta name="description" content="XML serialization in .NET is the process of converting the public or private properties and fields of an object into an XML document, allowing object states to be saved to storage or transmitted across networks. While .NET provides multiple mechanisms fo">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/xmlserializer-vs-datacontractserializer-in-net">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="XmlSerializer vs DataContractSerializer in .NET - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/xmlserializer-vs-datacontractserializer-in-net" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="XML serialization in .NET is the process of converting the public or private properties and fields of an object into an XML document, allowing object states to be saved to storage or transmitted across networks. While .NET provides multiple mechanisms fo" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="xmlserializer-vs-datacontractserializer-in-net">XmlSerializer vs
+DataContractSerializer in .NET</h1>
+<p>XML serialization in .NET is the process of converting the public or
+private properties and fields of an object into an XML document,
+allowing object states to be saved to storage or transmitted across
+networks. While .NET provides multiple mechanisms for XML serialization,
+the two primary engines are <code>XmlSerializer</code> and
+<code>DataContractSerializer</code>. This guide explains what XML
+serialization is and breaks down the core architectural and functional
+differences between these two serialization frameworks.</p>
+<h2 id="what-is-xml-serialization-in-net">What is XML Serialization in
+.NET?</h2>
+<p>XML serialization transforms the memory representation of an object
+graph into a standard, human-readable XML format, and reconstructs the
+object back from XML (deserialization). It allows .NET applications to
+interoperate with non-.NET platforms, persist configuration data, or
+pass data between distributed components using structured XML.</p>
+<h2 id="understanding-xmlserializer">Understanding XmlSerializer</h2>
+<p>The <code>System.Xml.Serialization.XmlSerializer</code> class is the
+traditional XML serialization engine in .NET. It is designed to
+serialize objects to an exact XML schema.</p>
+<h3 id="key-characteristics">Key Characteristics:</h3>
+<ul>
+<li><strong>Public Visibility Only:</strong> It only serializes
+<code>public</code> fields and <code>public</code> read/write
+properties. Private, protected, or internal members are completely
+ignored.</li>
+<li><strong>Constructor Requirement:</strong> Requires a public,
+parameterless constructor on any serialized class.</li>
+<li><strong>Schema Customization:</strong> Provides fine-grained control
+over the generated XML output using attributes such as
+<code>[XmlElement]</code>, <code>[XmlAttribute]</code>,
+<code>[XmlRoot]</code>, and <code>[XmlArray]</code>.</li>
+<li><strong>No Graph Preservation:</strong> Does not handle circular
+references or maintain object identity across complex object
+graphs.</li>
+</ul>
+<h2 id="understanding-datacontractserializer">Understanding
+DataContractSerializer</h2>
+<p>Introduced with Windows Communication Foundation (WCF) in
+<code>System.Runtime.Serialization</code>, the
+<code>DataContractSerializer</code> focuses on data contracts rather
+than matching arbitrary XML schemas.</p>
+<h3 id="key-characteristics-1">Key Characteristics:</h3>
+<ul>
+<li><strong>Opt-In Member Serialization:</strong> Uses explicit
+attributes (<code>[DataContract]</code> on the class,
+<code>[DataMember]</code> on properties or fields) to define what is
+serialized.</li>
+<li><strong>Encapsulation Support:</strong> Can serialize
+<code>private</code>, <code>protected</code>, <code>internal</code>, and
+read-only members, preserving object-oriented encapsulation.</li>
+<li><strong>No Parameterless Constructor Required:</strong> Can
+instantiate objects without calling a constructor using uninitialized
+object allocation.</li>
+<li><strong>Object Graph Handling:</strong> Supports circular references
+and preserves object identity using the <code>IsReference = true</code>
+property in <code>[DataContract]</code>.</li>
+<li><strong>Performance:</strong> Typically faster than
+<code>XmlSerializer</code> because it bypasses runtime code generation
+and schema validations in favor of standardized contract mapping.</li>
+</ul>
+<h2
+id="key-differences-between-xmlserializer-and-datacontractserializer">Key
+Differences Between XmlSerializer and DataContractSerializer</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;"><code>XmlSerializer</code></th>
+<th style="text-align: left;"><code>DataContractSerializer</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Namespace</strong></td>
+<td style="text-align: left;"><code>System.Xml.Serialization</code></td>
+<td
+style="text-align: left;"><code>System.Runtime.Serialization</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Model Type</strong></td>
+<td style="text-align: left;">Opt-out (serializes all public members by
+default)</td>
+<td style="text-align: left;">Opt-in (requires <code>[DataMember]</code>
+on target fields)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Member Access</strong></td>
+<td style="text-align: left;">Public fields and properties with get/set
+only</td>
+<td style="text-align: left;">Public, private, internal, and protected
+members</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Constructor</strong></td>
+<td style="text-align: left;">Public parameterless constructor
+required</td>
+<td style="text-align: left;">No constructor required</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>XML Control</strong></td>
+<td style="text-align: left;">Precise control over tags, attributes, and
+namespaces</td>
+<td style="text-align: left;">Limited control; focuses on standard data
+formats</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Object Graphs</strong></td>
+<td style="text-align: left;">Cannot handle circular references</td>
+<td style="text-align: left;">Supports circular references via
+<code>IsReference = true</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Performance</strong></td>
+<td style="text-align: left;">Slower (runtime assembly generation)</td>
+<td style="text-align: left;">Faster (streamlined serialization
+logic)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="choosing-the-right-serializer">Choosing the Right
+Serializer</h2>
+<ul>
+<li><strong>Use <code>XmlSerializer</code></strong> when you need strict
+compliance with an existing XML Schema (XSD), need to generate XML
+attributes rather than elements, or are working with legacy XML web
+services.</li>
+<li><strong>Use <code>DataContractSerializer</code></strong> when
+performance is critical, you need to serialize private state or complex
+object graphs with references, or you are building modern services where
+exact XML document structure is secondary to data fidelity.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manipulate SVG with CSS and JavaScript DOM APIs - xml</title>
+    <meta name="description" content="Scalable Vector Graphics (SVG) are XML-based text files representing two-dimensional vectors, which means their internal elements exist directly within the Document Object Model (DOM). Because they are standard DOM nodes, developers can dynamically alter">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/manipulate-svg-with-css-and-javascript-dom-apis">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Manipulate SVG with CSS and JavaScript DOM APIs - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/manipulate-svg-with-css-and-javascript-dom-apis" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Scalable Vector Graphics (SVG) are XML-based text files representing two-dimensional vectors, which means their internal elements exist directly within the Document Object Model (DOM). Because they are standard DOM nodes, developers can dynamically alter" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="manipulate-svg-with-css-and-javascript-dom-apis">Manipulate SVG
+with CSS and JavaScript DOM APIs</h1>
+<p>Scalable Vector Graphics (SVG) are XML-based text files representing
+two-dimensional vectors, which means their internal elements exist
+directly within the Document Object Model (DOM). Because they are
+standard DOM nodes, developers can dynamically alter SVG styles,
+attributes, and structural elements using standard CSS stylesheets and
+JavaScript DOM APIs. This guide outlines how to embed SVGs for DOM
+access, apply dynamic styling with CSS, and modify vector properties and
+structures programmatically using JavaScript.</p>
+<h2 id="embedding-svg-for-dom-access">Embedding SVG for DOM Access</h2>
+<p>To manipulate an SVG via CSS and JavaScript, the SVG code should
+ideally be embedded directly inline within the HTML document. While SVGs
+loaded via <code>&lt;img&gt;</code> tags are isolated for security
+reasons, inline <code>&lt;svg&gt;</code> elements reside in the same DOM
+tree as your HTML.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">svg</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;vector-graphic&quot;</span><span class="ot"> viewBox</span><span class="op">=</span><span class="st">&quot;0 0 100 100&quot;</span><span class="ot"> width</span><span class="op">=</span><span class="st">&quot;100&quot;</span><span class="ot"> height</span><span class="op">=</span><span class="st">&quot;100&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">circle</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;dynamic-circle&quot;</span><span class="ot"> cx</span><span class="op">=</span><span class="st">&quot;50&quot;</span><span class="ot"> cy</span><span class="op">=</span><span class="st">&quot;50&quot;</span><span class="ot"> r</span><span class="op">=</span><span class="st">&quot;40&quot;</span><span class="ot"> </span><span class="dt">/&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">svg</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>Alternatively, if loading an external SVG via an
+<code>&lt;object&gt;</code> tag, you must access its internal document
+using the <code>contentDocument</code> property in JavaScript before
+manipulation.</p>
+<h2 id="styling-svgs-dynamically-with-css">Styling SVGs Dynamically with
+CSS</h2>
+<p>SVG elements support styling through external, internal, or inline
+CSS. Unlike standard HTML elements that use properties like
+<code>background-color</code> or <code>border</code>, SVG elements use
+vector-specific properties.</p>
+<h3 id="common-svg-css-properties">Common SVG CSS Properties</h3>
+<ul>
+<li><strong><code>fill</code></strong>: Sets the interior color of
+shapes and text.</li>
+<li><strong><code>stroke</code></strong>: Sets the outline color.</li>
+<li><strong><code>stroke-width</code></strong>: Controls the thickness
+of the outline.</li>
+<li><strong><code>stroke-dasharray</code> and
+<code>stroke-dashoffset</code></strong>: Used for creating dashed lines
+and path-drawing animations.</li>
+<li><strong><code>transform</code></strong>: Scales, rotates,
+translates, or skews vector shapes.</li>
+</ul>
+<h3 id="example-css-transitions-and-hover-states">Example: CSS
+Transitions and Hover States</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#dynamic-circle</span> {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">fill</span><span class="ch">:</span> <span class="cn">#3498db</span><span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">stroke</span><span class="ch">:</span> <span class="cn">#2980b9</span><span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  stroke-width<span class="ch">:</span> <span class="dv">4</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">transition</span><span class="ch">:</span> <span class="dv">fill</span> <span class="dv">0.3</span><span class="dt">s</span> <span class="dv">ease</span><span class="op">,</span> <span class="dv">transform 0.3</span><span class="dt">s</span> <span class="dv">ease</span><span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">transform-origin</span><span class="ch">:</span> <span class="dv">center</span><span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="pp">#dynamic-circle</span><span class="in">:hover</span> {</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">fill</span><span class="ch">:</span> <span class="cn">#e74c3c</span><span class="op">;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">transform</span><span class="ch">:</span> <span class="fu">scale(</span><span class="dv">1.1</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h2 id="manipulating-svgs-with-javascript-dom-apis">Manipulating SVGs
+with JavaScript DOM APIs</h2>
+<p>JavaScript can interact with SVG nodes using the standard DOM methods
+available for regular HTML elements, along with specialized SVG DOM
+interfaces.</p>
+<h3 id="1-selecting-and-modifying-attributes">1. Selecting and Modifying
+Attributes</h3>
+<p>You can select SVG elements using
+<code>document.getElementById()</code>,
+<code>document.querySelector()</code>, or similar methods. Use
+<code>setAttribute()</code> to modify vector attributes such as
+coordinates, dimensions, or paths.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> circle <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;dynamic-circle&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">// Change geometric attributes</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>circle<span class="op">.</span><span class="fu">setAttribute</span>(<span class="st">&#39;r&#39;</span><span class="op">,</span> <span class="st">&#39;25&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>circle<span class="op">.</span><span class="fu">setAttribute</span>(<span class="st">&#39;cx&#39;</span><span class="op">,</span> <span class="st">&#39;60&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">// Modify inline styles</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>circle<span class="op">.</span><span class="at">style</span><span class="op">.</span><span class="at">fill</span> <span class="op">=</span> <span class="st">&#39;#2ecc71&#39;</span><span class="op">;</span></span></code></pre></div>
+<h3 id="2-creating-new-svg-elements-dynamically">2. Creating New SVG
+Elements Dynamically</h3>
+<p>When creating new SVG elements via JavaScript, standard
+<code>document.createElement()</code> will not work properly because
+SVGs require a specific XML namespace. Use
+<code>document.createElementNS()</code> instead.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> svgNamespace <span class="op">=</span> <span class="st">&quot;http://www.w3.org/2000/svg&quot;</span><span class="op">;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> svg <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;vector-graphic&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Create a new rectangle element</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> rect <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">createElementNS</span>(svgNamespace<span class="op">,</span> <span class="st">&#39;rect&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>rect<span class="op">.</span><span class="fu">setAttribute</span>(<span class="st">&#39;x&#39;</span><span class="op">,</span> <span class="st">&#39;10&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>rect<span class="op">.</span><span class="fu">setAttribute</span>(<span class="st">&#39;y&#39;</span><span class="op">,</span> <span class="st">&#39;10&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>rect<span class="op">.</span><span class="fu">setAttribute</span>(<span class="st">&#39;width&#39;</span><span class="op">,</span> <span class="st">&#39;30&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>rect<span class="op">.</span><span class="fu">setAttribute</span>(<span class="st">&#39;height&#39;</span><span class="op">,</span> <span class="st">&#39;30&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>rect<span class="op">.</span><span class="fu">setAttribute</span>(<span class="st">&#39;fill&#39;</span><span class="op">,</span> <span class="st">&#39;#f1c40f&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">// Append to the SVG container</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>svg<span class="op">.</span><span class="fu">appendChild</span>(rect)<span class="op">;</span></span></code></pre></div>
+<h3 id="3-path-manipulation-and-svg-specific-methods">3. Path
+Manipulation and SVG-Specific Methods</h3>
+<p>SVG elements implement specialized interfaces such as
+<code>SVGPathElement</code> or <code>SVGGeometryElement</code>,
+providing built-in methods for complex geometry calculations:</p>
+<ul>
+<li><strong><code>getTotalLength()</code></strong>: Returns the total
+length of a <code>&lt;path&gt;</code> in user units.</li>
+<li><strong><code>getPointAtLength(distance)</code></strong>: Returns
+the <code>(x, y)</code> coordinate at a specific distance along a
+path.</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> path <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">querySelector</span>(<span class="st">&#39;path&#39;</span>)<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> pathLength <span class="op">=</span> path<span class="op">.</span><span class="fu">getTotalLength</span>()<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Set up a stroke-drawing animation via JavaScript</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>path<span class="op">.</span><span class="at">style</span><span class="op">.</span><span class="at">strokeDasharray</span> <span class="op">=</span> pathLength<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>path<span class="op">.</span><span class="at">style</span><span class="op">.</span><span class="at">strokeDashoffset</span> <span class="op">=</span> pathLength<span class="op">;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">// Animate stroke drawing</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>path<span class="op">.</span><span class="fu">animate</span>([</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">strokeDashoffset</span><span class="op">:</span> pathLength }<span class="op">,</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">strokeDashoffset</span><span class="op">:</span> <span class="dv">0</span> }</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>]<span class="op">,</span> {</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">duration</span><span class="op">:</span> <span class="dv">2000</span><span class="op">,</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">fill</span><span class="op">:</span> <span class="st">&#39;forwards&#39;</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="4-handling-user-interactivity">4. Handling User
+Interactivity</h3>
+<p>SVG elements can dispatch standard DOM events such as
+<code>click</code>, <code>pointerdown</code>, <code>mouseover</code>,
+and <code>touchstart</code>.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> circle <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;dynamic-circle&#39;</span>)<span class="op">;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>circle<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> (<span class="bu">event</span>) <span class="kw">=&gt;</span> {</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> currentRadius <span class="op">=</span> <span class="pp">parseFloat</span>(circle<span class="op">.</span><span class="fu">getAttribute</span>(<span class="st">&#39;r&#39;</span>))<span class="op">;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  circle<span class="op">.</span><span class="fu">setAttribute</span>(<span class="st">&#39;r&#39;</span><span class="op">,</span> currentRadius <span class="op">+</span> <span class="dv">5</span>)<span class="op">;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

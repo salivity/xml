@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XPath Axes: How to Navigate an XML Tree - xml</title>
+    <meta name="description" content="XPath axes define the relationship between the current context node and other nodes within an XML document tree, allowing developers to traverse structured data in any direction. Rather than relying solely on rigid, absolute paths, axes like ancestor, de">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/xpath-axes-how-to-navigate-an-xml-tree">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="XPath Axes: How to Navigate an XML Tree - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/xpath-axes-how-to-navigate-an-xml-tree" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="XPath axes define the relationship between the current context node and other nodes within an XML document tree, allowing developers to traverse structured data in any direction. Rather than relying solely on rigid, absolute paths, axes like ancestor, de" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="xpath-axes-how-to-navigate-an-xml-tree">XPath Axes: How to
+Navigate an XML Tree</h1>
+<p>XPath axes define the relationship between the current context node
+and other nodes within an XML document tree, allowing developers to
+traverse structured data in any direction. Rather than relying solely on
+rigid, absolute paths, axes like <code>ancestor</code>,
+<code>descendant</code>, <code>following-sibling</code>, and
+<code>preceding</code> enable dynamic, relative navigation. This guide
+explains how these key axes move through the XML hierarchy, whether
+moving upward to parent nodes, downward to nested elements, or across
+sibling and document branches.</p>
+<h3 id="the-context-node-and-axis-syntax">The Context Node and Axis
+Syntax</h3>
+<p>Navigation in XPath always starts from a context node—the currently
+selected node. An axis statement uses the syntax
+<code>axis::node-test</code>, where <code>axis</code> defines the
+direction of navigation and <code>node-test</code> filters the target
+nodes by name or type.</p>
+<h3 id="navigating-upward-the-ancestor-axis">Navigating Upward: The
+<code>ancestor</code> Axis</h3>
+<p>The <code>ancestor</code> axis selects all nodes that reside above
+the context node in the document hierarchy, continuing all the way up to
+the root node.</p>
+<ul>
+<li><strong>Direction:</strong> Upward (reverse document order).</li>
+<li><strong>Behavior:</strong> It selects the context node's parent, the
+parent's parent, and so on.</li>
+<li><strong>Variant:</strong> The <code>ancestor-or-self</code> axis
+functions identically but also includes the current context node in the
+result set.</li>
+</ul>
+<p>For example, <code>ancestor::div</code> selects all
+<code>&lt;div&gt;</code> elements wrapping the current node.</p>
+<h3 id="navigating-downward-the-descendant-axis">Navigating Downward:
+The <code>descendant</code> Axis</h3>
+<p>The <code>descendant</code> axis selects all elements nested within
+the context node, regardless of their nesting depth.</p>
+<ul>
+<li><strong>Direction:</strong> Downward (document order).</li>
+<li><strong>Behavior:</strong> Unlike the <code>child</code> axis, which
+only inspects immediate children, <code>descendant</code> evaluates
+children, grandchildren, and all subsequent nested layers.</li>
+<li><strong>Variant:</strong> The <code>descendant-or-self</code> axis
+includes both the context node and all of its descendants (often
+abbreviated as <code>//</code>).</li>
+</ul>
+<p>For example, <code>descendant::p</code> finds every
+<code>&lt;p&gt;</code> element nested anywhere inside the context
+node.</p>
+<h3 id="navigating-horizontally-the-following-sibling-axis">Navigating
+Horizontally: The <code>following-sibling</code> Axis</h3>
+<p>The <code>following-sibling</code> axis navigates horizontally among
+nodes that share the exact same parent as the context node and appear
+after it in the document source.</p>
+<ul>
+<li><strong>Direction:</strong> Forward horizontal (document
+order).</li>
+<li><strong>Behavior:</strong> It strictly evaluates elements at the
+same hierarchy level. It does not select descendants of siblings or
+elements outside the immediate parent container.</li>
+<li><strong>Opposite:</strong> The <code>preceding-sibling</code> axis
+selects nodes that share the same parent but appear before the context
+node.</li>
+</ul>
+<p>For example, <code>following-sibling::li</code> selects all
+<code>&lt;li&gt;</code> elements that appear after the current
+<code>&lt;li&gt;</code> inside the same list.</p>
+<h3 id="navigating-document-order-the-preceding-axis">Navigating
+Document Order: The <code>preceding</code> Axis</h3>
+<p>The <code>preceding</code> axis selects all nodes in the entire XML
+document that appear before the context node, excluding any ancestor
+nodes.</p>
+<ul>
+<li><strong>Direction:</strong> Backward throughout the document
+(reverse document order).</li>
+<li><strong>Behavior:</strong> It scans the document from the opening
+tag up to the context node, skipping any node that is an ancestor of the
+current node.</li>
+<li><strong>Opposite:</strong> The <code>following</code> axis selects
+all nodes that appear after the context node's closing tag, excluding
+any descendants.</li>
+</ul>
+<p>For example, <code>preceding::input</code> locates all
+<code>&lt;input&gt;</code> elements rendered prior to the context
+element across the entire document tree, excluding parent wrappers.</p>
+<h3 id="summary-of-axis-movement">Summary of Axis Movement</h3>
+<ul>
+<li><strong><code>ancestor</code></strong>: Moves vertically upward
+toward the root.</li>
+<li><strong><code>descendant</code></strong>: Moves vertically downward
+into child subtrees.</li>
+<li><strong><code>following-sibling</code></strong>: Moves horizontally
+forward across nodes with the same parent.</li>
+<li><strong><code>preceding</code></strong>: Moves backward through the
+entire document, ignoring parent nodes.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

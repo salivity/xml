@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Representing Null Values in XML with xsi:nil - xml</title>
+    <meta name="description" content="In XML, distinguishing between an empty value and an explicitly absent or null value is challenging because XML elements are inherently designed to hold text content or child elements. The xsi:nil attribute solves this by providing a standardized mechani">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/representing-null-values-in-xml-with-xsi-nil">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Representing Null Values in XML with xsi:nil - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/representing-null-values-in-xml-with-xsi-nil" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In XML, distinguishing between an empty value and an explicitly absent or null value is challenging because XML elements are inherently designed to hold text content or child elements. The xsi:nil attribute solves this by providing a standardized mechani" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="representing-null-values-in-xml-with-xsinil">Representing Null
+Values in XML with xsi:nil</h1>
+<p>In XML, distinguishing between an empty value and an explicitly
+absent or null value is challenging because XML elements are inherently
+designed to hold text content or child elements. The
+<code>xsi:nil</code> attribute solves this by providing a standardized
+mechanism defined in the XML Schema Instance namespace to explicitly
+state that an element contains no value (null). This article explains
+how <code>xsi:nil</code> functions, how to configure it in an XML Schema
+(XSD), and how it is implemented in XML documents to differentiate
+between null values, empty strings, and omitted elements.</p>
+<h2 id="the-challenge-of-null-in-standard-xml">The Challenge of Null in
+Standard XML</h2>
+<p>In native XML, there is no built-in data type for <code>null</code>.
+Applications typically interpret missing elements or empty tags
+differently:</p>
+<ul>
+<li><strong>Omitted Element:</strong> The tag is absent entirely. This
+can mean the field is optional, unknown, or not applicable.</li>
+<li><strong>Empty Element (<code>&lt;name&gt;&lt;/name&gt;</code> or
+<code>&lt;name/&gt;</code>):</strong> The tag is present, but its value
+is an empty string (<code>""</code>), which is not always semantically
+equivalent to <code>null</code>.</li>
+</ul>
+<p>Without a standard, consuming applications cannot reliably determine
+if an empty tag represents a <code>null</code> database entry or an
+empty string.</p>
+<h2 id="how-xsinil-works">How <code>xsi:nil</code> Works</h2>
+<p>To represent a <code>null</code> value unambiguously, the W3C XML
+Schema specification provides the <code>xsi:nil</code> attribute from
+the XML Schema Instance namespace
+(<code>http://www.w3.org/2001/XMLSchema-instance</code>).</p>
+<p>When an element has <code>xsi:nil="true"</code>, it signals to the
+parser that the element is explicitly null, even though it appears in
+the document structure.</p>
+<h3 id="1-enabling-nillability-in-the-xml-schema-xsd">1. Enabling
+Nillability in the XML Schema (XSD)</h3>
+<p>Before an element can use <code>xsi:nil="true"</code>, the
+corresponding XML Schema definition must allow it by setting the
+<code>nillable</code> attribute to <code>"true"</code>. By default,
+<code>nillable</code> is <code>"false"</code>.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:schema</span> <span class="ot">xmlns:xs=</span><span class="st">&quot;http://www.w3.org/2001/XMLSchema&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:element</span> <span class="ot">name=</span><span class="st">&quot;Employee&quot;</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">xs:complexType</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">xs:sequence</span>&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                &lt;<span class="kw">xs:element</span> <span class="ot">name=</span><span class="st">&quot;ID&quot;</span> <span class="ot">type=</span><span class="st">&quot;xs:int&quot;</span>/&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                &lt;<span class="kw">xs:element</span> <span class="ot">name=</span><span class="st">&quot;MiddleName&quot;</span> <span class="ot">type=</span><span class="st">&quot;xs:string&quot;</span> <span class="ot">nillable=</span><span class="st">&quot;true&quot;</span>/&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                &lt;<span class="kw">xs:element</span> <span class="ot">name=</span><span class="st">&quot;LastName&quot;</span> <span class="ot">type=</span><span class="st">&quot;xs:string&quot;</span> <span class="ot">nillable=</span><span class="st">&quot;false&quot;</span>/&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>            &lt;/<span class="kw">xs:sequence</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">xs:complexType</span>&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">xs:element</span>&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:schema</span>&gt;</span></code></pre></div>
+<h3 id="2-using-xsinil-in-the-xml-document">2. Using
+<code>xsi:nil</code> in the XML Document</h3>
+<p>In the XML instance document, declare the <code>xsi</code> namespace
+prefix and apply <code>xsi:nil="true"</code> to the target element.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">Employee</span> <span class="ot">xmlns:xsi=</span><span class="st">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">ID</span>&gt;101&lt;/<span class="kw">ID</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">MiddleName</span> <span class="ot">xsi:nil=</span><span class="st">&quot;true&quot;</span>/&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">LastName</span>&gt;Doe&lt;/<span class="kw">LastName</span>&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">Employee</span>&gt;</span></code></pre></div>
+<p>In this example:</p>
+<ul>
+<li><code>MiddleName</code> is explicitly recognized as
+<code>null</code>.</li>
+<li>If <code>MiddleName</code> were written as
+<code>&lt;MiddleName&gt;&lt;/MiddleName&gt;</code>, it would be parsed
+as an empty string.</li>
+<li>If <code>xsi:nil="true"</code> were applied to
+<code>LastName</code>, schema validation would fail because
+<code>LastName</code> does not have <code>nillable="true"</code> in the
+schema.</li>
+</ul>
+<h2 id="key-validation-rules-for-xsinil">Key Validation Rules for
+<code>xsi:nil</code></h2>
+<p>To maintain schema validity when using <code>xsi:nil</code>:</p>
+<ol type="1">
+<li><strong>No Element Content:</strong> An element with
+<code>xsi:nil="true"</code> cannot contain text content or child
+elements.</li>
+<li><strong>Attributes Are Allowed:</strong> An element marked with
+<code>xsi:nil="true"</code> can still carry other XML attributes (e.g.,
+<code>&lt;MiddleName xsi:nil="true" source="legacy_db"/&gt;</code>).</li>
+<li><strong>Schema Enforcement:</strong> If <code>xsi:nil="true"</code>
+is used on an element that is not defined as
+<code>nillable="true"</code> in the XSD, the XML document is
+invalid.</li>
+<li><strong>Explicit False:</strong> Setting
+<code>xsi:nil="false"</code> is valid and indicates that the element is
+not null, functioning the same as omitting the attribute.</li>
+</ol>
+<h2 id="summary-of-differences">Summary of Differences</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">XML Representation</th>
+<th style="text-align: left;">Semantic Meaning</th>
+<th style="text-align: left;">Schema Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td
+style="text-align: left;"><code>&lt;Field&gt;Value&lt;/Field&gt;</code></td>
+<td style="text-align: left;">Contains data</td>
+<td style="text-align: left;">Matches element type</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>&lt;Field&gt;&lt;/Field&gt;</code></td>
+<td style="text-align: left;">Empty string (<code>""</code>)</td>
+<td style="text-align: left;">Element type must permit empty
+content</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>&lt;Field xsi:nil="true"/&gt;</code></td>
+<td style="text-align: left;">Explicitly <code>null</code></td>
+<td style="text-align: left;">Must have <code>nillable="true"</code> in
+XSD</td>
+</tr>
+<tr>
+<td style="text-align: left;"><em>(Element omitted)</em></td>
+<td style="text-align: left;">Undefined / Missing</td>
+<td style="text-align: left;">Must have <code>minOccurs="0"</code> in
+XSD</td>
+</tr>
+</tbody>
+</table>
+<p>Using <code>xsi:nil</code> ensures consistent data exchange between
+databases, web services, and strongly-typed programming languages by
+preserving the semantic difference between empty data and null data.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

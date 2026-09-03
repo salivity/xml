@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XPath 3.1 Maps and Arrays: Bridging XML and JSON - xml</title>
+    <meta name="description" content="XPath 3.1 introduced map and array data types to expand the XQuery and XPath Data Model (XDM) beyond traditional hierarchical XML nodes. This article explains the syntax and behavior of XPath 3.1 maps and arrays, demonstrates how they directly model JSON">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/xpath-3-1-maps-and-arrays-bridging-xml-and-json">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="XPath 3.1 Maps and Arrays: Bridging XML and JSON - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/xpath-3-1-maps-and-arrays-bridging-xml-and-json" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="XPath 3.1 introduced map and array data types to expand the XQuery and XPath Data Model (XDM) beyond traditional hierarchical XML nodes. This article explains the syntax and behavior of XPath 3.1 maps and arrays, demonstrates how they directly model JSON" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="xpath-31-maps-and-arrays-bridging-xml-and-json">XPath 3.1 Maps
+and Arrays: Bridging XML and JSON</h1>
+<p>XPath 3.1 introduced <code>map</code> and <code>array</code> data
+types to expand the XQuery and XPath Data Model (XDM) beyond traditional
+hierarchical XML nodes. This article explains the syntax and behavior of
+XPath 3.1 maps and arrays, demonstrates how they directly model JSON
+structures, and highlights how these additions allow developers to
+seamlessly query, transform, and integrate both XML and JSON within a
+single processing pipeline.</p>
+<h2 id="the-need-for-maps-and-arrays-in-xpath-31">The Need for Maps and
+Arrays in XPath 3.1</h2>
+<p>Prior to XPath 3.1, the data model relied entirely on sequences of
+atomic values and XML nodes (elements, attributes, text nodes). While
+sequences handled ordered lists of XML items well, they lacked two
+critical capabilities required for modern data processing:</p>
+<ol type="1">
+<li><strong>Nested collections</strong>: Standard XPath sequences cannot
+contain other sequences; any nested sequence automatically
+flattens.</li>
+<li><strong>Key-value lookups</strong>: Associative lookups required
+searching XML attributes or elements using predicates, which was
+inefficient for arbitrary key-value mappings.</li>
+</ol>
+<p>With the widespread adoption of JSON in web APIs and modern
+architectures, XPath required native structures capable of modeling JSON
+objects and JSON arrays without converting everything into synthetic XML
+trees. The W3C resolved this in XPath 3.1 by adding <code>map</code> and
+<code>array</code> item types as first-class citizens in the data
+model.</p>
+<h2 id="the-array-data-type">The Array Data Type</h2>
+<p>An XPath 3.1 <code>array</code> is an ordered list of items where
+each entry—termed a <em>member</em>—can be any sequence of zero or more
+items. Unlike standard sequences, arrays do not flatten when nested
+inside other arrays.</p>
+<h3 id="syntax-and-creation">Syntax and Creation</h3>
+<p>Arrays can be created using the square-bracket constructor or the
+<code>array</code> keyword:</p>
+<pre class="xpath"><code>(: Square-bracket constructor :)
+[ &quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot; ]
+
+(: Array containing nested sequences :)
+[ (1, 2, 3), (&quot;a&quot;, &quot;b&quot;), [] ]
+
+(: Array constructor using a sequence :)
+array { 1 to 5 }</code></pre>
+<h3 id="accessing-array-members">Accessing Array Members</h3>
+<p>Array members are 1-indexed. Members can be retrieved using
+functional invocation or the lookup operator (<code>?</code>):</p>
+<pre class="xpath"><code>let $fruits := [ &quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot; ]
+return $fruits(1)       (: Returns &quot;apple&quot; :)
+
+(: Using the lookup operator :)
+$fruits?2              (: Returns &quot;banana&quot; :)
+
+(: Wildcard lookup to extract all members as a sequence :)
+$fruits?*              (: Returns (&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;) :)</code></pre>
+<h2 id="the-map-data-type">The Map Data Type</h2>
+<p>An XPath 3.1 <code>map</code> is a collection of key-value pairs.
+Keys must be atomic values (such as strings, integers, or URIs), while
+values can be any arbitrary sequence of items, including nodes, arrays,
+or other maps.</p>
+<h3 id="syntax-and-creation-1">Syntax and Creation</h3>
+<p>Maps are created using the <code>map</code> constructor:</p>
+<pre class="xpath"><code>map {
+  &quot;name&quot;: &quot;Jane Doe&quot;,
+  &quot;id&quot;: 1042,
+  &quot;active&quot;: true(),
+  &quot;roles&quot;: [ &quot;admin&quot;, &quot;editor&quot; ]
+}</code></pre>
+<h3 id="accessing-map-entries">Accessing Map Entries</h3>
+<p>Values within a map can be retrieved using functional invocation,
+string key references, or the lookup operator:</p>
+<pre class="xpath"><code>let $user := map { &quot;name&quot;: &quot;Jane Doe&quot;, &quot;id&quot;: 1042 }
+return $user(&quot;name&quot;)    (: Returns &quot;Jane Doe&quot; :)
+
+(: Using the lookup operator :)
+$user?id               (: Returns 1042 :)</code></pre>
+<h2 id="bridging-the-gap-between-xml-and-json">Bridging the Gap Between
+XML and JSON</h2>
+<p>The inclusion of <code>map</code> and <code>array</code> data types
+creates a direct 1:1 conceptual mapping between JSON and XPath data
+models:</p>
+<ul>
+<li><strong>JSON Object</strong> maps to an <strong>XPath
+<code>map</code></strong></li>
+<li><strong>JSON Array</strong> maps to an <strong>XPath
+<code>array</code></strong></li>
+<li><strong>JSON Strings, Numbers, Booleans, and Null</strong> map to
+their respective <strong>XDM atomic types</strong> (with
+<code>null</code> represented as an empty sequence or
+<code>fn:json-null()</code>)</li>
+</ul>
+<h3 id="native-json-parsing-and-serialization">Native JSON Parsing and
+Serialization</h3>
+<p>XPath 3.1 introduces built-in functions that convert raw JSON strings
+directly into these native structures:</p>
+<ul>
+<li><code>fn:parse-json($json-string)</code>: Parses a JSON string into
+an XDM map, array, or scalar value.</li>
+<li><code>fn:serialize($xdm-item, map { "method": "json" })</code>:
+Serializes native maps and arrays directly back to a JSON string.</li>
+</ul>
+<pre class="xpath"><code>let $json := &#39;{&quot;status&quot;: &quot;ok&quot;, &quot;items&quot;: [10, 20, 30]}&#39;
+let $data := parse-json($json)
+return $data?items?1   (: Returns 10 :)</code></pre>
+<h3 id="unified-multi-format-processing">Unified Multi-Format
+Processing</h3>
+<p>Because maps and arrays are native XDM items, they can hold XML
+nodes, and XML nodes can reference or generate maps and arrays. In
+environments supporting XPath 3.1 (such as XSLT 3.0 or XQuery 3.1
+processors), a developer can read an XML document, query a REST JSON
+endpoint using <code>fn:json-doc()</code>, combine the data structures
+using standard path expressions, and output either XML or JSON without
+intermediary third-party conversion libraries.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

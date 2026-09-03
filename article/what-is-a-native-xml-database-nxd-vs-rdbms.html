@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is a Native XML Database: NXD vs RDBMS - xml</title>
+    <meta name="description" content="This article provides an overview of Native XML Databases (NXDs), exploring their core architecture and examining how their internal storage mechanisms fundamentally differ from traditional Relational Database Management Systems (RDBMS). Readers will lea">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/what-is-a-native-xml-database-nxd-vs-rdbms">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is a Native XML Database: NXD vs RDBMS - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/what-is-a-native-xml-database-nxd-vs-rdbms" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides an overview of Native XML Databases (NXDs), exploring their core architecture and examining how their internal storage mechanisms fundamentally differ from traditional Relational Database Management Systems (RDBMS). Readers will lea" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-a-native-xml-database-nxd-vs-rdbms">What Is a Native XML
+Database: NXD vs RDBMS</h1>
+<p>This article provides an overview of Native XML Databases (NXDs),
+exploring their core architecture and examining how their internal
+storage mechanisms fundamentally differ from traditional Relational
+Database Management Systems (RDBMS). Readers will learn the definition
+of an NXD, how it represents and queries data, and why its tree-based
+storage model contrasts with the tabular schema design used in
+relational databases.</p>
+<h2 id="understanding-a-native-xml-database-nxd">Understanding a Native
+XML Database (NXD)</h2>
+<p>A Native XML Database (NXD) is a database system designed
+specifically to store, manage, and query data in XML (Extensible Markup
+Language) format. Unlike systems that merely map XML to underlying
+tables, an NXD uses the XML document as its fundamental unit of
+storage.</p>
+<p>According to standard industry definitions, a database qualifies as
+an NXD if it:</p>
+<ul>
+<li>Defines a logical model for an XML document (such as the XML Infoset
+or DOM model) and stores and retrieves documents according to that
+model.</li>
+<li>Uses XML documents as its fundamental unit of storage, just as an
+RDBMS uses a row/table.</li>
+<li>Does not require any particular underlying physical storage model
+(it can use files, relational backends, or custom b-trees), provided the
+interface and processing preserve XML semantics natively.</li>
+<li>Supports standard XML query interfaces, notably XPath, XQuery, and
+XSLT.</li>
+</ul>
+<p>NXDs preserve document fidelity, including hierarchical
+relationships, node order, comments, processing instructions, and mixed
+content (text interwoven with markup tags).</p>
+<h2 id="how-nxd-internal-storage-differs-from-an-rdbms">How NXD Internal
+Storage Differs from an RDBMS</h2>
+<p>The fundamental difference between an NXD and an RDBMS lies in the
+data model and the internal physical structures used to store and index
+information.</p>
+<h3 id="1-data-model-and-storage-structure">1. Data Model and Storage
+Structure</h3>
+<ul>
+<li><strong>RDBMS:</strong> Employs a relational model based on
+two-dimensional tables composed of fixed columns and rows. Data is flat
+and normalized to eliminate redundancy. Relationships between entities
+are maintained through foreign keys.</li>
+<li><strong>NXD:</strong> Employs a hierarchical tree model. Data is
+stored as node trees containing parent, child, sibling, and attribute
+relationships. The database engine natively understands nested,
+irregular, and semi-structured hierarchies without requiring a rigid,
+predefined schema.</li>
+</ul>
+<h3 id="2-handling-of-hierarchical-data">2. Handling of Hierarchical
+Data</h3>
+<ul>
+<li><strong>RDBMS:</strong> Storing XML in a standard RDBMS typically
+requires one of two approaches:
+<ol type="1">
+<li><strong>Shredding (Object-Relational Mapping):</strong>
+Deconstructing the XML hierarchy into multiple relational tables. This
+requires complex <code>JOIN</code> operations and significant compute
+overhead to reconstruct the original document.</li>
+<li><strong>LOB Storage:</strong> Storing the XML document intact as a
+Binary Large Object (BLOB) or Character Large Object (CLOB). While this
+preserves the document, it treats the content as opaque text, making
+internal querying and node-level indexing inefficient.</li>
+</ol></li>
+<li><strong>NXD:</strong> Stores the document structure directly on disk
+as indexed node structures or compressed binary trees. The database
+engine can read, traverse, update, or extract a specific sub-tree or
+node without having to parse the entire document or perform relational
+table joins.</li>
+</ul>
+<h3 id="3-indexing-mechanisms">3. Indexing Mechanisms</h3>
+<ul>
+<li><strong>RDBMS:</strong> Indexing relies on B-trees, hash indexes, or
+bitmap indexes built on specific columns within a single table.</li>
+<li><strong>NXD:</strong> Uses specialized structural and path-based
+indexing. Common indexes include:
+<ul>
+<li><strong>Path Indexes:</strong> Index the route from the root to any
+element (e.g., <code>/catalog/item/price</code>).</li>
+<li><strong>Value Indexes:</strong> Index the text contents of specific
+elements or attributes.</li>
+<li><strong>Structural Indexes:</strong> Map parent-child and
+ancestor-descendant relationships to optimize path traversals and
+structural joins in XQuery/XPath.</li>
+</ul></li>
+</ul>
+<h3 id="4-schema-flexibility">4. Schema Flexibility</h3>
+<ul>
+<li><strong>RDBMS:</strong> Requires a strict, upfront schema definition
+(DDL). Any alteration to the data model typically requires modifying
+table structures (<code>ALTER TABLE</code>) and migrating existing
+data.</li>
+<li><strong>NXD:</strong> Schema-independent or schema-flexible. While
+an NXD can validate against XML Schemas (XSD) or DTDs, it can natively
+ingest well-formed XML documents with varying, deeply nested, or
+evolving structures without prior schema declaration.</li>
+</ul>
+<h2 id="summary">Summary</h2>
+<p>While an RDBMS is optimized for structured, uniform, and highly
+transactional tabular data, a Native XML Database is purpose-built for
+hierarchical, document-centric, and semi-structured information. By
+storing XML documents as native node structures with path-aware indexes,
+an NXD eliminates the impedance mismatch, parsing latency, and complex
+mapping operations associated with storing hierarchical data in
+relational tables.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

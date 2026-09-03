@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MARCXML Schema: Representing MARC21 in XML - xml</title>
+    <meta name="description" content="The MARCXML schema is a framework developed by the Library of Congress to represent standard MARC21 bibliographic, authority, holdings, and classification data within an XML environment. This article explores the structure of the MARCXML schema, explains">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/marcxml-schema-representing-marc21-in-xml">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="MARCXML Schema: Representing MARC21 in XML - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/marcxml-schema-representing-marc21-in-xml" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The MARCXML schema is a framework developed by the Library of Congress to represent standard MARC21 bibliographic, authority, holdings, and classification data within an XML environment. This article explores the structure of the MARCXML schema, explains" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="marcxml-schema-representing-marc21-in-xml">MARCXML Schema:
+Representing MARC21 in XML</h1>
+<p>The MARCXML schema is a framework developed by the Library of
+Congress to represent standard MARC21 bibliographic, authority,
+holdings, and classification data within an XML environment. This
+article explores the structure of the MARCXML schema, explains how it
+achieves lossless, bidirectional representation of legacy MARC21
+records, and outlines its role in facilitating library metadata exchange
+across modern web architectures.</p>
+<h3 id="what-is-the-marcxml-schema">What is the MARCXML Schema?</h3>
+<p>MARCXML is an XML Schema Definition (XSD) designed to encapsulate the
+traditional MARC (Machine-Readable Cataloging) 21 standard, which was
+historically serialized in the ISO 2709 tape format. As library systems
+modernized, the need arose to parse, index, and transform catalog data
+using standard web technologies without redesigning the underlying
+cataloging rules. MARCXML fulfills this need by providing a lightweight,
+generic XML structure that wraps MARC data without altering its
+semantics.</p>
+<h3 id="core-structure-of-a-marcxml-document">Core Structure of a
+MARCXML Document</h3>
+<p>The MARCXML schema is defined by a small set of generic elements that
+directly correspond to the structural components of a MARC21 record:</p>
+<ul>
+<li><strong><code>&lt;collection&gt;</code></strong>: The top-level root
+element used when aggregating multiple records into a single XML
+document.</li>
+<li><strong><code>&lt;record&gt;</code></strong>: Encapsulates an
+individual MARC21 record. It can act as the root element for a
+single-record file.</li>
+<li><strong><code>&lt;leader&gt;</code></strong>: Contains the
+24-character fixed-length record leader, which provides processing
+information such as record status, type, and encoding level.</li>
+<li><strong><code>&lt;controlfield&gt;</code></strong>: Represents
+fixed-length and system control fields (tags 001 through 009), holding
+metadata like the control number, date/time stamps, and fixed physical
+descriptions. It uses the <code>tag</code> attribute (e.g.,
+<code>tag="008"</code>).</li>
+<li><strong><code>&lt;datafield&gt;</code></strong>: Encapsulates
+variable data fields (tags 010 through 999). It includes attributes for
+the field tag (<code>tag="245"</code>) and two single-character
+indicators (<code>ind1="1"</code>, <code>ind2="0"</code>).</li>
+<li><strong><code>&lt;subfield&gt;</code></strong>: Represents the
+discrete subfields within a data field, identified by the
+<code>code</code> attribute (e.g., <code>code="a"</code> for the main
+title).</li>
+</ul>
+<h3 id="how-marcxml-faithfully-represents-marc21">How MARCXML Faithfully
+Represents MARC21</h3>
+<p>The primary design requirement of MARCXML is absolute data fidelity.
+It achieves a lossless, round-trip transformation between ISO 2709
+binary MARC records and XML through specific structural mappings:</p>
+<h4 id="1-direct-1-to-1-mapping">1. Direct 1-to-1 Mapping</h4>
+<p>Every piece of structural data in a MARC21 record has an exact
+counterpart in MARCXML:</p>
+<ul>
+<li>MARC tags become the <code>tag</code> attribute of
+<code>&lt;controlfield&gt;</code> or
+<code>&lt;datafield&gt;</code>.</li>
+<li>Field indicators (positions 1 and 2) become the <code>ind1</code>
+and <code>ind2</code> attributes of <code>&lt;datafield&gt;</code>.
+Blank indicators are explicitly represented as spaces
+(<code>" "</code>).</li>
+<li>Subfield delimiters are replaced by discrete
+<code>&lt;subfield&gt;</code> tags, preserving the subfield code
+character in the <code>code</code> attribute.</li>
+</ul>
+<h4 id="2-preservation-of-order-and-whitespace">2. Preservation of Order
+and Whitespace</h4>
+<p>MARC21 relies heavily on sequential order and positional fixed
+fields. MARCXML maintains the exact sequence of data fields and
+subfields as they appear in the source record. Furthermore, positions in
+fixed fields (like the Leader and 008) are preserved
+character-by-character, allowing parsers to slice strings using
+identical offset indexes.</p>
+<h4 id="3-character-encoding-normalization">3. Character Encoding
+Normalization</h4>
+<p>Legacy MARC21 files frequently used the MARC-8 character set, which
+required complex escape sequences to represent non-Latin characters.
+MARCXML standardizes all textual data into UTF-8 or UTF-16, resolving
+legacy character ambiguity while preserving the original meaning of
+diacritics and special scripts.</p>
+<h4 id="4-lossless-round-tripping">4. Lossless Round-Tripping</h4>
+<p>Because the schema does not impose semantic validation on the
+contents of the tags, any valid MARC21 record converted to MARCXML can
+be converted back into the ISO 2709 format without loss of metadata,
+indicators, control characters, or sequence.</p>
+<h3 id="benefits-of-marcxml-in-modern-systems">Benefits of MARCXML in
+Modern Systems</h3>
+<p>By translating binary MARC21 data into structured XML, MARCXML
+enables libraries to utilize widespread XML-based tools and
+protocols:</p>
+<ul>
+<li><strong>Transformation:</strong> Records can easily be transformed
+into other metadata standards (such as Dublin Core, MODS, or BIBFRAME)
+using standard Extensible Stylesheet Language Transformations
+(XSLT).</li>
+<li><strong>Web Protocols:</strong> Protocols like OAI-PMH (Open
+Archives Initiative Protocol for Metadata Harvesting) and SRU/SRW
+(Search/Retrieve via URL/Web Service) use MARCXML natively to transmit
+library records over HTTP.</li>
+<li><strong>Querying and Validation:</strong> Developers can validate
+catalog integrity with XML schemas and query specific metadata paths
+directly using XPath and XQuery.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DITA Conref: Reusing XML Paragraphs - xml</title>
+    <meta name="description" content="DITA content referencing, commonly known as conref, is a core mechanism in Darwin Information Typing Architecture that allows technical writers to single-source content components across multiple documents. By pointing an empty element in a target docume">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/dita-conref-reusing-xml-paragraphs">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="DITA Conref: Reusing XML Paragraphs - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/dita-conref-reusing-xml-paragraphs" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="DITA content referencing, commonly known as conref, is a core mechanism in Darwin Information Typing Architecture that allows technical writers to single-source content components across multiple documents. By pointing an empty element in a target docume" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="dita-conref-reusing-xml-paragraphs">DITA Conref: Reusing XML
+Paragraphs</h1>
+<p>DITA content referencing, commonly known as <code>conref</code>, is a
+core mechanism in Darwin Information Typing Architecture that allows
+technical writers to single-source content components across multiple
+documents. By pointing an empty element in a target document to an
+identical, fully authored element in a central source topic,
+<code>conref</code> ensures consistent paragraph reuse across varied
+publications. This article explains how the <code>conref</code>
+mechanism functions, its underlying syntax, and how it streamlines
+content maintenance during the publishing process.</p>
+<h3 id="the-mechanism-of-content-referencing">The Mechanism of Content
+Referencing</h3>
+<p>The <code>conref</code> mechanism operates by establishing an
+explicit link between a source XML element and a target XML element of
+the exact same type. Instead of copying and pasting identical text—such
+as legal notices, safety warnings, or standard product
+descriptions—writers store the text once in a dedicated source file
+(often called a warehouse or reuse topic).</p>
+<p>When another document requires that exact paragraph, the writer
+inserts an empty tag matching the element type and assigns it a
+<code>conref</code> attribute that points to the unique identifier of
+the source paragraph.</p>
+<h3 id="xml-syntax-and-resolution">XML Syntax and Resolution</h3>
+<p>To execute a paragraph-level content reference, both the source topic
+and the specific source paragraph must have unique <code>id</code>
+attributes.</p>
+<h4 id="source-paragraph-definition">Source Paragraph Definition</h4>
+<p>In the source topic (<code>warehouse.dita</code>), the paragraph is
+assigned an ID:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">topic</span> <span class="ot">id=</span><span class="st">&quot;reuse_warehouse&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">title</span>&gt;Reusable Content Warehouse&lt;/<span class="kw">title</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">p</span> <span class="ot">id=</span><span class="st">&quot;standard_warranty&quot;</span>&gt;All products include a standard one-year limited hardware warranty covering manufacturing defects.&lt;/<span class="kw">p</span>&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">topic</span>&gt;</span></code></pre></div>
+<h4 id="referencing-the-paragraph">Referencing the Paragraph</h4>
+<p>In the target topic (<code>user_guide.dita</code>), an empty
+paragraph references the source using the relative path, topic ID, and
+element ID:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">topic</span> <span class="ot">id=</span><span class="st">&quot;user_guide&quot;</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">title</span>&gt;Product Maintenance&lt;/<span class="kw">title</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">p</span> <span class="ot">conref=</span><span class="st">&quot;warehouse.dita#reuse_warehouse/standard_warranty&quot;</span>/&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">topic</span>&gt;</span></code></pre></div>
+<p>During the publishing build process (typically managed by the DITA
+Open Toolkit), the processor resolves the reference by replacing the
+empty target element and its <code>conref</code> attribute with the full
+content of the source <code>&lt;p&gt;</code> element.</p>
+<h3 id="rules-for-valid-implementation">Rules for Valid
+Implementation</h3>
+<p>For a <code>conref</code> to function correctly, the XML parser
+enforces strict structural rules:</p>
+<ul>
+<li><strong>Element Matching:</strong> The target element must match the
+source element type. A <code>&lt;p&gt;</code> element can only reference
+another <code>&lt;p&gt;</code> element; it cannot reference a
+<code>&lt;li&gt;</code> or a <code>&lt;note&gt;</code>.</li>
+<li><strong>Unique Identification:</strong> Both the enclosing topic and
+the specific XML element must possess valid <code>id</code>
+attributes.</li>
+<li><strong>Valid Path Resolution:</strong> The file path specified in
+the <code>conref</code> attribute must resolve correctly at the time of
+publication.</li>
+</ul>
+<h3 id="operational-advantages-across-publications">Operational
+Advantages Across Publications</h3>
+<p>Implementing <code>conref</code> for identical paragraphs yields
+several practical benefits across an organization's content
+ecosystem:</p>
+<ul>
+<li><strong>Single-Source Maintenance:</strong> Modifying a shared
+paragraph in the source file automatically updates every publication
+that references it upon the next build.</li>
+<li><strong>Content Consistency:</strong> Eliminates minor
+discrepancies, typos, and phrasing variations between different manuals
+or product versions.</li>
+<li><strong>Reduced Translation Costs:</strong> Because the source
+paragraph is only authored once, it only needs to be translated once,
+significantly lowering localization expenses across global document
+sets.</li>
+<li><strong>Separation of Content and Assembly:</strong> Content
+creators can focus on updating standardized text blocks without needing
+to manually edit dozens of independent deliverables.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

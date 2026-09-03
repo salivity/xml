@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Using Built-in XPath Functions on XML Data - xml</title>
+    <meta name="description" content="XPath provides a powerful set of built-in functions designed to evaluate, manipulate, and extract data from XML documents. This article explores how to utilize four essential XPath functions—count(), concat(), substring(), and normalize-space()—to ha">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/using-built-in-xpath-functions-on-xml-data">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Using Built-in XPath Functions on XML Data - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/using-built-in-xpath-functions-on-xml-data" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="XPath provides a powerful set of built-in functions designed to evaluate, manipulate, and extract data from XML documents. This article explores how to utilize four essential XPath functions—count(), concat(), substring(), and normalize-space()—to ha" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="using-built-in-xpath-functions-on-xml-data">Using Built-in XPath
+Functions on XML Data</h1>
+<p>XPath provides a powerful set of built-in functions designed to
+evaluate, manipulate, and extract data from XML documents. This article
+explores how to utilize four essential XPath
+functions—<code>count()</code>, <code>concat()</code>,
+<code>substring()</code>, and <code>normalize-space()</code>—to handle
+numeric calculations, string transformations, and text cleanup directly
+within your XML queries.</p>
+<h3 id="sample-xml-document">Sample XML Document</h3>
+<p>To demonstrate these functions, consider the following
+<code>catalog.xml</code> snippet:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">catalog</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">book</span> <span class="ot">id=</span><span class="st">&quot;bk101&quot;</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">title</span>&gt;  XML Developer&#39;s   Guide  &lt;/<span class="kw">title</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">author</span>&gt;Gambardella, Matthew&lt;/<span class="kw">author</span>&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">price</span>&gt;44.95&lt;/<span class="kw">price</span>&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">publish_date</span>&gt;2000-10-01&lt;/<span class="kw">publish_date</span>&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">book</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">book</span> <span class="ot">id=</span><span class="st">&quot;bk102&quot;</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">title</span>&gt;Midnight Rain&lt;/<span class="kw">title</span>&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">author</span>&gt;Ralls, Kim&lt;/<span class="kw">author</span>&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">price</span>&gt;5.95&lt;/<span class="kw">price</span>&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">publish_date</span>&gt;2000-12-16&lt;/<span class="kw">publish_date</span>&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">book</span>&gt;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">catalog</span>&gt;</span></code></pre></div>
+<hr />
+<h3 id="1-count-aggregating-nodes">1. <code>count()</code>: Aggregating
+Nodes</h3>
+<p>The <code>count()</code> function returns an integer representing the
+total number of nodes matching a given node-set expression. It is
+commonly used for pagination, validation, and determining list
+sizes.</p>
+<ul>
+<li><strong>Syntax:</strong> <code>count(node-set)</code></li>
+<li><strong>Usage Example:</strong>
+<pre class="xpath"><code>count(/catalog/book)</code></pre></li>
+<li><strong>Result:</strong> <code>2</code></li>
+<li><strong>Filtering Example:</strong> Find the number of books priced
+over $10.00:
+<pre class="xpath"><code>count(/catalog/book[price &gt; 10])</code></pre></li>
+<li><strong>Result:</strong> <code>1</code></li>
+</ul>
+<hr />
+<h3 id="2-concat-combining-strings">2. <code>concat()</code>: Combining
+Strings</h3>
+<p>The <code>concat()</code> function joins two or more strings together
+into a single string. It accepts at least two string arguments and
+concatenates them sequentially.</p>
+<ul>
+<li><strong>Syntax:</strong>
+<code>concat(string1, string2, string3, ...)</code></li>
+<li><strong>Usage Example:</strong> Generate a formatted label combining
+the book title and its identifier:
+<pre class="xpath"><code>concat(/catalog/book[1]/title, &quot; (ID: &quot;, /catalog/book[1]/@id, &quot;)&quot;)</code></pre></li>
+<li><strong>Result:</strong>
+<code>"  XML Developer's   Guide   (ID: bk101)"</code></li>
+</ul>
+<hr />
+<h3 id="3-substring-extracting-portions-of-text">3.
+<code>substring()</code>: Extracting Portions of Text</h3>
+<p>The <code>substring()</code> function extracts a subset of characters
+from a source string, based on a 1-based start index and an optional
+length parameter.</p>
+<ul>
+<li><strong>Syntax:</strong>
+<code>substring(sourceString, startPosition, [length])</code></li>
+<li><strong>Usage Example (Extract Year):</strong> Extract the
+four-digit year from the publication date:
+<pre class="xpath"><code>substring(/catalog/book[1]/publish_date, 1, 4)</code></pre></li>
+<li><strong>Result:</strong> <code>"2000"</code></li>
+<li><strong>Usage Example (Without Length):</strong> Extract everything
+after the first five characters:
+<pre class="xpath"><code>substring(/catalog/book[1]/publish_date, 6)</code></pre></li>
+<li><strong>Result:</strong> <code>"10-01"</code></li>
+</ul>
+<hr />
+<h3 id="4-normalize-space-cleaning-whitespace">4.
+<code>normalize-space()</code>: Cleaning Whitespace</h3>
+<p>The <code>normalize-space()</code> function removes leading and
+trailing whitespace from a string and replaces all internal sequences of
+whitespace characters (spaces, tabs, newlines) with a single space. If
+no argument is passed, it operates on the context node.</p>
+<ul>
+<li><strong>Syntax:</strong> <code>normalize-space([string])</code></li>
+<li><strong>Usage Example:</strong> Clean up the irregular spacing in
+the first book's title:
+<pre class="xpath"><code>normalize-space(/catalog/book[1]/title)</code></pre></li>
+<li><strong>Result:</strong> <code>"XML Developer's Guide"</code></li>
+<li><strong>Predicate Example:</strong> Locate a node using cleaned text
+in conditional checks:
+<pre class="xpath"><code>/catalog/book[normalize-space(title) = &quot;XML Developer&#39;s Guide&quot;]/@id</code></pre></li>
+<li><strong>Result:</strong> <code>bk101</code></li>
+</ul>
+<hr />
+<h3 id="combining-functions-for-complex-queries">Combining Functions for
+Complex Queries</h3>
+<p>XPath functions can be nested to perform advanced operations in a
+single expression. For example, to create a clean, standardized
+bibliographic entry containing normalized text and extracted dates:</p>
+<pre class="xpath"><code>concat(
+    normalize-space(/catalog/book[1]/author),
+    &quot; published &#39;&quot;,
+    normalize-space(/catalog/book[1]/title),
+    &quot;&#39; in &quot;,
+    substring(/catalog/book[1]/publish_date, 1, 4)
+)</code></pre>
+<p><strong>Result:</strong>
+<code>"Gambardella, Matthew published 'XML Developer's Guide' in 2000"</code></p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

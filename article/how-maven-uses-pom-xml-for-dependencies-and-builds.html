@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Maven Uses pom.xml for Dependencies and Builds - xml</title>
+    <meta name="description" content="This article provides a comprehensive overview of how Apache Maven utilizes the pom.xml (Project Object Model) file as the central configuration hub for Java applications. It explores the mechanisms Maven uses to declare and resolve project dependencies,">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/how-maven-uses-pom-xml-for-dependencies-and-builds">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Maven Uses pom.xml for Dependencies and Builds - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/how-maven-uses-pom-xml-for-dependencies-and-builds" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a comprehensive overview of how Apache Maven utilizes the pom.xml (Project Object Model) file as the central configuration hub for Java applications. It explores the mechanisms Maven uses to declare and resolve project dependencies," />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-maven-uses-pomxml-for-dependencies-and-builds">How Maven
+Uses pom.xml for Dependencies and Builds</h1>
+<p>This article provides a comprehensive overview of how Apache Maven
+utilizes the <code>pom.xml</code> (Project Object Model) file as the
+central configuration hub for Java applications. It explores the
+mechanisms Maven uses to declare and resolve project dependencies,
+handle transitive libraries, and orchestrate automated build lifecycles
+from source code compilation to final artifact deployment.</p>
+<h2 id="the-role-of-the-pomxml-file">The Role of the pom.xml File</h2>
+<p>The <code>pom.xml</code> file is the fundamental unit of work in
+Apache Maven. It is an XML file located in the root directory of a
+project that contains essential information about the project, including
+its configuration details, default values, and build settings.</p>
+<p>At the minimum, every <code>pom.xml</code> defines the project's
+unique coordinates, known as the "GAV" coordinates:</p>
+<ul>
+<li><strong>groupId:</strong> Identifies the organization or group
+creating the project (e.g., <code>com.example</code>).</li>
+<li><strong>artifactId:</strong> Identifies the unique name of the
+project or module (e.g., <code>user-service</code>).</li>
+<li><strong>version:</strong> Specifies the current version of the
+artifact (e.g., <code>1.0.0-SNAPSHOT</code>).</li>
+</ul>
+<h2 id="dependency-management-in-maven">Dependency Management in
+Maven</h2>
+<p>Maven uses the <code>pom.xml</code> file to automate the discovery,
+download, and classpath configuration of external libraries.</p>
+<h3 id="declaring-dependencies">Declaring Dependencies</h3>
+<p>Dependencies are defined inside the <code>&lt;dependencies&gt;</code>
+block. Each library is specified using its GAV coordinates:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">dependencies</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">dependency</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">groupId</span>&gt;org.slf4j&lt;/<span class="kw">groupId</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">artifactId</span>&gt;slf4j-api&lt;/<span class="kw">artifactId</span>&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">version</span>&gt;2.0.9&lt;/<span class="kw">version</span>&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">scope</span>&gt;compile&lt;/<span class="kw">scope</span>&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">dependency</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">dependencies</span>&gt;</span></code></pre></div>
+<h3 id="dependency-resolution-and-transitivity">Dependency Resolution
+and Transitivity</h3>
+<p>When Maven reads the <code>pom.xml</code>, it queries configured
+repositories (such as Maven Central or internal repositories) to locate
+and download the required JAR files to a local cache (usually
+<code>~/.m2/repository</code>).</p>
+<p>Maven automatically handles <strong>transitive dependencies</strong>.
+If Library A depends on Library B, adding Library A to the
+<code>pom.xml</code> causes Maven to automatically fetch Library B as
+well. In the event of version conflicts within the dependency tree,
+Maven uses a "nearest definition" dependency mediation algorithm to
+determine which version to include.</p>
+<h3 id="dependency-scopes">Dependency Scopes</h3>
+<p>The <code>&lt;scope&gt;</code> tag defines when a dependency is added
+to the classpath:</p>
+<ul>
+<li><strong>compile:</strong> Available on all classpaths; default
+scope.</li>
+<li><strong>provided:</strong> Required for compilation but provided by
+the runtime environment (e.g., Servlet API).</li>
+<li><strong>runtime:</strong> Required for execution but not compilation
+(e.g., JDBC driver implementations).</li>
+<li><strong>test:</strong> Only available during test compilation and
+execution (e.g., JUnit, Mockito).</li>
+</ul>
+<h2 id="build-lifecycle-management">Build Lifecycle Management</h2>
+<p>Maven organizes the build process into predefined <strong>build
+lifecycles</strong>. Instead of requiring developers to write explicit
+tasks for compiling or packaging, Maven uses convention over
+configuration defined within the <code>pom.xml</code>.</p>
+<h3 id="standard-lifecycles">Standard Lifecycles</h3>
+<p>Maven includes three built-in lifecycles:</p>
+<ol type="1">
+<li><strong>default:</strong> Handles project building and
+deployment.</li>
+<li><strong>clean:</strong> Handles project directory cleanup.</li>
+<li><strong>site:</strong> Generates project documentation and
+reports.</li>
+</ol>
+<h3 id="lifecycle-phases">Lifecycle Phases</h3>
+<p>Each lifecycle consists of an ordered sequence of phases. In the
+<code>default</code> lifecycle, executing a later phase automatically
+triggers all preceding phases:</p>
+<ul>
+<li><strong>validate:</strong> Checks if the project is correct and all
+necessary information is available.</li>
+<li><strong>compile:</strong> Compiles the source code of the
+project.</li>
+<li><strong>test:</strong> Tests the compiled source code using a unit
+testing framework.</li>
+<li><strong>package:</strong> Packages the compiled code into its
+distributable format (e.g., JAR, WAR) specified by the
+<code>&lt;packaging&gt;</code> tag in <code>pom.xml</code>.</li>
+<li><strong>verify:</strong> Runs checks on the package to ensure
+quality criteria are met.</li>
+<li><strong>install:</strong> Installs the package into the local
+repository for use as a dependency in other local projects.</li>
+<li><strong>deploy:</strong> Copies the final package to a remote
+repository for sharing with other developers.</li>
+</ul>
+<h3 id="binding-plugins-to-the-lifecycle">Binding Plugins to the
+Lifecycle</h3>
+<p>The <code>pom.xml</code> uses the <code>&lt;build&gt;</code> section
+to configure plugins that execute specific tasks (plugin goals) during
+lifecycle phases:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">build</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">plugins</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">plugin</span>&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">groupId</span>&gt;org.apache.maven.plugins&lt;/<span class="kw">groupId</span>&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">artifactId</span>&gt;maven-compiler-plugin&lt;/<span class="kw">artifactId</span>&gt;</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">version</span>&gt;3.11.0&lt;/<span class="kw">version</span>&gt;</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">configuration</span>&gt;</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                &lt;<span class="kw">source</span>&gt;17&lt;/<span class="kw">source</span>&gt;</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                &lt;<span class="kw">target</span>&gt;17&lt;/<span class="kw">target</span>&gt;</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>            &lt;/<span class="kw">configuration</span>&gt;</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">plugin</span>&gt;</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">plugins</span>&gt;</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">build</span>&gt;</span></code></pre></div>
+<p>Maven maps standard plugins to standard phases by default. For
+example, the <code>compile</code> phase automatically runs the
+<code>compile</code> goal of the <code>maven-compiler-plugin</code>, and
+the <code>test</code> phase runs the <code>test</code> goal of the
+<code>maven-surefire-plugin</code>. Through the <code>pom.xml</code>,
+developers can alter plugin versions, change target Java versions, or
+bind custom plugins to any standard lifecycle phase.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How XML Schema Facets Restrict Primitive Data Types - xml</title>
+    <meta name="description" content="XML Schema Definition (XSD) uses facets to define constraints on primitive data types, ensuring data conforms to strict business rules and structural requirements. By applying facets such as length limits, numeric boundaries, regular expression patterns,">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/how-xml-schema-facets-restrict-primitive-data-types">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How XML Schema Facets Restrict Primitive Data Types - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/how-xml-schema-facets-restrict-primitive-data-types" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="XML Schema Definition (XSD) uses facets to define constraints on primitive data types, ensuring data conforms to strict business rules and structural requirements. By applying facets such as length limits, numeric boundaries, regular expression patterns," />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-xml-schema-facets-restrict-primitive-data-types">How XML
+Schema Facets Restrict Primitive Data Types</h1>
+<p>XML Schema Definition (XSD) uses facets to define constraints on
+primitive data types, ensuring data conforms to strict business rules
+and structural requirements. By applying facets such as length limits,
+numeric boundaries, regular expression patterns, and enumerations inside
+an <code>xs:restriction</code> element, developers can derive
+specialized, validated simple types from generic built-in primitives
+like <code>xs:string</code>, <code>xs:integer</code>, and
+<code>xs:decimal</code>.</p>
+<h2 id="understanding-facets-in-xml-schema">Understanding Facets in XML
+Schema</h2>
+<p>A facet is an XML element that defines a specific aspect of a value
+space. When a simple type is derived by restriction from a base
+primitive type, facets set the boundaries of what constitutes valid
+data. Facets act as validation filters, rejecting any XML document whose
+element or attribute values violate the defined parameters.</p>
+<h2 id="restricting-string-data-types">Restricting String Data
+Types</h2>
+<p>Primitive string types (such as <code>xs:string</code> and
+<code>xs:normalizedString</code>) can hold arbitrary text. Facets allow
+you to constrain length, enforce specific values, or dictate exact
+formatting.</p>
+<ul>
+<li><strong>Length Constraints (<code>xs:length</code>,
+<code>xs:minLength</code>, <code>xs:maxLength</code>):</strong>
+<ul>
+<li><code>xs:length</code>: Requires the string to have an exact number
+of characters.</li>
+<li><code>xs:minLength</code>: Defines the lower limit on the character
+count.</li>
+<li><code>xs:maxLength</code>: Defines the upper limit on the character
+count.</li>
+</ul></li>
+<li><strong>Pattern Matching (<code>xs:pattern</code>):</strong> Defines
+a regular expression that the string must match. This is commonly used
+for formatted data such as telephone numbers, postal codes, and email
+addresses.</li>
+<li><strong>Enumerations (<code>xs:enumeration</code>):</strong>
+Restricts the string to an explicit set of acceptable values,
+functioning like an enum in programming languages.</li>
+<li><strong>Whitespace Handling (<code>xs:whiteSpace</code>):</strong>
+Instructs the processor how to handle whitespace characters using values
+like <code>preserve</code>, <code>replace</code>, or
+<code>collapse</code>.</li>
+</ul>
+<h3 id="string-restriction-example">String Restriction Example</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:simpleType</span> <span class="ot">name=</span><span class="st">&quot;ProductCodeType&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">xs:restriction</span> <span class="ot">base=</span><span class="st">&quot;xs:string&quot;</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:pattern</span> <span class="ot">value=</span><span class="st">&quot;[A-Z]{3}-[0-9]{4}&quot;</span>/&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">xs:restriction</span>&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:simpleType</span>&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:simpleType</span> <span class="ot">name=</span><span class="st">&quot;StatusType&quot;</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">xs:restriction</span> <span class="ot">base=</span><span class="st">&quot;xs:string&quot;</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:enumeration</span> <span class="ot">value=</span><span class="st">&quot;Pending&quot;</span>/&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:enumeration</span> <span class="ot">value=</span><span class="st">&quot;Approved&quot;</span>/&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:enumeration</span> <span class="ot">value=</span><span class="st">&quot;Rejected&quot;</span>/&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">xs:restriction</span>&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:simpleType</span>&gt;</span></code></pre></div>
+<h2 id="restricting-integer-and-numeric-data-types">Restricting Integer
+and Numeric Data Types</h2>
+<p>Numeric types such as <code>xs:integer</code>, <code>xs:int</code>,
+<code>xs:byte</code>, and <code>xs:decimal</code> can be constrained by
+value range and digit counts.</p>
+<ul>
+<li><strong>Boundary Limits:</strong>
+<ul>
+<li><code>xs:minInclusive</code>: The value must be greater than or
+equal to the specified number.</li>
+<li><code>xs:maxInclusive</code>: The value must be less than or equal
+to the specified number.</li>
+<li><code>xs:minExclusive</code>: The value must be strictly greater
+than the specified number.</li>
+<li><code>xs:maxExclusive</code>: The value must be strictly less than
+the specified number.</li>
+</ul></li>
+<li><strong>Digit Precision Constraints:</strong>
+<ul>
+<li><code>xs:totalDigits</code>: Specifies the maximum number of digits
+allowed in the number.</li>
+<li><code>xs:fractionDigits</code>: Specifies the maximum number of
+decimal places allowed (used with <code>xs:decimal</code>).</li>
+</ul></li>
+</ul>
+<h3 id="integer-restriction-example">Integer Restriction Example</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:simpleType</span> <span class="ot">name=</span><span class="st">&quot;AgeType&quot;</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">xs:restriction</span> <span class="ot">base=</span><span class="st">&quot;xs:integer&quot;</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:minInclusive</span> <span class="ot">value=</span><span class="st">&quot;0&quot;</span>/&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:maxInclusive</span> <span class="ot">value=</span><span class="st">&quot;120&quot;</span>/&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">xs:restriction</span>&gt;</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:simpleType</span>&gt;</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:simpleType</span> <span class="ot">name=</span><span class="st">&quot;QuantityType&quot;</span>&gt;</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">xs:restriction</span> <span class="ot">base=</span><span class="st">&quot;xs:positiveInteger&quot;</span>&gt;</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:maxExclusive</span> <span class="ot">value=</span><span class="st">&quot;1000&quot;</span>/&gt;</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:totalDigits</span> <span class="ot">value=</span><span class="st">&quot;3&quot;</span>/&gt;</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">xs:restriction</span>&gt;</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:simpleType</span>&gt;</span></code></pre></div>
+<h2 id="summary-of-common-facet-compatibility">Summary of Common Facet
+Compatibility</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Facet</th>
+<th style="text-align: left;">Compatible Types</th>
+<th style="text-align: left;">Primary Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>minInclusive</code> /
+<code>maxInclusive</code></td>
+<td style="text-align: left;">Integers, Decimals, Dates</td>
+<td style="text-align: left;">Defining inclusive value ranges</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>minExclusive</code> /
+<code>maxExclusive</code></td>
+<td style="text-align: left;">Integers, Decimals, Dates</td>
+<td style="text-align: left;">Defining exclusive value boundaries</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>length</code> /
+<code>minLength</code> / <code>maxLength</code></td>
+<td style="text-align: left;">Strings, Lists, Binary data</td>
+<td style="text-align: left;">Controlling exact or bounded character
+counts</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>pattern</code></td>
+<td style="text-align: left;">Almost all simple types</td>
+<td style="text-align: left;">Enforcing structural regex patterns</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>enumeration</code></td>
+<td style="text-align: left;">Almost all simple types</td>
+<td style="text-align: left;">Limiting values to a defined list</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>totalDigits</code> /
+<code>fractionDigits</code></td>
+<td style="text-align: left;">Decimals, Integers</td>
+<td style="text-align: left;">Controlling numeric precision and
+scale</td>
+</tr>
+</tbody>
+</table>
+<p>By applying these facets within custom simple type definitions, XML
+Schemas enforce rigorous data integrity at the parser level before the
+data reaches application logic.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

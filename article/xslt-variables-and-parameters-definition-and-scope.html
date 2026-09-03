@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSLT Variables and Parameters: Definition and Scope - xml</title>
+    <meta name="description" content="In XSLT stylesheets, <xsl:variable> and <xsl:param> are the primary constructs used to store, evaluate, and pass data during XML transformations. While both hold values that cannot be altered once assigned due to XSLT's functional design, they serve dist">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/xslt-variables-and-parameters-definition-and-scope">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="XSLT Variables and Parameters: Definition and Scope - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/xslt-variables-and-parameters-definition-and-scope" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In XSLT stylesheets, <xsl:variable> and <xsl:param> are the primary constructs used to store, evaluate, and pass data during XML transformations. While both hold values that cannot be altered once assigned due to XSLT's functional design, they serve dist" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="xslt-variables-and-parameters-definition-and-scope">XSLT
+Variables and Parameters: Definition and Scope</h1>
+<p>In XSLT stylesheets, <code>&lt;xsl:variable&gt;</code> and
+<code>&lt;xsl:param&gt;</code> are the primary constructs used to store,
+evaluate, and pass data during XML transformations. While both hold
+values that cannot be altered once assigned due to XSLT's functional
+design, they serve distinct roles: variables evaluate fixed expressions,
+whereas parameters accept dynamic input from external processors or
+calling templates. Mastering the syntax for defining both elements and
+understanding the structural rules of global versus local scope is
+essential for creating clean, modular, and maintainable XSLT
+transformations.</p>
+<h3 id="defining-variables-with-xslvariable">Defining Variables with
+<code>&lt;xsl:variable&gt;</code></h3>
+<p>An XSLT variable stores a value or node-set for reuse. Variables are
+defined using the <code>&lt;xsl:variable&gt;</code> element and must
+have a <code>name</code> attribute. A value can be assigned either
+through a <code>select</code> attribute containing an XPath expression
+or by placing content inside the opening and closing tags.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Assigned via XPath select attribute --&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xsl:variable</span> <span class="ot">name=</span><span class="st">&quot;itemCount&quot;</span> <span class="ot">select=</span><span class="st">&quot;count(/catalog/item)&quot;</span> /&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Assigned via element content (creates a result tree fragment) --&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xsl:variable</span> <span class="ot">name=</span><span class="st">&quot;formattedHeader&quot;</span>&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">span</span> <span class="ot">class=</span><span class="st">&quot;title&quot;</span>&gt;Product Catalog&lt;/<span class="kw">span</span>&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xsl:variable</span>&gt;</span></code></pre></div>
+<p>In XSLT, variables are immutable. Once a variable is declared and
+evaluated within its scope, its value cannot be modified or reassigned
+like variables in procedural programming languages.</p>
+<h3 id="defining-parameters-with-xslparam">Defining Parameters with
+<code>&lt;xsl:param&gt;</code></h3>
+<p>The <code>&lt;xsl:param&gt;</code> element defines a parameter that
+can receive an incoming value from an external source or a calling
+template. Like variables, parameters require a <code>name</code>
+attribute and can specify a default fallback value via the
+<code>select</code> attribute or element content. If no value is passed
+from the caller, the parameter defaults to the specified value.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xsl:param</span> <span class="ot">name=</span><span class="st">&quot;currencyCode&quot;</span> <span class="ot">select=</span><span class="st">&quot;&#39;USD&#39;&quot;</span> /&gt;</span></code></pre></div>
+<h3 id="global-scope-vs-local-scope">Global Scope vs. Local Scope</h3>
+<p>The scope of both variables and parameters is determined strictly by
+their position in the stylesheet hierarchy:</p>
+<ul>
+<li><strong>Global Scope:</strong> When declared directly as child
+elements of the root <code>&lt;xsl:stylesheet&gt;</code> or
+<code>&lt;xsl:transform&gt;</code> element, variables and parameters are
+global. They are evaluated once and become accessible to all templates
+and expressions across the entire stylesheet. Global parameters can also
+accept values passed in from the external XSLT execution engine.</li>
+<li><strong>Local Scope:</strong> When declared inside a template
+(<code>&lt;xsl:template&gt;</code>) or within an instruction block (such
+as <code>&lt;xsl:for-each&gt;</code>, <code>&lt;xsl:if&gt;</code>, or
+<code>&lt;xsl:choose&gt;</code>), the variable or parameter is local. A
+local declaration is only visible to the following sibling elements and
+their descendants within the same parent block. It cannot be accessed
+outside the enclosing element.</li>
+</ul>
+<h3 id="parameter-and-variable-shadowing">Parameter and Variable
+Shadowing</h3>
+<p>If a local variable or parameter shares the same name as a global
+one, the local declaration shadows (overrides) the global value within
+that local scope. However, declaring two variables or parameters with
+the exact same name within the same local block is invalid and results
+in a transformation error.</p>
+<h3 id="passing-values-to-templates">Passing Values to Templates</h3>
+<p>To pass dynamic values into a template parameter, use the
+<code>&lt;xsl:with-param&gt;</code> instruction inside
+<code>&lt;xsl:call-template&gt;</code> or
+<code>&lt;xsl:apply-templates&gt;</code>. The <code>name</code>
+attribute of <code>&lt;xsl:with-param&gt;</code> must match the
+corresponding <code>&lt;xsl:param&gt;</code> defined at the very
+beginning of the target template.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Calling a template and passing a parameter --&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xsl:call-template</span> <span class="ot">name=</span><span class="st">&quot;renderPrice&quot;</span>&gt;</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xsl:with-param</span> <span class="ot">name=</span><span class="st">&quot;discountRate&quot;</span> <span class="ot">select=</span><span class="st">&quot;0.15&quot;</span> /&gt;</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xsl:call-template</span>&gt;</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Target template receiving the parameter --&gt;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xsl:template</span> <span class="ot">name=</span><span class="st">&quot;renderPrice&quot;</span>&gt;</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xsl:param</span> <span class="ot">name=</span><span class="st">&quot;discountRate&quot;</span> <span class="ot">select=</span><span class="st">&quot;0.0&quot;</span> /&gt;</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xsl:value-of</span> <span class="ot">select=</span><span class="st">&quot;price * (1 - $discountRate)&quot;</span> /&gt;</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xsl:template</span>&gt;</span></code></pre></div>
+<p>Referencing both variables and parameters anywhere in XPath
+expressions is accomplished by prefixing the identifier name with a
+dollar sign (<code>$identifierName</code>).</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

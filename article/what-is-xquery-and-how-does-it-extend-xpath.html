@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is XQuery and How Does It Extend XPath? - xml</title>
+    <meta name="description" content="This article provides a comprehensive overview of XQuery, a functional programming language designed to query, extract, and transform structured and semi-structured XML data. It explores the foundational relationship between XPath and XQuery, outlining h">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/what-is-xquery-and-how-does-it-extend-xpath">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is XQuery and How Does It Extend XPath? - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/what-is-xquery-and-how-does-it-extend-xpath" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a comprehensive overview of XQuery, a functional programming language designed to query, extract, and transform structured and semi-structured XML data. It explores the foundational relationship between XPath and XQuery, outlining h" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-xquery-and-how-does-it-extend-xpath">What Is XQuery and
+How Does It Extend XPath?</h1>
+<p>This article provides a comprehensive overview of XQuery, a
+functional programming language designed to query, extract, and
+transform structured and semi-structured XML data. It explores the
+foundational relationship between XPath and XQuery, outlining how XQuery
+incorporates XPath's navigational capabilities while expanding into a
+full-featured data manipulation language. You will learn the core
+differences between both technologies, key features like FLWOR
+expressions, and how XQuery enables advanced operations such as joining
+data sources, transforming outputs, and executing complex business
+logic.</p>
+<h3 id="what-is-xquery">What Is XQuery?</h3>
+<p>XQuery (XML Query) is a standardized query and functional programming
+language developed by the World Wide Web Consortium (W3C). Often
+described as the "SQL for XML," XQuery is specifically designed to query
+collections of XML data, whether stored in XML files, relational
+databases, native XML databases, or retrieved via web services.</p>
+<p>XQuery allows developers to search, extract, manipulate, and
+construct XML documents. Because it is a strongly typed, functional
+language, XQuery expressions are evaluated to produce results without
+side effects, making it predictable and highly optimizable for
+large-scale data systems.</p>
+<h3 id="the-relationship-between-xpath-and-xquery">The Relationship
+Between XPath and XQuery</h3>
+<p>XPath (XML Path Language) is designed primarily for addressing and
+navigating specific nodes or node-sets within an XML document tree.</p>
+<p>XQuery is built directly on top of XPath. In fact, XPath 2.0 and
+later versions are formal subsets of XQuery. Any valid XPath expression
+is also a valid XQuery expression. While XPath serves as the syntax for
+locating and selecting elements or attributes, XQuery provides the
+surrounding programming framework required to manipulate, reshape, and
+output that data into new formats.</p>
+<h3 id="how-xquery-extends-xpath-capabilities">How XQuery Extends XPath
+Capabilities</h3>
+<p>While XPath excels at finding and filtering specific nodes, it has
+limited capability when it comes to constructing new structures,
+performing complex iterations, or combining multiple datasets. XQuery
+extends XPath through several critical capabilities:</p>
+<h4 id="1-flwor-expressions">1. FLWOR Expressions</h4>
+<p>The most significant extension XQuery introduces is the FLWOR
+(pronounced "flower") expression. FLWOR stands for:</p>
+<ul>
+<li><strong>For:</strong> Iterates over an input sequence to bind
+variables to individual items.</li>
+<li><strong>Let:</strong> Binds a variable to an entire sequence or
+intermediate computation.</li>
+<li><strong>Where:</strong> Filters items based on specific boolean
+conditions (similar to SQL's <code>WHERE</code> clause).</li>
+<li><strong>Order by:</strong> Sorts the resulting items based on
+specified criteria.</li>
+<li><strong>Return:</strong> Defines the structure and content of the
+output for each iteration.</li>
+</ul>
+<p>FLWOR expressions provide structured looping, sorting, and
+intermediate variable assignment that XPath paths alone cannot
+achieve.</p>
+<h4 id="2-constructing-new-xml-and-non-xml-structures">2. Constructing
+New XML and Non-XML Structures</h4>
+<p>XPath only returns existing nodes or atomic values from the source
+document. XQuery can dynamically construct entirely new XML elements and
+attributes using direct element constructors (writing literal XML tags
+within the query) or computed constructors. Furthermore, XQuery can
+serialize outputs into HTML, JSON, or plain text.</p>
+<h4 id="3-joining-multiple-xml-documents">3. Joining Multiple XML
+Documents</h4>
+<p>XPath evaluates queries within the context of a single document tree
+at a time. XQuery allows you to query multiple XML documents
+simultaneously and perform relational-style joins across them using the
+<code>doc()</code> function combined with FLWOR expressions. This makes
+it possible to aggregate disparate XML data sources into a unified
+result.</p>
+<h4 id="4-user-defined-functions-and-modularity">4. User-Defined
+Functions and Modularity</h4>
+<p>XQuery allows developers to write custom, reusable functions within
+query modules. These functions can contain conditional logic
+(<code>if-then-else</code>), recursive algorithms, and custom data
+processing steps, providing full functional programming capabilities
+that go far beyond simple data extraction.</p>
+<h4 id="5-advanced-data-typing-and-aggregation">5. Advanced Data Typing
+and Aggregation</h4>
+<p>While XPath supports basic data types and functions, XQuery includes
+a rich type system based on XML Schema (W3C XML Schema Datatypes). It
+supports explicit type casting, schema validation within queries, and
+complex aggregations across large sets of records.</p>
+<h3 id="summary-of-differences">Summary of Differences</h3>
+<ul>
+<li><strong>Scope:</strong> XPath is a path navigation language; XQuery
+is a complete functional query language.</li>
+<li><strong>Input/Output:</strong> XPath selects existing nodes from a
+single document; XQuery can join multiple documents and generate
+completely new document structures.</li>
+<li><strong>Processing Power:</strong> XPath provides basic filtering
+predicates; XQuery provides FLWOR expressions, custom functions,
+conditional logic, and sorting mechanisms.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is Binary XML and When to Use It - xml</title>
+    <meta name="description" content="Binary XML is an optimized encoding of the XML data model that converts standard text-based markup into a compact, machine-readable binary format. This article explains the fundamentals of Binary XML, how it differs from traditional plain-text XML, and t">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/what-is-binary-xml-and-when-to-use-it">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is Binary XML and When to Use It - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/what-is-binary-xml-and-when-to-use-it" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Binary XML is an optimized encoding of the XML data model that converts standard text-based markup into a compact, machine-readable binary format. This article explains the fundamentals of Binary XML, how it differs from traditional plain-text XML, and t" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-binary-xml-and-when-to-use-it">What Is Binary XML and
+When to Use It</h1>
+<p>Binary XML is an optimized encoding of the XML data model that
+converts standard text-based markup into a compact, machine-readable
+binary format. This article explains the fundamentals of Binary XML, how
+it differs from traditional plain-text XML, and the specific
+high-performance, bandwidth-limited, and resource-constrained scenarios
+where it outperforms human-readable XML.</p>
+<h2 id="understanding-binary-xml">Understanding Binary XML</h2>
+<p>Standard XML (Extensible Markup Language) stores data as plain text
+using verbose opening and closing tags. While human-readable and
+universally supported, text XML introduces significant overhead in file
+size and processing complexity.</p>
+<p>Binary XML addresses these inefficiencies by encoding the XML
+Information Set (Infoset) into binary representations. Instead of
+repeatedly writing long string tags (such as
+<code>&lt;CustomerIdentificationNumber&gt;</code>), a binary XML encoder
+maps strings, structural tokens, and data types into compact numeric
+codes or indexed tables.</p>
+<p>Widely adopted Binary XML specifications include:</p>
+<ul>
+<li><strong>Efficient XML Interchange (EXI):</strong> The W3C standard
+format designed for maximum compression and processing efficiency.</li>
+<li><strong>Fast Infoset (FI):</strong> An ITU-T and ISO standard
+alternative designed as a binary representation of the XML Infoset.</li>
+<li><strong>BXML / proprietary formats:</strong> Specialized
+implementations used in databases (e.g., Oracle Binary XML) or mobile
+operating systems (e.g., Android Binary XML).</li>
+</ul>
+<h2 id="key-differences-from-human-readable-xml">Key Differences from
+Human-Readable XML</h2>
+<ul>
+<li><strong>Payload Size:</strong> Binary XML compresses data
+significantly, often reducing document sizes by 50% to 90% compared to
+uncompressed text XML.</li>
+<li><strong>Parsing Speed:</strong> Text XML requires string parsing,
+character escaping, and lexical analysis. Binary XML uses fixed-length
+byte patterns and token offsets, allowing processors to decode values
+directly into native memory structures without extensive string
+manipulation.</li>
+<li><strong>Schema Awareness:</strong> Many binary formats can leverage
+an existing XML Schema (XSD) to omit type tags entirely and store values
+directly in native binary types (e.g., raw integers, IEEE floats, or
+booleans).</li>
+</ul>
+<h2 id="when-binary-xml-is-preferred-over-human-readable-xml">When
+Binary XML Is Preferred over Human-Readable XML</h2>
+<p>While text-based XML remains the standard for configuration files,
+document interchange, and general web services where human
+inspectability is required, Binary XML is preferred in the following
+environments:</p>
+<h3 id="1-mobile-and-iot-devices-resource-constrained-environments">1.
+Mobile and IoT Devices (Resource-Constrained Environments)</h3>
+<p>Mobile phones, sensors, and Internet of Things (IoT) hardware have
+limited battery life, CPU power, and RAM. Binary XML significantly
+reduces CPU cycles required for serialization and deserialization,
+reducing energy consumption and memory footprints.</p>
+<h3 id="2-bandwidth-constrained-networks">2. Bandwidth-Constrained
+Networks</h3>
+<p>In satellite communications, military tactical datalinks, remote
+telemetry, and cellular connections, network throughput is expensive or
+limited. Binary XML drastically minimizes transmission payloads without
+requiring heavy CPU-intensive compression algorithms like GZIP.</p>
+<h3 id="3-high-frequency-and-real-time-systems">3. High-Frequency and
+Real-Time Systems</h3>
+<p>Applications such as algorithmic financial trading, industrial
+automation, and vehicle-to-everything (V2X) communication require
+ultra-low latency. Binary XML reduces parsing bottlenecks, allowing
+systems to process high-throughput data streams in microseconds.</p>
+<h3 id="4-smart-grid-and-utility-standards">4. Smart Grid and Utility
+Standards</h3>
+<p>Modern utility infrastructure protocols, such as ISO/IEC 15118 for
+electric vehicle charging communication, mandate the use of EXI (Binary
+XML) to ensure fast, secure, and lightweight communication across
+low-power controllers.</p>
+<h3 id="5-large-scale-xml-storage-and-databases">5. Large-Scale XML
+Storage and Databases</h3>
+<p>Enterprise databases storing terabytes of XML documents use Binary
+XML storage formats to reduce disk usage and allow direct indexing and
+querying of binary tokens without parsing full text nodes.</p>
+<h2 id="summary-of-trade-offs">Summary of Trade-offs</h2>
+<p>Binary XML should be selected whenever performance, bandwidth, or
+hardware efficiency outweighs the need for direct human readability and
+text-editor debugging. When simple debugging, human configuration, and
+universal out-of-the-box software compatibility are the primary
+priorities, standard text XML remains the appropriate choice.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is RDF and How Does RDF/XML Syntax Work? - xml</title>
+    <meta name="description" content="This article provides a concise guide to the Resource Description Framework (RDF) and its XML serialization format, RDF/XML. It covers the fundamental concepts of RDF as a metadata data model for the Semantic Web, explains the structure of RDF triples, a">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/what-is-rdf-and-how-does-rdf-xml-syntax-work">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is RDF and How Does RDF/XML Syntax Work? - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/what-is-rdf-and-how-does-rdf-xml-syntax-work" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a concise guide to the Resource Description Framework (RDF) and its XML serialization format, RDF/XML. It covers the fundamental concepts of RDF as a metadata data model for the Semantic Web, explains the structure of RDF triples, a" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-rdf-and-how-does-rdfxml-syntax-work">What Is RDF and How
+Does RDF/XML Syntax Work?</h1>
+<p>This article provides a concise guide to the Resource Description
+Framework (RDF) and its XML serialization format, RDF/XML. It covers the
+fundamental concepts of RDF as a metadata data model for the Semantic
+Web, explains the structure of RDF triples, and demonstrates how RDF
+statements are encoded and structured within standard XML syntax.</p>
+<h2 id="what-is-rdf">What is RDF?</h2>
+<p>The Resource Description Framework (RDF) is a standard data model
+developed by the World Wide Web Consortium (W3C) for representing
+information and relationships on the Web. Unlike traditional relational
+databases that organize data into tables, RDF models data as a directed,
+labeled graph.</p>
+<p>The primary purpose of RDF is to facilitate data interchange and
+automated processing across different systems by giving data a
+machine-readable semantic meaning.</p>
+<h3 id="the-rdf-triple">The RDF Triple</h3>
+<p>At the core of RDF is the "triple" concept. Every statement in RDF
+consists of three distinct components:</p>
+<ol type="1">
+<li><strong>Subject:</strong> The resource being identified or
+described, typically represented by an Internationalized Resource
+Identifier (IRI) or a Blank Node.</li>
+<li><strong>Predicate:</strong> The specific property, trait, or
+relationship connecting the subject to the object, represented by an
+IRI.</li>
+<li><strong>Object:</strong> The value of the property or the related
+resource. An object can be an IRI, a Blank Node, or a literal value
+(such as a string, integer, or date).</li>
+</ol>
+<p>When multiple triples share subjects or objects, they interlink to
+form an RDF graph.</p>
+<hr />
+<h2 id="what-is-rdfxml-serialization">What is RDF/XML
+Serialization?</h2>
+<p>RDF is an abstract data model that can be written down (serialized)
+using several different concrete syntaxes, such as Turtle, N-Triples,
+JSON-LD, and RDF/XML.</p>
+<p>RDF/XML is the original standard syntax for encoding RDF graphs using
+Extensible Markup Language (XML). It provides a way to represent graph
+data inside a hierarchical, tree-based XML document so that standard XML
+parsers and tools can process semantic metadata.</p>
+<hr />
+<h2 id="how-rdfxml-syntax-functions">How RDF/XML Syntax Functions</h2>
+<p>RDF/XML uses standard XML elements, attributes, and namespaces to map
+XML nodes directly to RDF subjects, predicates, and objects.</p>
+<h3 id="1-root-element-and-namespaces">1. Root Element and
+Namespaces</h3>
+<p>An RDF/XML document is enclosed in the <code>&lt;rdf:RDF&gt;</code>
+root element. This element defines the XML namespaces used throughout
+the document to avoid naming collisions and to abbreviate long IRIs into
+compact prefixes.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">rdf:RDF</span> </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="ot">xmlns:rdf=</span><span class="st">&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="ot">xmlns:dc=</span><span class="st">&quot;http://purl.org/dc/elements/1.1/&quot;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="ot">xmlns:schema=</span><span class="st">&quot;https://schema.org/&quot;</span>&gt;</span></code></pre></div>
+<h3 id="2-identifying-the-subject-rdfdescription-and-rdfabout">2.
+Identifying the Subject (<code>rdf:Description</code> and
+<code>rdf:about</code>)</h3>
+<p>The subject of a statement is declared using the
+<code>&lt;rdf:Description&gt;</code> element. The <code>rdf:about</code>
+attribute specifies the IRI of the resource being described.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">rdf:Description</span> <span class="ot">rdf:about=</span><span class="st">&quot;https://example.org/books/semantic-web-guide&quot;</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Predicates and Objects go here --&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">rdf:Description</span>&gt;</span></code></pre></div>
+<h3 id="3-representing-predicates-and-literal-objects">3. Representing
+Predicates and Literal Objects</h3>
+<p>Child elements inside <code>&lt;rdf:Description&gt;</code> represent
+the predicates. The text content inside these elements represents
+literal objects.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">rdf:Description</span> <span class="ot">rdf:about=</span><span class="st">&quot;https://example.org/books/semantic-web-guide&quot;</span>&gt;</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">dc:title</span>&gt;Semantic Web Guide&lt;/<span class="kw">dc:title</span>&gt;</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">dc:date</span>&gt;2024-01-15&lt;/<span class="kw">dc:date</span>&gt;</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">rdf:Description</span>&gt;</span></code></pre></div>
+<ul>
+<li>In this example:
+<ul>
+<li><strong>Subject:</strong>
+<code>https://example.org/books/semantic-web-guide</code></li>
+<li><strong>Predicate:</strong>
+<code>http://purl.org/dc/elements/1.1/title</code></li>
+<li><strong>Object:</strong> <code>"Semantic Web Guide"</code>
+(Literal)</li>
+</ul></li>
+</ul>
+<h3 id="4-representing-resource-objects-rdfresource">4. Representing
+Resource Objects (<code>rdf:resource</code>)</h3>
+<p>When the object of a triple is another resource with an IRI (rather
+than a literal value), the <code>rdf:resource</code> attribute is used
+on the predicate element instead of enclosed text.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">rdf:Description</span> <span class="ot">rdf:about=</span><span class="st">&quot;https://example.org/books/semantic-web-guide&quot;</span>&gt;</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">dc:creator</span> <span class="ot">rdf:resource=</span><span class="st">&quot;https://example.org/authors/jane-doe&quot;</span>/&gt;</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">rdf:Description</span>&gt;</span></code></pre></div>
+<ul>
+<li>This establishes a link between the book resource and the author
+resource.</li>
+</ul>
+<h3 id="5-typed-nodes-syntactic-shortcut">5. Typed Nodes (Syntactic
+Shortcut)</h3>
+<p>To indicate that a subject belongs to a specific class (an
+<code>rdf:type</code> relationship), RDF/XML allows the element name to
+be replaced directly with the class name instead of using
+<code>&lt;rdf:Description&gt;</code>.</p>
+<p>Instead of:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">rdf:Description</span> <span class="ot">rdf:about=</span><span class="st">&quot;https://example.org/books/semantic-web-guide&quot;</span>&gt;</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">rdf:type</span> <span class="ot">rdf:resource=</span><span class="st">&quot;https://schema.org/Book&quot;</span>/&gt;</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">rdf:Description</span>&gt;</span></code></pre></div>
+<p>You can write:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">schema:Book</span> <span class="ot">rdf:about=</span><span class="st">&quot;https://example.org/books/semantic-web-guide&quot;</span>&gt;</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">dc:title</span>&gt;Semantic Web Guide&lt;/<span class="kw">dc:title</span>&gt;</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">schema:Book</span>&gt;</span></code></pre></div>
+<h3 id="6-datatypes-and-languages">6. Datatypes and Languages</h3>
+<p>RDF/XML supports data typing and language tags on literal values:</p>
+<ul>
+<li><strong>Datatypes:</strong> Defined using the
+<code>rdf:datatype</code> attribute (e.g.,
+<code>rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"</code>).</li>
+<li><strong>Language Tags:</strong> Defined using the standard
+<code>xml:lang</code> attribute (e.g., <code>xml:lang="en"</code>).</li>
+</ul>
+<hr />
+<h2 id="complete-rdfxml-example">Complete RDF/XML Example</h2>
+<p>Below is a complete, valid RDF/XML document that combines these
+concepts to describe a book, its title, publication year, and author
+relationship:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span> <span class="ot">version=</span><span class="st">&quot;1.0&quot;</span> <span class="ot">encoding=</span><span class="st">&quot;utf-8&quot;</span><span class="fu">?&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">rdf:RDF</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="ot">xmlns:rdf=</span><span class="st">&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="ot">xmlns:dc=</span><span class="st">&quot;http://purl.org/dc/elements/1.1/&quot;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="ot">xmlns:schema=</span><span class="st">&quot;https://schema.org/&quot;</span>&gt;</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">schema:Book</span> <span class="ot">rdf:about=</span><span class="st">&quot;https://example.org/books/semantic-web-guide&quot;</span>&gt;</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">dc:title</span> <span class="ot">xml:lang=</span><span class="st">&quot;en&quot;</span>&gt;Semantic Web Guide&lt;/<span class="kw">dc:title</span>&gt;</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">dc:creator</span> <span class="ot">rdf:resource=</span><span class="st">&quot;https://example.org/authors/jane-doe&quot;</span>/&gt;</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">schema:Book</span>&gt;</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">schema:Person</span> <span class="ot">rdf:about=</span><span class="st">&quot;https://example.org/authors/jane-doe&quot;</span>&gt;</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">schema:name</span>&gt;Jane Doe&lt;/<span class="kw">schema:name</span>&gt;</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">schema:Person</span>&gt;</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">rdf:RDF</span>&gt;</span></code></pre></div>
+<p>When parsed by an RDF processor, this XML structure resolves into
+four graph triples that unambiguously state the existence of a Book and
+a Person, their names, and the relationship between them.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

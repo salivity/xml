@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why XML to JSON Conversion Causes Array Ambiguity - xml</title>
+    <meta name="description" content="Converting arbitrary XML to JSON frequently introduces structural ambiguity because XML lacks a native, explicit array data type. While JSON has distinct data types for key-value objects ({}) and ordered lists ([]), XML represents collections simply as r">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/why-xml-to-json-conversion-causes-array-ambiguity">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why XML to JSON Conversion Causes Array Ambiguity - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/why-xml-to-json-conversion-causes-array-ambiguity" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Converting arbitrary XML to JSON frequently introduces structural ambiguity because XML lacks a native, explicit array data type. While JSON has distinct data types for key-value objects ({}) and ordered lists ([]), XML represents collections simply as r" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="why-xml-to-json-conversion-causes-array-ambiguity">Why XML to
+JSON Conversion Causes Array Ambiguity</h1>
+<p>Converting arbitrary XML to JSON frequently introduces structural
+ambiguity because XML lacks a native, explicit array data type. While
+JSON has distinct data types for key-value objects (<code>{}</code>) and
+ordered lists (<code>[]</code>), XML represents collections simply as
+repeating sibling elements. Without an external schema, automated
+converters cannot determine whether a single XML element is intended to
+be a standalone scalar property or a single-element array, leading to
+inconsistent data structures and parsing errors in downstream
+applications.</p>
+<h3 id="the-fundamental-data-model-mismatch">The Fundamental Data Model
+Mismatch</h3>
+<p>JSON is a typed data serialization format that strictly distinguishes
+between single values, objects, and arrays. A JSON consumer expects a
+predictable data type at a given key: either a single entity or an
+iterable list.</p>
+<p>In contrast, XML is a document markup language where structure is
+defined entirely by element nesting and node repetition. XML has no
+native syntax to declare, "this field is an array." Instead, lists are
+inferred purely by context:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Multiple items: clearly a list --&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">users</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">user</span>&gt;Alice&lt;/<span class="kw">user</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">user</span>&gt;Bob&lt;/<span class="kw">user</span>&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">users</span>&gt;</span></code></pre></div>
+<p>When an XML-to-JSON parser encounters this block, it easily converts
+<code>&lt;user&gt;</code> into an array:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;users&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;user&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;Alice&quot;</span><span class="ot">,</span> <span class="st">&quot;Bob&quot;</span><span class="ot">]</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h3 id="the-single-item-anomaly">The Single-Item Anomaly</h3>
+<p>The core ambiguity occurs when an arbitrary dataset contains only one
+element. Consider a query that returns a single user:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">users</span>&gt;</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">user</span>&gt;Alice&lt;/<span class="kw">user</span>&gt;</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">users</span>&gt;</span></code></pre></div>
+<p>Because an arbitrary parser evaluates only the raw XML text without
+predefined rules or schemas, it typically interprets
+<code>&lt;user&gt;</code> as a single object or primitive string:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;users&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;user&quot;</span><span class="fu">:</span> <span class="st">&quot;Alice&quot;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>This causes dynamic type shifting. Downstream applications expecting
+<code>users.user</code> to be an iterable array will crash with runtime
+type errors when the payload switches from an array to a string or
+object.</p>
+<h3 id="the-empty-element-problem">The Empty Element Problem</h3>
+<p>A similar ambiguity exists when representing empty lists. If an XML
+document contains an empty wrapper element, such as
+<code>&lt;users&gt;&lt;/users&gt;</code>, a parser cannot natively know
+whether this represents:</p>
+<ul>
+<li>An empty array: <code>"users": []</code></li>
+<li>An empty object: <code>"users": {}</code></li>
+<li>A <code>null</code> value: <code>"users": null</code></li>
+<li>An empty string: <code>"users": ""</code></li>
+</ul>
+<h3 id="lack-of-schema-awareness">Lack of Schema Awareness</h3>
+<p>Arbitrary conversion operates without metadata. In typed systems, an
+XML Schema Definition (XSD) indicates whether a field has
+<code>maxOccurs="unbounded"</code> or <code>maxOccurs="1"</code>.</p>
+<p>Without referencing an XSD or a target JSON Schema, the parser must
+rely entirely on heuristics based on the specific instance document it
+is processing. If the schema specifies that a field is a collection, but
+the current payload instance only contains one item, an arbitrary parser
+will always misclassify the data type.</p>
+<h3 id="how-the-issue-is-resolved">How the Issue Is Resolved</h3>
+<p>To prevent array ambiguity during conversion, systems rely on
+structured strategies rather than arbitrary mapping:</p>
+<ul>
+<li><strong>Schema-Driven Conversion:</strong> Providing an XSD or JSON
+Schema to define which keys must always be arrays, regardless of element
+count.</li>
+<li><strong>Markup Hints:</strong> Adding XML attributes (e.g.,
+<code>&lt;user json:Array="true"&gt;Alice&lt;/user&gt;</code>) to
+explicitly signal list structures to the converter.</li>
+<li><strong>Predefined Mapping Rules:</strong> Configuring explicit
+transformation paths in integration layers so collections maintain
+consistent array formats across all payloads.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

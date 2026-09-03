@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How defaultAttributes Works in XML Schema 1.1 - xml</title>
+    <meta name="description" content="This article explains how the defaultAttributes attribute in XML Schema 1.1 enables schema authors to apply a standardized set of attributes globally across all complex types. It details the setup required on the root schema element, demonstrates how glo">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/how-defaultattributes-works-in-xml-schema-1-1">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How defaultAttributes Works in XML Schema 1.1 - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/how-defaultattributes-works-in-xml-schema-1-1" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how the defaultAttributes attribute in XML Schema 1.1 enables schema authors to apply a standardized set of attributes globally across all complex types. It details the setup required on the root schema element, demonstrates how glo" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-defaultattributes-works-in-xml-schema-11">How
+defaultAttributes Works in XML Schema 1.1</h1>
+<p>This article explains how the <code>defaultAttributes</code>
+attribute in XML Schema 1.1 enables schema authors to apply a
+standardized set of attributes globally across all complex types. It
+details the setup required on the root schema element, demonstrates how
+global attribute groups are linked, and outlines how individual complex
+types can opt out using the <code>defaultAttributesApply</code>
+attribute.</p>
+<h2 id="overview-of-defaultattributes">Overview of
+defaultAttributes</h2>
+<p>In XML Schema 1.0, adding common metadata attributes—such as
+<code>id</code>, <code>timestamp</code>, or <code>xml:lang</code>—to
+multiple elements required manually referencing an
+<code>xs:attributeGroup</code> inside every single
+<code>xs:complexType</code>.</p>
+<p>XML Schema 1.1 introduced the <code>defaultAttributes</code>
+attribute on the <code>&lt;xs:schema&gt;</code> element to eliminate
+this repetition. When declared, it designates a global attribute group
+whose attributes are automatically injected into every complex type
+defined within that schema document.</p>
+<h2 id="how-to-configure-defaultattributes">How to Configure
+defaultAttributes</h2>
+<p>Applying attributes globally involves two primary steps: defining the
+global attribute group and referencing it at the root
+<code>&lt;xs:schema&gt;</code> element.</p>
+<h3 id="1-define-the-global-attribute-group">1. Define the Global
+Attribute Group</h3>
+<p>First, create an <code>&lt;xs:attributeGroup&gt;</code> at the top
+level of the schema containing the attributes you want to apply
+universally.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:attributeGroup</span> <span class="ot">name=</span><span class="st">&quot;CommonMetadata&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:attribute</span> <span class="ot">name=</span><span class="st">&quot;id&quot;</span> <span class="ot">type=</span><span class="st">&quot;xs:ID&quot;</span> <span class="ot">use=</span><span class="st">&quot;optional&quot;</span>/&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:attribute</span> <span class="ot">name=</span><span class="st">&quot;lastModified&quot;</span> <span class="ot">type=</span><span class="st">&quot;xs:dateTime&quot;</span> <span class="ot">use=</span><span class="st">&quot;optional&quot;</span>/&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:attributeGroup</span>&gt;</span></code></pre></div>
+<h3 id="2-reference-the-group-on-the-schema-element">2. Reference the
+Group on the Schema Element</h3>
+<p>Next, set the <code>defaultAttributes</code> attribute on the
+<code>&lt;xs:schema&gt;</code> root element, assigning it the name of
+your attribute group.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:schema</span> <span class="ot">xmlns:xs=</span><span class="st">&quot;http://www.w3.org/2001/XMLSchema&quot;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>           <span class="ot">elementFormDefault=</span><span class="st">&quot;qualified&quot;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>           <span class="ot">defaultAttributes=</span><span class="st">&quot;CommonMetadata&quot;</span>&gt;</span></code></pre></div>
+<p>Once declared, any <code>&lt;xs:complexType&gt;</code> defined in
+this schema document automatically inherits the <code>id</code> and
+<code>lastModified</code> attributes without explicit
+<code>&lt;xs:attributeGroup ref="..."/&gt;</code> declarations.</p>
+<h2 id="complete-schema-example">Complete Schema Example</h2>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:schema</span> <span class="ot">xmlns:xs=</span><span class="st">&quot;http://www.w3.org/2001/XMLSchema&quot;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>           <span class="ot">targetNamespace=</span><span class="st">&quot;http://example.com/ns&quot;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>           <span class="ot">xmlns=</span><span class="st">&quot;http://example.com/ns&quot;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>           <span class="ot">elementFormDefault=</span><span class="st">&quot;qualified&quot;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>           <span class="ot">defaultAttributes=</span><span class="st">&quot;CommonMetadata&quot;</span>&gt;</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Global Attribute Group --&gt;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:attributeGroup</span> <span class="ot">name=</span><span class="st">&quot;CommonMetadata&quot;</span>&gt;</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">xs:attribute</span> <span class="ot">name=</span><span class="st">&quot;id&quot;</span> <span class="ot">type=</span><span class="st">&quot;xs:ID&quot;</span> <span class="ot">use=</span><span class="st">&quot;optional&quot;</span>/&gt;</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">xs:attribute</span> <span class="ot">name=</span><span class="st">&quot;status&quot;</span> <span class="ot">type=</span><span class="st">&quot;xs:string&quot;</span> <span class="ot">use=</span><span class="st">&quot;optional&quot;</span>/&gt;</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">xs:attributeGroup</span>&gt;</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Inherits CommonMetadata automatically --&gt;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:complexType</span> <span class="ot">name=</span><span class="st">&quot;UserType&quot;</span>&gt;</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">xs:sequence</span>&gt;</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">xs:element</span> <span class="ot">name=</span><span class="st">&quot;username&quot;</span> <span class="ot">type=</span><span class="st">&quot;xs:string&quot;</span>/&gt;</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">xs:element</span> <span class="ot">name=</span><span class="st">&quot;email&quot;</span> <span class="ot">type=</span><span class="st">&quot;xs:string&quot;</span>/&gt;</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">xs:sequence</span>&gt;</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">xs:complexType</span>&gt;</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Inherits CommonMetadata automatically --&gt;</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:complexType</span> <span class="ot">name=</span><span class="st">&quot;ProductType&quot;</span>&gt;</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">xs:sequence</span>&gt;</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">xs:element</span> <span class="ot">name=</span><span class="st">&quot;name&quot;</span> <span class="ot">type=</span><span class="st">&quot;xs:string&quot;</span>/&gt;</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">xs:element</span> <span class="ot">name=</span><span class="st">&quot;price&quot;</span> <span class="ot">type=</span><span class="st">&quot;xs:decimal&quot;</span>/&gt;</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">xs:sequence</span>&gt;</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">xs:complexType</span>&gt;</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:schema</span>&gt;</span></code></pre></div>
+<p>In an XML instance validating against this schema, both
+<code>&lt;User&gt;</code> and <code>&lt;Product&gt;</code> elements can
+use <code>id</code> and <code>status</code> attributes.</p>
+<h2 id="opting-out-with-defaultattributesapply">Opting Out with
+defaultAttributesApply</h2>
+<p>If a specific complex type should not inherit the default attributes,
+you can disable inheritance using the
+<code>defaultAttributesApply</code> attribute on that specific
+<code>&lt;xs:complexType&gt;</code>.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xs:complexType</span> <span class="ot">name=</span><span class="st">&quot;StrictDataType&quot;</span> <span class="ot">defaultAttributesApply=</span><span class="st">&quot;false&quot;</span>&gt;</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xs:sequence</span>&gt;</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">xs:element</span> <span class="ot">name=</span><span class="st">&quot;rawPayload&quot;</span> <span class="ot">type=</span><span class="st">&quot;xs:string&quot;</span>/&gt;</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">xs:sequence</span>&gt;</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xs:complexType</span>&gt;</span></code></pre></div>
+<p>Setting <code>defaultAttributesApply="false"</code> prevents the
+global attributes from being added to <code>StrictDataType</code>.</p>
+<h2 id="scope-and-behavior-rules">Scope and Behavior Rules</h2>
+<ul>
+<li><strong>Schema-Document Level:</strong> The
+<code>defaultAttributes</code> mechanism applies per schema document.
+Included or imported schemas must explicitly declare their own
+<code>defaultAttributes</code> if they require the same behavior.</li>
+<li><strong>Complex Types Only:</strong> This mechanism only applies to
+<code>&lt;xs:complexType&gt;</code> definitions;
+<code>&lt;xs:simpleType&gt;</code> definitions cannot carry attributes
+and are unaffected.</li>
+<li><strong>Extension and Restriction:</strong> When deriving complex
+types by extension or restriction, default attribute application rules
+follow standard XSD 1.1 inheritance behaviors unless explicitly
+suppressed.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

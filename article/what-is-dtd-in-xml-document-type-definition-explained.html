@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What is DTD in XML? Document Type Definition Explained - xml</title>
+    <meta name="description" content="A Document Type Definition (DTD) is a set of markup declarations that defines the structure, legal elements, and attributes of an XML document. In XML processing, a DTD acts as a formal contract or schema that specifies the exact building blocks of an XM">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/what-is-dtd-in-xml-document-type-definition-explained">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What is DTD in XML? Document Type Definition Explained - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/what-is-dtd-in-xml-document-type-definition-explained" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="A Document Type Definition (DTD) is a set of markup declarations that defines the structure, legal elements, and attributes of an XML document. In XML processing, a DTD acts as a formal contract or schema that specifies the exact building blocks of an XM" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-dtd-in-xml-document-type-definition-explained">What is
+DTD in XML? Document Type Definition Explained</h1>
+<p>A Document Type Definition (DTD) is a set of markup declarations that
+defines the structure, legal elements, and attributes of an XML
+document. In XML processing, a DTD acts as a formal contract or schema
+that specifies the exact building blocks of an XML file, ensuring that
+the data is organized consistently and can be reliably shared between
+different applications. This guide explains what a DTD is, its core
+components, how it is implemented, and its role in XML validation.</p>
+<h2 id="core-purpose-of-a-dtd">Core Purpose of a DTD</h2>
+<p>The primary function of a DTD is to validate XML data. While any XML
+file must be "well-formed" (adhering to basic XML syntax rules like
+properly closed tags and correct nesting), a DTD determines whether the
+document is also "valid." A valid XML document conforms to the specific
+rules and constraints laid out in its DTD, preventing errors during
+automated parsing and data exchange.</p>
+<h2 id="key-components-of-a-dtd">Key Components of a DTD</h2>
+<p>A DTD defines four primary types of components within an XML
+document:</p>
+<ul>
+<li><strong>Elements (<code>&lt;!ELEMENT&gt;</code>):</strong> Defines
+the allowed tags and their content models, such as whether an element
+can contain text, child elements, or be empty.</li>
+<li><strong>Attributes (<code>&lt;!ATTLIST&gt;</code>):</strong>
+Specifies the attributes that belong to an element, including the
+attribute type (e.g., <code>CDATA</code>, <code>ID</code>,
+<code>IDREF</code>), default values, and whether the attribute is
+required (<code>#REQUIRED</code>) or optional
+(<code>#IMPLIED</code>).</li>
+<li><strong>Entities (<code>&lt;!ENTITY&gt;</code>):</strong> Defines
+reusable variables or text shortcuts (similar to macros) that can
+represent characters, phrases, or external files within the XML
+document.</li>
+<li><strong>Notations (<code>&lt;!NOTATION&gt;</code>):</strong>
+Declares references to external non-XML data formats, such as image or
+media types, allowing the parser to handle them appropriately.</li>
+</ul>
+<h2 id="types-of-dtd-declarations">Types of DTD Declarations</h2>
+<p>A DTD can be defined directly inside an XML file or stored as a
+separate file and referenced remotely.</p>
+<h3 id="1-internal-dtd">1. Internal DTD</h3>
+<p>An internal DTD is placed directly inside the XML document within the
+<code>&lt;!DOCTYPE&gt;</code> declaration.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span> <span class="ot">version=</span><span class="st">&quot;1.0&quot;</span> <span class="ot">encoding=</span><span class="st">&quot;UTF-8&quot;</span><span class="fu">?&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE</span> <span class="dt">note</span> <span class="dt">[</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;!ELEMENT</span> <span class="dt">note</span> (to, from, heading, body)<span class="dt">&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;!ELEMENT</span> <span class="dt">to</span> (#PCDATA)<span class="dt">&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;!ELEMENT</span> <span class="dt">from</span> (#PCDATA)<span class="dt">&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;!ELEMENT</span> <span class="dt">heading</span> (#PCDATA)<span class="dt">&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;!ELEMENT</span> <span class="dt">body</span> (#PCDATA)<span class="dt">&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="dt">]&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">note</span>&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">to</span>&gt;Dev Team&lt;/<span class="kw">to</span>&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">from</span>&gt;Architect&lt;/<span class="kw">from</span>&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">heading</span>&gt;Reminder&lt;/<span class="kw">heading</span>&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;Review the XML structure by Friday.&lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">note</span>&gt;</span></code></pre></div>
+<h3 id="2-external-dtd">2. External DTD</h3>
+<p>An external DTD is stored in an independent file (usually with a
+<code>.dtd</code> extension) and referenced using the
+<code>SYSTEM</code> or <code>PUBLIC</code> keyword. This approach
+enables multiple XML documents to share the same structural rules.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span> <span class="ot">version=</span><span class="st">&quot;1.0&quot;</span> <span class="ot">encoding=</span><span class="st">&quot;UTF-8&quot;</span><span class="fu">?&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE</span> <span class="dt">note</span> SYSTEM &quot;note.dtd&quot;<span class="dt">&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">note</span>&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">to</span>&gt;Dev Team&lt;/<span class="kw">to</span>&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">from</span>&gt;Architect&lt;/<span class="kw">from</span>&gt;</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">heading</span>&gt;Reminder&lt;/<span class="kw">heading</span>&gt;</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;Review the XML structure by Friday.&lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">note</span>&gt;</span></code></pre></div>
+<h2 id="advantages-of-using-a-dtd">Advantages of Using a DTD</h2>
+<ul>
+<li><strong>Standardization:</strong> Establishes a uniform format for
+data interchange across different software and organizations.</li>
+<li><strong>Automated Validation:</strong> XML parsers can automatically
+check incoming documents for missing tags or invalid nesting before
+processing.</li>
+<li><strong>Content Reuse:</strong> Entities allow developers to manage
+repeated text or global definitions from a single source.</li>
+</ul>
+<h2 id="limitations-of-dtd">Limitations of DTD</h2>
+<p>While DTD was the original schema language for XML, it has notable
+limitations:</p>
+<ul>
+<li><strong>No XML Syntax:</strong> DTD uses its own non-XML syntax,
+requiring parsers to support two distinct grammars.</li>
+<li><strong>Weak Data Typing:</strong> DTD treats almost all data as
+simple text (<code>#PCDATA</code>), offering no native support for data
+types such as integers, dates, booleans, or custom regular
+expressions.</li>
+<li><strong>No Namespace Support:</strong> DTD does not natively support
+XML namespaces, making it difficult to combine multiple vocabularies
+into a single document.</li>
+</ul>
+<p>Due to these constraints, modern applications frequently use
+<strong>XML Schema Definition (XSD)</strong> or <strong>RELAX
+NG</strong> for advanced validation, though DTD remains widely supported
+and utilized in legacy systems, publishing pipelines (such as EPUB), and
+standardized document workflows.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

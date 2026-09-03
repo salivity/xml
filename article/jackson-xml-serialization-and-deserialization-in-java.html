@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jackson XML Serialization and Deserialization in Java - xml</title>
+    <meta name="description" content="The Jackson data format XML module provides a fast and familiar way to process XML data in Java by extending Jackson's core data-binding capabilities. By replacing the standard JSON ObjectMapper with XmlMapper, developers can seamlessly serialize Java ob">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/jackson-xml-serialization-and-deserialization-in-java">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Jackson XML Serialization and Deserialization in Java - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/jackson-xml-serialization-and-deserialization-in-java" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Jackson data format XML module provides a fast and familiar way to process XML data in Java by extending Jackson's core data-binding capabilities. By replacing the standard JSON ObjectMapper with XmlMapper, developers can seamlessly serialize Java ob" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="jackson-xml-serialization-and-deserialization-in-java">Jackson
+XML Serialization and Deserialization in Java</h1>
+<p>The Jackson data format XML module provides a fast and familiar way
+to process XML data in Java by extending Jackson's core data-binding
+capabilities. By replacing the standard JSON <code>ObjectMapper</code>
+with <code>XmlMapper</code>, developers can seamlessly serialize Java
+objects into XML strings or documents and deserialize incoming XML
+payloads back into strongly typed Java instances with minimal
+configuration.</p>
+<h2 id="required-dependency">Required Dependency</h2>
+<p>To use Jackson for XML processing, include the
+<code>jackson-dataformat-xml</code> dependency in your project.</p>
+<p>For Maven:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">dependency</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">groupId</span>&gt;com.fasterxml.jackson.dataformat&lt;/<span class="kw">groupId</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">artifactId</span>&gt;jackson-dataformat-xml&lt;/<span class="kw">artifactId</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">version</span>&gt;2.17.0&lt;/<span class="kw">version</span>&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">dependency</span>&gt;</span></code></pre></div>
+<p>For Gradle:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode groovy"><code class="sourceCode groovy"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>implementation <span class="st">&#39;com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.17.0&#39;</span></span></code></pre></div>
+<h2 id="core-component-xmlmapper">Core Component: XmlMapper</h2>
+<p>The foundation of Jackson's XML support is the <code>XmlMapper</code>
+class. It extends Jackson's core <code>ObjectMapper</code> and provides
+dedicated methods for parsing and generating XML trees.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>XmlMapper xmlMapper <span class="op">=</span> <span class="kw">new</span> <span class="fu">XmlMapper</span><span class="op">();</span></span></code></pre></div>
+<h2 id="serializing-java-objects-to-xml">Serializing Java Objects to
+XML</h2>
+<p>Serialization converts a Java Plain Old Java Object (POJO) into an
+XML representation using <code>writeValueAsString()</code> or
+<code>writeValue()</code>.</p>
+<h3 id="example-pojo">Example POJO</h3>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> User <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> id<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> name<span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> email<span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">User</span><span class="op">()</span> <span class="op">{}</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">User</span><span class="op">(</span><span class="bu">String</span> id<span class="op">,</span> <span class="bu">String</span> name<span class="op">,</span> <span class="bu">String</span> email<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">id</span> <span class="op">=</span> id<span class="op">;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">name</span> <span class="op">=</span> name<span class="op">;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">email</span> <span class="op">=</span> email<span class="op">;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Standard getters and setters</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">getId</span><span class="op">()</span> <span class="op">{</span> <span class="cf">return</span> id<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">setId</span><span class="op">(</span><span class="bu">String</span> id<span class="op">)</span> <span class="op">{</span> <span class="kw">this</span><span class="op">.</span><span class="fu">id</span> <span class="op">=</span> id<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">getName</span><span class="op">()</span> <span class="op">{</span> <span class="cf">return</span> name<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">setName</span><span class="op">(</span><span class="bu">String</span> name<span class="op">)</span> <span class="op">{</span> <span class="kw">this</span><span class="op">.</span><span class="fu">name</span> <span class="op">=</span> name<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">getEmail</span><span class="op">()</span> <span class="op">{</span> <span class="cf">return</span> email<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">setEmail</span><span class="op">(</span><span class="bu">String</span> email<span class="op">)</span> <span class="op">{</span> <span class="kw">this</span><span class="op">.</span><span class="fu">email</span> <span class="op">=</span> email<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 id="serialization-code">Serialization Code</h3>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>XmlMapper xmlMapper <span class="op">=</span> <span class="kw">new</span> <span class="fu">XmlMapper</span><span class="op">();</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>User user <span class="op">=</span> <span class="kw">new</span> <span class="fu">User</span><span class="op">(</span><span class="st">&quot;101&quot;</span><span class="op">,</span> <span class="st">&quot;John Doe&quot;</span><span class="op">,</span> <span class="st">&quot;john.doe@example.com&quot;</span><span class="op">);</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> xmlOutput <span class="op">=</span> xmlMapper<span class="op">.</span><span class="fu">writeValueAsString</span><span class="op">(</span>user<span class="op">);</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>xmlOutput<span class="op">);</span></span></code></pre></div>
+<h3 id="output">Output</h3>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">User</span>&gt;</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">id</span>&gt;101&lt;/<span class="kw">id</span>&gt;</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">name</span>&gt;John Doe&lt;/<span class="kw">name</span>&gt;</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">email</span>&gt;john.doe@example.com&lt;/<span class="kw">email</span>&gt;</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">User</span>&gt;</span></code></pre></div>
+<h2 id="deserializing-xml-to-java-objects">Deserializing XML to Java
+Objects</h2>
+<p>Deserialization reads XML content from a <code>String</code>,
+<code>File</code>, <code>InputStream</code>, or <code>Reader</code> and
+maps the values to the corresponding fields in a POJO using
+<code>readValue()</code>.</p>
+<h3 id="deserialization-code">Deserialization Code</h3>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> xmlInput <span class="op">=</span> <span class="st">&quot;&lt;User&gt;&lt;id&gt;101&lt;/id&gt;&lt;name&gt;John Doe&lt;/name&gt;&lt;email&gt;john.doe@example.com&lt;/email&gt;&lt;/User&gt;&quot;</span><span class="op">;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>XmlMapper xmlMapper <span class="op">=</span> <span class="kw">new</span> <span class="fu">XmlMapper</span><span class="op">();</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>User user <span class="op">=</span> xmlMapper<span class="op">.</span><span class="fu">readValue</span><span class="op">(</span>xmlInput<span class="op">,</span> User<span class="op">.</span><span class="fu">class</span><span class="op">);</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;User Name: &quot;</span> <span class="op">+</span> user<span class="op">.</span><span class="fu">getName</span><span class="op">());</span></span></code></pre></div>
+<h2 id="customizing-xml-structure-with-annotations">Customizing XML
+Structure with Annotations</h2>
+<p>Standard POJO serialization creates XML elements using default Java
+field names. Jackson provides specific annotations to customize the XML
+structure, element names, attributes, and wrapper elements.</p>
+<h3 id="key-annotations">Key Annotations</h3>
+<ul>
+<li><strong><code>@JacksonXmlRootElement(localName = "customRoot")</code></strong>:
+Renames the root element tag.</li>
+<li><strong><code>@JacksonXmlProperty(isAttribute = true, localName = "customName")</code></strong>:
+Defines whether a field should be serialized as an XML attribute instead
+of a child element, or changes the element name.</li>
+<li><strong><code>@JacksonXmlElementWrapper(useWrapping = false)</code></strong>:
+Controls whether collections are enclosed within an outer wrapper
+tag.</li>
+<li><strong><code>@JacksonXmlText</code></strong>: Serializes a field
+directly as inner text content of the parent element rather than as a
+nested tag.</li>
+</ul>
+<h3 id="example-with-annotations">Example with Annotations</h3>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">com</span><span class="op">.</span><span class="im">fasterxml</span><span class="op">.</span><span class="im">jackson</span><span class="op">.</span><span class="im">dataformat</span><span class="op">.</span><span class="im">xml</span><span class="op">.</span><span class="im">annotation</span><span class="op">.</span><span class="im">JacksonXmlElementWrapper</span><span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">com</span><span class="op">.</span><span class="im">fasterxml</span><span class="op">.</span><span class="im">jackson</span><span class="op">.</span><span class="im">dataformat</span><span class="op">.</span><span class="im">xml</span><span class="op">.</span><span class="im">annotation</span><span class="op">.</span><span class="im">JacksonXmlProperty</span><span class="op">;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">com</span><span class="op">.</span><span class="im">fasterxml</span><span class="op">.</span><span class="im">jackson</span><span class="op">.</span><span class="im">dataformat</span><span class="op">.</span><span class="im">xml</span><span class="op">.</span><span class="im">annotation</span><span class="op">.</span><span class="im">JacksonXmlRootElement</span><span class="op">;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">util</span><span class="op">.</span><span class="im">List</span><span class="op">;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="at">@JacksonXmlRootElement</span><span class="op">(</span>localName <span class="op">=</span> <span class="st">&quot;employee_record&quot;</span><span class="op">)</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Employee <span class="op">{</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">@JacksonXmlProperty</span><span class="op">(</span>isAttribute <span class="op">=</span> <span class="kw">true</span><span class="op">)</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> id<span class="op">;</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">@JacksonXmlProperty</span><span class="op">(</span>localName <span class="op">=</span> <span class="st">&quot;full_name&quot;</span><span class="op">)</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> name<span class="op">;</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">@JacksonXmlElementWrapper</span><span class="op">(</span>localName <span class="op">=</span> <span class="st">&quot;skills_list&quot;</span><span class="op">)</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">@JacksonXmlProperty</span><span class="op">(</span>localName <span class="op">=</span> <span class="st">&quot;skill&quot;</span><span class="op">)</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">List</span><span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> skills<span class="op">;</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Getters and Setters</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 id="resulting-xml-output">Resulting XML Output</h3>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">employee_record</span> <span class="ot">id=</span><span class="st">&quot;E-554&quot;</span>&gt;</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">full_name</span>&gt;Jane Smith&lt;/<span class="kw">full_name</span>&gt;</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">skills_list</span>&gt;</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">skill</span>&gt;Java&lt;/<span class="kw">skill</span>&gt;</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">skill</span>&gt;Spring&lt;/<span class="kw">skill</span>&gt;</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">skills_list</span>&gt;</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">employee_record</span>&gt;</span></code></pre></div>
+<h2 id="handling-unknown-properties-and-pretty-printing">Handling
+Unknown Properties and Pretty Printing</h2>
+<p>To prevent deserialization failures when unexpected XML elements are
+encountered, disable <code>FAIL_ON_UNKNOWN_PROPERTIES</code>:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>xmlMapper<span class="op">.</span><span class="fu">configure</span><span class="op">(</span>DeserializationFeature<span class="op">.</span><span class="fu">FAIL_ON_UNKNOWN_PROPERTIES</span><span class="op">,</span> <span class="kw">false</span><span class="op">);</span></span></code></pre></div>
+<p>To format the serialized XML with indentation for better
+readability:</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> prettyXml <span class="op">=</span> xmlMapper<span class="op">.</span><span class="fu">writerWithDefaultPrettyPrinter</span><span class="op">().</span><span class="fu">writeValueAsString</span><span class="op">(</span>user<span class="op">);</span></span></code></pre></div></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

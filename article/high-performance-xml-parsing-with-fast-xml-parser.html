@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High Performance XML Parsing with Fast-XML-Parser - xml</title>
+    <meta name="description" content="This article provides an overview of the fast-xml-parser library in JavaScript, exploring what it is, its core features, and the architectural mechanisms that enable its industry-leading parsing speeds. You will learn how it transforms XML into native Ja">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/high-performance-xml-parsing-with-fast-xml-parser">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="High Performance XML Parsing with Fast-XML-Parser - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/high-performance-xml-parsing-with-fast-xml-parser" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides an overview of the fast-xml-parser library in JavaScript, exploring what it is, its core features, and the architectural mechanisms that enable its industry-leading parsing speeds. You will learn how it transforms XML into native Ja" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="high-performance-xml-parsing-with-fast-xml-parser">High
+Performance XML Parsing with Fast-XML-Parser</h1>
+<p>This article provides an overview of the <code>fast-xml-parser</code>
+library in JavaScript, exploring what it is, its core features, and the
+architectural mechanisms that enable its industry-leading parsing
+speeds. You will learn how it transforms XML into native JavaScript
+objects, why it outperforms traditional DOM-based and C++ bound parsers,
+and how to implement it in modern Node.js and browser environments.</p>
+<h2 id="what-is-fast-xml-parser">What is fast-xml-parser?</h2>
+<p><code>fast-xml-parser</code> is a lightweight, pure JavaScript
+library designed to parse, validate, and build XML data. It translates
+XML documents directly into JavaScript objects (JSON) and vice versa
+without requiring external binary dependencies or browser-specific APIs
+like <code>DOMParser</code>.</p>
+<p>Because it is written entirely in JavaScript, it runs seamlessly in
+Node.js, Deno, Bun, and modern web browsers. In addition to parsing, the
+library includes a built-in XML validator to verify well-formed syntax
+before processing.</p>
+<h2 id="how-fast-xml-parser-achieves-high-performance">How
+fast-xml-parser Achieves High Performance</h2>
+<p>Traditional XML parsers often rely on complex Document Object Model
+(DOM) tree generation or heavy regular expressions, both of which
+introduce significant CPU and memory overhead.
+<code>fast-xml-parser</code> achieves high throughput and low memory
+usage through several core design principles:</p>
+<h3 id="1-single-pass-character-scanning">1. Single-Pass Character
+Scanning</h3>
+<p>Instead of relying on heavy regular expressions that can trigger
+catastrophic backtracking, <code>fast-xml-parser</code> uses a
+deterministic, character-by-character state machine. It reads through
+the XML string in a single pass, identifying tags, attributes, and text
+nodes sequentially. This minimizes redundant string traversals.</p>
+<h3 id="2-elimination-of-heavy-dom-overhead">2. Elimination of Heavy DOM
+Overhead</h3>
+<p>Standard DOM-based parsers create node objects with extensive
+prototypes, event listeners, and traversal methods for every element.
+<code>fast-xml-parser</code> constructs plain, lightweight JavaScript
+objects containing only the relevant keys and values, dramatically
+reducing memory allocation and garbage collection pressure.</p>
+<h3 id="3-v8-engine-optimization">3. V8 Engine Optimization</h3>
+<p>The codebase is structured to take advantage of modern JavaScript
+engine optimizations (such as Google's V8). By maintaining consistent
+object shapes and avoiding dynamic deoptimizations, the engine can
+efficiently optimize hot code paths during parsing.</p>
+<h3 id="4-zero-native-dependency-overhead">4. Zero Native Dependency
+Overhead</h3>
+<p>While some parsers use C/C++ bindings (like <code>libxml2</code>) for
+raw speed, crossing the boundary between JavaScript and native C++
+bindings introduces serialization and bridging costs.
+<code>fast-xml-parser</code> avoids this context-switching overhead
+entirely by executing natively in the JavaScript runtime.</p>
+<h3 id="5-configurable-parsing-pipelines">5. Configurable Parsing
+Pipelines</h3>
+<p>The parser allows developers to enable or disable features based on
+their specific needs. Features such as attribute parsing, tag value
+trimming, type coercion (converting numbers and booleans automatically),
+and CDATA handling can be toggled off to bypass unnecessary parsing
+logic and maximize speed.</p>
+<h2 id="key-capabilities-and-basic-implementation">Key Capabilities and
+Basic Implementation</h2>
+<p>The library provides three main modules: <code>XMLParser</code>,
+<code>XMLValidator</code>, and <code>XMLBuilder</code>.</p>
+<h3 id="parsing-xml-to-a-javascript-object">Parsing XML to a JavaScript
+Object</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { XMLParser } <span class="im">from</span> <span class="st">&quot;fast-xml-parser&quot;</span><span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> xmlData <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;bookstore&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="vs">  &lt;book id=&quot;1&quot;&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;title&gt;High Performance JavaScript&lt;/title&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;price&gt;29.99&lt;/price&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="vs">  &lt;/book&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;/bookstore&gt;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span><span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> parser <span class="op">=</span> <span class="kw">new</span> <span class="fu">XMLParser</span>({</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">ignoreAttributes</span><span class="op">:</span> <span class="kw">false</span><span class="op">,</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">attributeNamePrefix</span><span class="op">:</span> <span class="st">&quot;@_&quot;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> jsonObj <span class="op">=</span> parser<span class="op">.</span><span class="fu">parse</span>(xmlData)<span class="op">;</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(jsonObj<span class="op">.</span><span class="at">bookstore</span><span class="op">.</span><span class="at">book</span><span class="op">.</span><span class="at">title</span>)<span class="op">;</span> <span class="co">// &quot;High Performance JavaScript&quot;</span></span></code></pre></div>
+<h3 id="validating-xml">Validating XML</h3>
+<p>Before processing untrusted user input, <code>XMLValidator</code> can
+quickly check for structural integrity without constructing an object
+tree:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { XMLValidator } <span class="im">from</span> <span class="st">&quot;fast-xml-parser&quot;</span><span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> isValid <span class="op">=</span> XMLValidator<span class="op">.</span><span class="fu">validate</span>(<span class="st">&quot;&lt;root&gt;&lt;item&gt;Data&lt;/item&gt;&lt;/root&gt;&quot;</span>)<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (isValid <span class="op">===</span> <span class="kw">true</span>) {</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">// XML is well-formed</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&quot;Validation error:&quot;</span><span class="op">,</span> isValid<span class="op">.</span><span class="at">err</span>)<span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="converting-json-back-to-xml">Converting JSON Back to XML</h3>
+<p>The <code>XMLBuilder</code> class handles serialization back into an
+XML string:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { XMLBuilder } <span class="im">from</span> <span class="st">&quot;fast-xml-parser&quot;</span><span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> builder <span class="op">=</span> <span class="kw">new</span> <span class="fu">XMLBuilder</span>({</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">ignoreAttributes</span><span class="op">:</span> <span class="kw">false</span><span class="op">,</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">format</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> xmlOutput <span class="op">=</span> builder<span class="op">.</span><span class="fu">build</span>(jsonObj)<span class="op">;</span></span></code></pre></div>
+<h2 id="summary">Summary</h2>
+<p><code>fast-xml-parser</code> is the standard choice for XML
+manipulation in JavaScript when execution speed and low resource
+consumption are critical. By combining a single-pass tokenizer, minimal
+object instantiation, and configurable processing pipelines, it delivers
+faster performance than both DOM-based alternatives and native wrapper
+libraries.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

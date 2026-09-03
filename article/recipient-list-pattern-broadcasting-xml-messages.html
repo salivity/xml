@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipient List Pattern: Broadcasting XML Messages - xml</title>
+    <meta name="description" content="The Recipient List pattern is an enterprise integration pattern that inspects an incoming message and dynamically routes it to a calculated list of destination channels. When applied to XML transactions, this pattern extracts specific data from the XML p">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/recipient-list-pattern-broadcasting-xml-messages">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Recipient List Pattern: Broadcasting XML Messages - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/recipient-list-pattern-broadcasting-xml-messages" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Recipient List pattern is an enterprise integration pattern that inspects an incoming message and dynamically routes it to a calculated list of destination channels. When applied to XML transactions, this pattern extracts specific data from the XML p" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="recipient-list-pattern-broadcasting-xml-messages">Recipient List
+Pattern: Broadcasting XML Messages</h1>
+<p>The Recipient List pattern is an enterprise integration pattern that
+inspects an incoming message and dynamically routes it to a calculated
+list of destination channels. When applied to XML transactions, this
+pattern extracts specific data from the XML payload, evaluates
+predefined business rules to determine which systems require the
+transaction, and broadcasts the message to all identified endpoints
+simultaneously or sequentially.</p>
+<h2 id="what-is-the-recipient-list-pattern">What is the Recipient List
+Pattern?</h2>
+<p>In distributed architectures and Enterprise Service Buses (ESB),
+systems often need to send a single transaction to multiple consumers.
+Unlike a static Publish-Subscribe or Multicast pattern where messages go
+to a fixed set of subscribers, the Recipient List pattern calculates the
+recipients dynamically at runtime for each individual message.</p>
+<p>This pattern consists of two primary components:</p>
+<ol type="1">
+<li><strong>Dynamic Router / Evaluator:</strong> Inspects the message
+content or metadata to compute a list of destination endpoints.</li>
+<li><strong>Message Dispatcher:</strong> Clones or streams the message
+and sends it across the network to every recipient generated by the
+evaluator.</li>
+</ol>
+<h2 id="how-the-pattern-broadcasts-xml-transactions">How the Pattern
+Broadcasts XML Transactions</h2>
+<p>Broadcasting an XML transaction using the Recipient List pattern
+involves a step-by-step process of parsing, evaluation, and
+dispatching:</p>
+<h3 id="1-ingestion-of-the-xml-payload">1. Ingestion of the XML
+Payload</h3>
+<p>The integration engine receives the XML transaction (such as a
+purchase order, financial settlement, or patient record) over protocols
+like HTTP, JMS, or AMQP.</p>
+<h3 id="2-payload-inspection-via-xpath-or-xslt">2. Payload Inspection
+via XPath or XSLT</h3>
+<p>The router inspects the XML payload without altering its contents. It
+typically uses XPath expressions to query elements or attributes within
+the XML tree to extract routing criteria, such as:</p>
+<ul>
+<li>Transaction type (<code>/transaction/@type</code>)</li>
+<li>Target department
+(<code>/order/header/department/text()</code>)</li>
+<li>Geographic region or threshold values
+(<code>/payment/amount &gt; 10000</code>)</li>
+</ul>
+<h3 id="3-recipient-computation">3. Recipient Computation</h3>
+<p>Based on the extracted values, the routing engine checks business
+rules, database mappings, or routing tables to produce a collection of
+endpoint URIs.</p>
+<p>For example, an XML order containing international shipping and
+high-value items might generate the following list of destinations:</p>
+<ul>
+<li><code>jms:queue:InternationalShippingQueue</code></li>
+<li><code>https://fraud-detection.internal/api/v1/xml-audit</code></li>
+<li><code>jms:topic:OrderArchival</code></li>
+</ul>
+<h3 id="4-message-cloning-and-delivery">4. Message Cloning and
+Delivery</h3>
+<p>Once the list of URIs is compiled, the engine broadcasts the XML
+payload to each target endpoint. Depending on configuration and system
+requirements, delivery occurs in one of two modes:</p>
+<ul>
+<li><strong>Parallel Dispatch:</strong> The engine sends the XML
+transaction to all endpoints concurrently using a thread pool,
+minimizing overall processing latency.</li>
+<li><strong>Sequential Dispatch:</strong> The engine iterates through
+the recipient list and sends the transaction to endpoints one after
+another, which is useful when ordering or step-by-step validation is
+required.</li>
+</ul>
+<h2 id="key-benefits-for-xml-architectures">Key Benefits for XML
+Architectures</h2>
+<ul>
+<li><strong>Dynamic Flexibility:</strong> Endpoints are not hardcoded;
+routing rules can be modified in routing tables or rule engines without
+modifying the sender.</li>
+<li><strong>Decoupled Architecture:</strong> The sender only needs to
+produce a valid XML message and send it to a single intake endpoint,
+unaware of how many downstream systems consume it.</li>
+<li><strong>Content-Aware Routing:</strong> Utilizing native XML
+technologies like XPath makes it straightforward to build complex
+routing criteria directly from transaction data.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

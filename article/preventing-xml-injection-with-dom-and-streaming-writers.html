@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preventing XML Injection with DOM and Streaming Writers - xml</title>
+    <meta name="description" content="XML injection occurs when untrusted user input is directly concatenated into an XML document, allowing malicious actors to alter document structure, inject unauthorized elements, or corrupt data processing. Programmatic Document Object Model (DOM) builde">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/preventing-xml-injection-with-dom-and-streaming-writers">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Preventing XML Injection with DOM and Streaming Writers - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/preventing-xml-injection-with-dom-and-streaming-writers" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="XML injection occurs when untrusted user input is directly concatenated into an XML document, allowing malicious actors to alter document structure, inject unauthorized elements, or corrupt data processing. Programmatic Document Object Model (DOM) builde" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1
+id="preventing-xml-injection-with-dom-and-streaming-writers">Preventing
+XML Injection with DOM and Streaming Writers</h1>
+<p>XML injection occurs when untrusted user input is directly
+concatenated into an XML document, allowing malicious actors to alter
+document structure, inject unauthorized elements, or corrupt data
+processing. Programmatic Document Object Model (DOM) builders and
+streaming XML writers mitigate this vulnerability entirely by decoupling
+data from markup. Rather than treating input as raw XML syntax, these
+APIs treat user input strictly as text nodes or attribute values,
+automatically escaping reserved characters and enforcing structural
+integrity.</p>
+<h3 id="the-vulnerability-of-string-concatenation">The Vulnerability of
+String Concatenation</h3>
+<p>Manual string concatenation constructs XML payloads by joining raw
+strings with XML tags:</p>
+<pre><code>// Vulnerable pattern
+String xml = &quot;&lt;user&gt;&lt;name&gt;&quot; + userInput + &quot;&lt;/name&gt;&lt;/user&gt;&quot;;</code></pre>
+<p>If <code>userInput</code> contains characters like
+<code>&lt;/name&gt;&lt;role&gt;admin&lt;/role&gt;&lt;name&gt;</code>,
+the resulting XML structure is modified, creating unintended nodes.</p>
+<h3 id="how-programmatic-dom-prevents-injection">How Programmatic DOM
+Prevents Injection</h3>
+<p>DOM parsers construct an in-memory tree representation of the XML
+document. When assigning data to a DOM element, the API explicitly
+distinguishes between nodes (structure) and text (data).</p>
+<ul>
+<li><strong>Explicit Text Node Creation:</strong> Methods such as
+<code>document.createTextNode(userInput)</code> or setting an element's
+text property (e.g., <code>element.setTextContent(userInput)</code>)
+treat the entire string as literal character data.</li>
+<li><strong>Automatic Character Escaping:</strong> When the DOM tree is
+serialized to a string or stream, the serializer automatically converts
+reserved characters to their corresponding XML entities:
+<ul>
+<li><code>&lt;</code> becomes <code>&amp;lt;</code></li>
+<li><code>&gt;</code> becomes <code>&amp;gt;</code></li>
+<li><code>&amp;</code> becomes <code>&amp;amp;</code></li>
+<li><code>"</code> becomes <code>&amp;quot;</code></li>
+<li><code>'</code> becomes <code>&amp;apos;</code></li>
+</ul></li>
+<li><strong>Node Integrity:</strong> Even if user input contains XML
+syntax, the DOM engine treats the characters as literal content within
+the single target node, preventing the creation of new elements or
+attributes.</li>
+</ul>
+<h3 id="how-streaming-xml-writers-prevent-injection">How Streaming XML
+Writers Prevent Injection</h3>
+<p>Streaming writers (such as StAX <code>XMLStreamWriter</code> in Java,
+<code>XmlWriter</code> in .NET, or similar event-based serializers)
+generate XML sequentially without building a full in-memory tree. They
+prevent injection by enforcing programmatic state management and
+contextual escaping:</p>
+<ul>
+<li><strong>Dedicated Content Methods:</strong> APIs provide distinct
+methods for structural markup and data content. Calling
+<code>writer.writeStartElement("name")</code> followed by
+<code>writer.writeCharacters(userInput)</code> ensures the parser
+evaluates <code>userInput</code> purely as text, not markup.</li>
+<li><strong>Context-Aware Escaping:</strong> Streaming writers
+automatically escape characters based on their placement. For example,
+quotes (<code>"</code>) inside an attribute method like
+<code>writer.writeAttribute("attr", userInput)</code> are escaped, while
+characters inside <code>writeCharacters()</code> receive standard
+element-level escaping.</li>
+<li><strong>State Machine Validation:</strong> Streaming writers track
+the current state of the document (e.g., inside an element, inside an
+attribute, or at the root). If injected text attempts to close tags
+prematurely, the API treats the closing tag as encoded text rather than
+a valid structural command.</li>
+</ul>
+<h3 id="best-implementation-practices">Best Implementation
+Practices</h3>
+<ol type="1">
+<li><strong>Avoid Template String Interpolation:</strong> Never build
+XML payloads using format strings, string concatenation, or unescaped
+template engines.</li>
+<li><strong>Use Native XML Serializers:</strong> Always rely on built-in
+language APIs (e.g., <code>javax.xml.stream.XMLStreamWriter</code>,
+<code>System.Xml.XmlWriter</code>, or standard DOM implementations) to
+construct documents.</li>
+<li><strong>Combine with Safe Parser Configuration:</strong> While DOM
+and streaming writers prevent injection during creation, ensure
+receiving systems disable Document Type Definition (DTD) processing and
+external entity resolution (XXE prevention) when parsing untrusted
+XML.</li>
+</ol></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

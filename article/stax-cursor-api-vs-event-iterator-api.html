@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StAX Cursor API vs Event Iterator API - xml</title>
+    <meta name="description" content="The Streaming API for XML (StAX) provides two distinct programming models for processing XML documents in Java: the Cursor API and the Event Iterator API. While both models operate as bidirectional "pull" parsers that give the developer control over the">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/stax-cursor-api-vs-event-iterator-api">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="StAX Cursor API vs Event Iterator API - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/stax-cursor-api-vs-event-iterator-api" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Streaming API for XML (StAX) provides two distinct programming models for processing XML documents in Java: the Cursor API and the Event Iterator API. While both models operate as bidirectional "pull" parsers that give the developer control over the" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="stax-cursor-api-vs-event-iterator-api">StAX Cursor API vs Event
+Iterator API</h1>
+<p>The Streaming API for XML (StAX) provides two distinct programming
+models for processing XML documents in Java: the Cursor API and the
+Event Iterator API. While both models operate as bidirectional "pull"
+parsers that give the developer control over the parsing loop, they
+differ significantly in their approach to memory consumption,
+performance, and flexibility. The Cursor API acts as a moving pointer
+over the XML document for maximum efficiency, whereas the Event Iterator
+API creates discrete event objects for each XML component, offering
+greater ease of manipulation and pipelining.</p>
+<h2 id="the-stax-cursor-api">The StAX Cursor API</h2>
+<p>The Cursor API is designed for maximum speed and minimal memory
+overhead. It represents the XML document as a virtual cursor that moves
+forward through the data stream one token at a time.</p>
+<ul>
+<li><strong>Primary Interfaces:</strong> <code>XMLStreamReader</code>
+for reading and <code>XMLStreamWriter</code> for writing.</li>
+<li><strong>Mechanism:</strong> The application calls methods like
+<code>reader.next()</code> to advance the cursor to the next XML state
+(such as <code>START_ELEMENT</code>, <code>CHARACTERS</code>, or
+<code>END_ELEMENT</code>).</li>
+<li><strong>Accessing Data:</strong> The <code>XMLStreamReader</code>
+itself holds the current state. You extract information directly from
+the reader using accessor methods like
+<code>reader.getLocalName()</code> or
+<code>reader.getText()</code>.</li>
+<li><strong>Object Allocation:</strong> It creates virtually no new
+objects during traversal. The reader simply mutates its internal state
+with each step.</li>
+</ul>
+<h2 id="the-stax-event-iterator-api">The StAX Event Iterator API</h2>
+<p>The Event Iterator API represents XML documents as a stream of
+independent, immutable event objects. It adapts the pull-parsing model
+to standard Java iterator patterns.</p>
+<ul>
+<li><strong>Primary Interfaces:</strong> <code>XMLEventReader</code> for
+reading and <code>XMLEventWriter</code> for writing.</li>
+<li><strong>Mechanism:</strong> The application calls
+<code>reader.nextEvent()</code> to retrieve an instance of an
+<code>XMLEvent</code> object (such as <code>StartElement</code>,
+<code>EndElement</code>, or <code>Characters</code>).</li>
+<li><strong>Accessing Data:</strong> Data is encapsulated inside the
+returned <code>XMLEvent</code> instance. You inspect the event's type
+and cast it to access specific attributes and element data.</li>
+<li><strong>Object Allocation:</strong> An individual Java object is
+allocated for every single event encountered in the XML stream.</li>
+</ul>
+<h2 id="key-differences-between-the-two-apis">Key Differences Between
+the Two APIs</h2>
+<h3 id="1-performance-and-memory-footprint">1. Performance and Memory
+Footprint</h3>
+<ul>
+<li><strong>Cursor API:</strong> Extremely fast and lightweight. Because
+it reuses internal buffers instead of allocating objects for each tag
+and text node, it places virtually no pressure on the Java Garbage
+Collector.</li>
+<li><strong>Event Iterator API:</strong> Slower and consumes more memory
+due to the continuous instantiation and garbage collection of
+<code>XMLEvent</code> objects.</li>
+</ul>
+<h3 id="2-extensibility-and-pipelining">2. Extensibility and
+Pipelining</h3>
+<ul>
+<li><strong>Cursor API:</strong> Difficult to modify, wrap, or pass
+between processing stages because state information resides solely
+inside the single reader instance.</li>
+<li><strong>Event Iterator API:</strong> Highly modular. Because events
+are standalone objects, you can easily filter, buffer, modify, or chain
+event streams together using custom implementations of
+<code>EventFilter</code> or pipeline architectures.</li>
+</ul>
+<h3 id="3-ease-of-use-and-abstraction">3. Ease of Use and
+Abstraction</h3>
+<ul>
+<li><strong>Cursor API:</strong> Lower-level abstraction. The developer
+must manually manage state transitions and query the reader at the exact
+moment the cursor is positioned over the target node.</li>
+<li><strong>Event Iterator API:</strong> Higher-level abstraction.
+Events can be stored in collections, passed to utility methods, and
+processed out of sequence without losing their context.</li>
+</ul>
+<h2 id="summary-of-use-cases">Summary of Use Cases</h2>
+<ul>
+<li><strong>Choose the Cursor API</strong> when processing large XML
+files, working in resource-constrained environments, or when high
+throughput is the primary requirement.</li>
+<li><strong>Choose the Event Iterator API</strong> when building XML
+transformation pipelines, filtering elements dynamically, or when clean,
+object-oriented code and integration with Java Collections take
+precedence over raw execution speed.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

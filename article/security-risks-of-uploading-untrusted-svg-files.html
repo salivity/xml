@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Risks of Uploading Untrusted SVG Files - xml</title>
+    <meta name="description" content="Scalable Vector Graphics (SVG) files are XML-based image formats that allow for dynamic, interactive, and scalable visuals on the web. However, because SVGs are structured as executable XML documents rather than flat binary data, accepting untrusted user">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/security-risks-of-uploading-untrusted-svg-files">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Security Risks of Uploading Untrusted SVG Files - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/security-risks-of-uploading-untrusted-svg-files" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Scalable Vector Graphics (SVG) files are XML-based image formats that allow for dynamic, interactive, and scalable visuals on the web. However, because SVGs are structured as executable XML documents rather than flat binary data, accepting untrusted user" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="security-risks-of-uploading-untrusted-svg-files">Security Risks
+of Uploading Untrusted SVG Files</h1>
+<p>Scalable Vector Graphics (SVG) files are XML-based image formats that
+allow for dynamic, interactive, and scalable visuals on the web.
+However, because SVGs are structured as executable XML documents rather
+than flat binary data, accepting untrusted user uploads introduces
+severe vulnerabilities. Without rigorous validation and sanitization,
+uploading malicious SVG files can expose web applications to Cross-Site
+Scripting (XSS), XML External Entity (XXE) injection, Server-Side
+Request Forgery (SSRF), Denial of Service (DoS), and HTML injection.</p>
+<h3 id="stored-cross-site-scripting-xss">Stored Cross-Site Scripting
+(XSS)</h3>
+<p>The most prevalent client-side risk of SVG uploads is Cross-Site
+Scripting. Because SVGs support embedded JavaScript, attackers can
+inject malicious scripts directly into the image markup.</p>
+<p>Common execution methods include:</p>
+<ul>
+<li><strong>Script Elements:</strong> Direct inclusion of
+<code>&lt;script&gt;</code> tags within the XML structure.</li>
+<li><strong>Inline Event Handlers:</strong> Attributes like
+<code>onload</code>, <code>onclick</code>, or <code>onerror</code>
+attached to vector elements (e.g.,
+<code>&lt;svg onload="alert(document.cookie)"&gt;</code>).</li>
+<li><strong>Embedded Links:</strong> Malicious URLs using the
+<code>javascript:</code> pseudo-protocol inside
+<code>&lt;a xlink:href="javascript:..."&gt;</code> tags.</li>
+</ul>
+<p>When a browser renders an SVG directly from a trusted domain, the
+embedded JavaScript executes in the context of the user's session,
+enabling session hijacking, credential theft, and unauthorized
+actions.</p>
+<h3 id="xml-external-entity-xxe-injection">XML External Entity (XXE)
+Injection</h3>
+<p>If an SVG file is parsed or processed on the server (such as
+generating thumbnails, rasterizing, or extracting metadata), an outdated
+or misconfigured XML parser can be exploited via XXE injection.</p>
+<p>Attackers define external entities in the XML Document Type
+Definition (DTD):</p>
+<ul>
+<li><strong>Local File Disclosure:</strong> Directing the parser to read
+local system files (e.g., <code>file:///etc/passwd</code>) and return
+the contents in the rendered output or error logs.</li>
+<li><strong>Internal Network Scanning:</strong> Forcing the server to
+make network calls to internal IP addresses.</li>
+</ul>
+<h3 id="server-side-request-forgery-ssrf">Server-Side Request Forgery
+(SSRF)</h3>
+<p>SVGs allow references to external resources through tags such as
+<code>&lt;image&gt;</code>, <code>&lt;use&gt;</code>, or
+<code>xlink:href</code>. When a server-side rendering library (such as
+ImageMagick, Cairo, or Chromium headless) processes the SVG to convert
+it to PNG or JPEG, the server automatically fetches these remote assets.
+Attackers can leverage this behavior to bypass firewalls, target
+internal microservices, or query cloud metadata endpoints (e.g.,
+<code>http://169.254.169.254</code>).</p>
+<h3 id="denial-of-service-dos">Denial of Service (DoS)</h3>
+<p>Malicious SVGs can target system availability on both the client and
+server:</p>
+<ul>
+<li><strong>Billion Laughs Attack:</strong> Nested and recursive XML
+entity definitions that expand exponentially when parsed, exhausting
+server memory and CPU.</li>
+<li><strong>Quadratic Blowup Attack:</strong> Large payloads consisting
+of repeated entity definitions designed to bypass standard parser
+limits.</li>
+<li><strong>Complex Vector Complexity:</strong> Excessively complex
+paths and deeply nested elements that crash or freeze browser rendering
+engines.</li>
+</ul>
+<h3 id="html-and-foreign-object-injection">HTML and Foreign Object
+Injection</h3>
+<p>The SVG specification includes the <code>&lt;foreignObject&gt;</code>
+tag, which allows arbitrary HTML and XML namespaces to be embedded
+directly within an SVG document. Attackers can use this to render
+phishing forms, iframes pointing to malicious websites, or spoof
+interface elements while maintaining the visual appearance of a
+legitimate application graphic.</p>
+<h3 id="essential-mitigation-strategies">Essential Mitigation
+Strategies</h3>
+<p>To secure web applications against untrusted SVG uploads:</p>
+<ul>
+<li><strong>Sanitization:</strong> Use dedicated SVG sanitization
+libraries (such as DOMPurify) to strip <code>&lt;script&gt;</code>,
+<code>&lt;foreignObject&gt;</code>, event handlers, and remote URLs
+before saving or displaying files.</li>
+<li><strong>Disable DTDs:</strong> Ensure all server-side XML parsers
+strictly disable Document Type Definitions (DTDs) and external entity
+resolution.</li>
+<li><strong>Serve as Attachments:</strong> Set the
+<code>Content-Disposition: attachment</code> HTTP header when serving
+user-uploaded SVGs directly to prevent browsers from rendering them
+inline.</li>
+<li><strong>Server-Side Rasterization:</strong> Convert uploaded SVGs to
+secure binary formats (such as PNG or WebP) in an isolated, sandboxed
+environment before storing or serving them.</li>
+<li><strong>Content Security Policy (CSP):</strong> Apply a strict CSP
+header that disables inline scripts (<code>script-src 'self'</code>) to
+limit damage if an SVG is executed in the browser context.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

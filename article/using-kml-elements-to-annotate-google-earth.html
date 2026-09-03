@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Using KML Elements to Annotate Google Earth - xml</title>
+    <meta name="description" content="Keyhole Markup Language (KML) is an XML-based standard used to display geographic data in mapping software like Google Earth. By utilizing a hierarchy of XML tags—most notably <Placemark>, <Point>, and <coordinates>—KML allows users to define specifi">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/using-kml-elements-to-annotate-google-earth">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Using KML Elements to Annotate Google Earth - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/using-kml-elements-to-annotate-google-earth" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Keyhole Markup Language (KML) is an XML-based standard used to display geographic data in mapping software like Google Earth. By utilizing a hierarchy of XML tags—most notably <Placemark>, <Point>, and <coordinates>—KML allows users to define specifi" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="using-kml-elements-to-annotate-google-earth">Using KML Elements
+to Annotate Google Earth</h1>
+<p>Keyhole Markup Language (KML) is an XML-based standard used to
+display geographic data in mapping software like Google Earth. By
+utilizing a hierarchy of XML tags—most notably
+<code>&lt;Placemark&gt;</code>, <code>&lt;Point&gt;</code>, and
+<code>&lt;coordinates&gt;</code>—KML allows users to define specific
+locations, attach descriptive metadata, and render interactive visual
+pins on the virtual globe.</p>
+<h3 id="the-placemark-element">The <code>&lt;Placemark&gt;</code>
+Element</h3>
+<p>In KML, the <code>&lt;Placemark&gt;</code> element serves as the
+primary container for defining a map feature. It brings together the
+geographic geometry of an object with its identifying information.
+Within a <code>&lt;Placemark&gt;</code> tag, you typically include:</p>
+<ul>
+<li><code>&lt;name&gt;</code>: Defines the label that appears next to
+the icon on the map and in the Google Earth sidebar.</li>
+<li><code>&lt;description&gt;</code>: Contains plain text or HTML that
+appears in a pop-up balloon when a user clicks the placemark.</li>
+<li><code>&lt;Style&gt;</code> or <code>&lt;styleUrl&gt;</code>:
+Customizes the icon, color, and visual appearance of the marker.</li>
+</ul>
+<p>A Placemark does not define the visual position on its own; instead,
+it wraps around a geometry element, such as a Point, LineString, or
+Polygon.</p>
+<h3 id="the-point-element">The <code>&lt;Point&gt;</code> Element</h3>
+<p>To mark a single specific location on a map, the
+<code>&lt;Point&gt;</code> element is nested inside a
+<code>&lt;Placemark&gt;</code>. The <code>&lt;Point&gt;</code> tag
+informs Google Earth that the feature is a discrete, zero-dimensional
+geographic position rather than a path or an enclosed area.</p>
+<p>When Google Earth reads a <code>&lt;Point&gt;</code> tag, it renders
+a standard pushpin or a custom icon at the designated position. The
+<code>&lt;Point&gt;</code> element can also include optional child tags
+like <code>&lt;altitudeMode&gt;</code> to specify whether the height
+should be relative to the ground, clamped to the surface, or
+absolute.</p>
+<h3 id="the-coordinates-element">The <code>&lt;coordinates&gt;</code>
+Element</h3>
+<p>Nested directly within the <code>&lt;Point&gt;</code> tag is the
+<code>&lt;coordinates&gt;</code> element, which supplies the exact
+spatial data required to place the marker. KML strictly defines
+coordinate values in a specific order:</p>
+<ol type="1">
+<li><strong>Longitude:</strong> Expressed in decimal degrees (between
+-180 and 180).</li>
+<li><strong>Latitude:</strong> Expressed in decimal degrees (between -90
+and 90).</li>
+<li><strong>Altitude (Optional):</strong> Expressed in meters above sea
+level.</li>
+</ol>
+<p>Unlike common conversational usage where latitude is listed first,
+KML requires <strong>longitude, latitude, altitude</strong> separated by
+commas with no spaces between the numbers.</p>
+<h3 id="how-google-earth-interprets-the-xml-hierarchy">How Google Earth
+Interprets the XML Hierarchy</h3>
+<p>When Google Earth parses a KML file, it traverses the XML tree to
+construct the visual scene. The relationship between these elements is
+structured as follows:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span> <span class="ot">version=</span><span class="st">&quot;1.0&quot;</span> <span class="ot">encoding=</span><span class="st">&quot;UTF-8&quot;</span><span class="fu">?&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">kml</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.opengis.net/kml/2.2&quot;</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">Placemark</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">name</span>&gt;Eiffel Tower&lt;/<span class="kw">name</span>&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">description</span>&gt;Iconic iron lattice tower in Paris, France.&lt;/<span class="kw">description</span>&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">Point</span>&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">coordinates</span>&gt;2.2945,48.8584,0&lt;/<span class="kw">coordinates</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">Point</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">Placemark</span>&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">kml</span>&gt;</span></code></pre></div>
+<p>When this file is opened, Google Earth reads the
+<code>&lt;coordinates&gt;</code> to calculate the precise spatial
+vector, builds a clickable pin defined by the <code>&lt;Point&gt;</code>
+geometry, and associates the label and pop-up data provided by the
+<code>&lt;Placemark&gt;</code>. Through this XML hierarchy, KML provides
+a standard, lightweight method for annotating geographic maps.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

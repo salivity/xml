@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How DITA Topic Types Structure XML Technical Writing - xml</title>
+    <meta name="description" content="The Darwin Information Typing Architecture (DITA) is an XML-based open standard designed to organize technical documentation into modular, standalone units of information called topics. Instead of writing monolithic chapters, technical communicators cate">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/how-dita-topic-types-structure-xml-technical-writing">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How DITA Topic Types Structure XML Technical Writing - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/how-dita-topic-types-structure-xml-technical-writing" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Darwin Information Typing Architecture (DITA) is an XML-based open standard designed to organize technical documentation into modular, standalone units of information called topics. Instead of writing monolithic chapters, technical communicators cate" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-dita-topic-types-structure-xml-technical-writing">How DITA
+Topic Types Structure XML Technical Writing</h1>
+<p>The Darwin Information Typing Architecture (DITA) is an XML-based
+open standard designed to organize technical documentation into modular,
+standalone units of information called topics. Instead of writing
+monolithic chapters, technical communicators categorize content into
+three core information types: concept, task, and reference. This article
+explores how these DITA topic types structure XML technical writing,
+enforce semantic separation, and improve documentation quality and
+reuse.</p>
+<h2 id="the-principle-of-information-typing">The Principle of
+Information Typing</h2>
+<p>Information typing is the practice of categorizing content based on
+the user's immediate need. DITA enforces this practice at the XML schema
+level. Rather than focusing on document formatting (such as bolding or
+page breaks), DITA focuses on semantic intent.</p>
+<p>By utilizing distinct XML schemas for different content types, DITA
+prevents authors from mixing background theory, actionable steps, and
+reference data within the same structural unit. This separation creates
+predictable, scannable documentation for users and simplifies content
+management for authors.</p>
+<h2 id="1-concept-topics-explaining-the-what-and-why">1. Concept Topics:
+Explaining the "What" and "Why"</h2>
+<p>Concept topics provide background information, definitions, system
+architecture overviews, and theoretical explanations. They answer
+questions such as "What is this feature?" or "Why should I use this
+workflow?"</p>
+<h3 id="xml-structure-of-a-concept">XML Structure of a Concept</h3>
+<p>A concept topic uses the <code>&lt;concept&gt;</code> root element,
+containing a <code>&lt;conbody&gt;</code> (concept body) designed for
+unstructured, descriptive content.</p>
+<p>Key XML tags within <code>&lt;conbody&gt;</code> include:</p>
+<ul>
+<li><code>&lt;p&gt;</code>: Paragraphs providing narrative
+explanations.</li>
+<li><code>&lt;section&gt;</code>: Titled sub-sections for organizing
+sub-concepts.</li>
+<li><code>&lt;ul&gt;</code> / <code>&lt;ol&gt;</code>: Standard bulleted
+or numbered lists for non-sequential items.</li>
+<li><code>&lt;fig&gt;</code>: Diagrams or illustrations that explain a
+system.</li>
+</ul>
+<p>Concept topics intentionally lack strict procedural tags like steps
+or command syntax, ensuring the author focuses exclusively on
+comprehension rather than execution.</p>
+<h2 id="2-task-topics-explaining-the-how-to">2. Task Topics: Explaining
+the "How-To"</h2>
+<p>Task topics are strictly procedural. They answer the question "How do
+I perform a specific action?" A well-structured task guides the user
+from a predefined starting state to a verified end state using
+sequential instructions.</p>
+<h3 id="xml-structure-of-a-task">XML Structure of a Task</h3>
+<p>A task topic uses the <code>&lt;task&gt;</code> root element and
+contains a <code>&lt;taskbody&gt;</code>, which strictly enforces the
+order of procedural elements:</p>
+<ol type="1">
+<li><code>&lt;prereq&gt;</code>: What the user must know, possess, or
+configure before starting the task.</li>
+<li><code>&lt;context&gt;</code>: A brief background note explaining the
+scenario or goal of the procedure.</li>
+<li><code>&lt;steps&gt;</code>: The sequential container for the
+procedure.
+<ul>
+<li><code>&lt;step&gt;</code>: An individual action item.</li>
+<li><code>&lt;cmd&gt;</code>: The mandatory imperative instruction
+within a step (e.g., "Click <strong>Save</strong>").</li>
+<li><code>&lt;info&gt;</code>: Optional supporting detail for that
+specific step.</li>
+<li><code>&lt;stepresult&gt;</code>: The immediate feedback or outcome
+of that specific action.</li>
+</ul></li>
+<li><code>&lt;result&gt;</code>: The overall outcome of completing all
+steps.</li>
+<li><code>&lt;example&gt;</code>: A practical illustration of the
+completed task.</li>
+<li><code>&lt;postreq&gt;</code>: Next steps or cleanup operations
+required after completion.</li>
+</ol>
+<p>By standardizing these tags, DITA ensures that every procedure across
+an organization follows the exact same logical flow.</p>
+<h2 id="3-reference-topics-fact-based-lookup-data">3. Reference Topics:
+Fact-Based Lookup Data</h2>
+<p>Reference topics contain quick-lookup, non-narrative information.
+They are designed for experienced users who need fast access to specific
+values, command options, API endpoints, error codes, or hardware
+specifications.</p>
+<h3 id="xml-structure-of-a-reference">XML Structure of a Reference</h3>
+<p>A reference topic uses the <code>&lt;reference&gt;</code> root
+element, containing a <code>&lt;refbody&gt;</code> optimized for
+structured data rather than flowing paragraphs:</p>
+<ul>
+<li><code>&lt;properties&gt;</code>: A specialized key-value table
+format designed specifically for attributes, types, and
+descriptions.</li>
+<li><code>&lt;refsyn&gt;</code>: Syntax diagrams or code blocks
+demonstrating command-line usage or programming syntax.</li>
+<li><code>&lt;table&gt;</code>: Traditional tabular data for
+specifications or pinouts.</li>
+<li><code>&lt;simpletable&gt;</code>: Lightweight tables for fast
+rendering of basic reference lists.</li>
+</ul>
+<p>Reference topics discourage narrative prose and completely forbid
+sequential task steps.</p>
+<h2 id="how-dita-xml-enforces-technical-writing-quality">How DITA XML
+Enforces Technical Writing Quality</h2>
+<p>The structural segregation of concept, task, and reference provides
+several technical advantages:</p>
+<ul>
+<li><strong>Schema Validation:</strong> Authors cannot mistakenly insert
+a <code>&lt;step&gt;</code> inside a <code>&lt;concept&gt;</code> or
+<code>&lt;reference&gt;</code> topic. The XML parser validates the
+document against Document Type Definitions (DTDs) or XML Schemas (XSDs),
+enforcing structural rules automatically.</li>
+<li><strong>Component Reuse:</strong> Modular topics can be combined and
+recombined into different deliverables (PDF user guides, online help
+centers, quick-start sheets) using DITA Maps (<code>&lt;map&gt;</code>)
+without rewriting or copy-pasting source XML.</li>
+<li><strong>Separation of Content and Style:</strong> Authors focus
+entirely on information architecture and semantics in the XML files.
+Rendering engines (such as the DITA Open Toolkit) handle the visual
+layout, typography, and styling for multiple output formats
+independently.</li>
+<li><strong>Improved Search and Navigation:</strong> Users can locate
+precisely the type of content they need—skipping conceptual explanations
+when they just need command syntax, or bypassing reference tables when
+they need a step-by-step tutorial.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

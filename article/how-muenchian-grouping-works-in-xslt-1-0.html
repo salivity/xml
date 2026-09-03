@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Muenchian Grouping Works in XSLT 1.0 - xml</title>
+    <meta name="description" content="The Muenchian grouping method is an optimized technique used in XSLT 1.0 to group XML nodes efficiently without native grouping constructs like XSLT 2.0's <xsl:for-each-group>. By combining XSLT keys (<xsl:key>) with unique node identity checks via gener">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/how-muenchian-grouping-works-in-xslt-1-0">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Muenchian Grouping Works in XSLT 1.0 - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/how-muenchian-grouping-works-in-xslt-1-0" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Muenchian grouping method is an optimized technique used in XSLT 1.0 to group XML nodes efficiently without native grouping constructs like XSLT 2.0's <xsl:for-each-group>. By combining XSLT keys (<xsl:key>) with unique node identity checks via gener" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-muenchian-grouping-works-in-xslt-10">How Muenchian Grouping
+Works in XSLT 1.0</h1>
+<p>The Muenchian grouping method is an optimized technique used in XSLT
+1.0 to group XML nodes efficiently without native grouping constructs
+like XSLT 2.0's <code>&lt;xsl:for-each-group&gt;</code>. By combining
+XSLT keys (<code>&lt;xsl:key&gt;</code>) with unique node identity
+checks via <code>generate-id()</code>, this method avoids the
+performance pitfalls of nested iteration, transforming what would
+otherwise be a slow <span class="math inline">\(O(n^2)\)</span> search
+into an optimal <span class="math inline">\(O(n)\)</span> or <span
+class="math inline">\(O(n \log n)\)</span> operation.</p>
+<h3 id="the-limitation-of-native-xslt-10">The Limitation of Native XSLT
+1.0</h3>
+<p>XSLT 1.0 lacks built-in grouping functions. The naive approach to
+grouping involves nested loops: an outer loop searches for distinct
+values by checking preceding nodes using XPath axes like
+<code>preceding-sibling::*</code>, and an inner loop collects matching
+nodes. This approach causes the processor to scan the preceding nodes
+repeatedly for every element in the document, resulting in exponential
+degradation in performance as the dataset grows.</p>
+<h3 id="core-mechanics-of-muenchian-grouping">Core Mechanics of
+Muenchian Grouping</h3>
+<p>Muenchian grouping solves the performance issue through three primary
+components:</p>
+<ol type="1">
+<li><p><strong>The Indexing Key (<code>&lt;xsl:key&gt;</code>):</strong>
+A key is declared at the top level of the stylesheet. It builds an
+internal index (a hash table or balanced tree) mapping a grouping
+expression (such as an element value or attribute) to the corresponding
+nodes.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xsl:key</span> <span class="ot">name=</span><span class="st">&quot;items-by-category&quot;</span> <span class="ot">match=</span><span class="st">&quot;item&quot;</span> <span class="ot">use=</span><span class="st">&quot;category&quot;</span>/&gt;</span></code></pre></div></li>
+<li><p><strong>The Group Leader Identification
+(<code>generate-id()</code>):</strong> To find unique groups, the
+processor must select only the first node of each distinct key value.
+Muenchian grouping achieves this by comparing the unique identifier of
+the current node with the unique identifier of the first node returned
+by the key lookup:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>generate-id() = generate-id(key(&#39;items-by-category&#39;, category)[1])</span></code></pre></div>
+<p>If the current node is the first node associated with that key value,
+the condition evaluates to <code>true</code>, establishing this node as
+the "group leader." Subsequent nodes with the same key value return
+<code>false</code> and are skipped.</p></li>
+<li><p><strong>Iterating Group Members:</strong> Once the group leader
+is identified in the outer loop, the inner loop retrieves all members
+belonging to that group directly from the index using the
+<code>key()</code> function, bypassing any need for sequential document
+scanning:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xsl:for-each</span> <span class="ot">select=</span><span class="st">&quot;key(&#39;items-by-category&#39;, category)&quot;</span>&gt;</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Process individual group items --&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xsl:for-each</span>&gt;</span></code></pre></div></li>
+</ol>
+<h3 id="step-by-step-implementation-pattern">Step-by-Step Implementation
+Pattern</h3>
+<p>A standard Muenchian grouping stylesheet follows this structure:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xsl:stylesheet</span> <span class="ot">version=</span><span class="st">&quot;1.0&quot;</span> <span class="ot">xmlns:xsl=</span><span class="st">&quot;http://www.w3.org/1999/XSL/Transform&quot;</span>&gt;</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- 1. Define the key --&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xsl:key</span> <span class="ot">name=</span><span class="st">&quot;by-category&quot;</span> <span class="ot">match=</span><span class="st">&quot;product&quot;</span> <span class="ot">use=</span><span class="st">&quot;@category&quot;</span> /&gt;</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xsl:template</span> <span class="ot">match=</span><span class="st">&quot;/catalog&quot;</span>&gt;</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">root</span>&gt;</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>            <span class="co">&lt;!-- 2. Loop through distinct group leaders --&gt;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">xsl:for-each</span> <span class="ot">select=</span><span class="st">&quot;product[generate-id() = generate-id(key(&#39;by-category&#39;, @category)[1])]&quot;</span>&gt;</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                &lt;<span class="kw">group</span> <span class="ot">name=</span><span class="st">&quot;{@category}&quot;</span>&gt;</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                    <span class="co">&lt;!-- 3. Retrieve all nodes in the current group --&gt;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>                    &lt;<span class="kw">xsl:for-each</span> <span class="ot">select=</span><span class="st">&quot;key(&#39;by-category&#39;, @category)&quot;</span>&gt;</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>                        &lt;<span class="kw">item</span>&gt;&lt;<span class="kw">xsl:value-of</span> <span class="ot">select=</span><span class="st">&quot;name&quot;</span>/&gt;&lt;/<span class="kw">item</span>&gt;</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>                    &lt;/<span class="kw">xsl:for-each</span>&gt;</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>                &lt;/<span class="kw">group</span>&gt;</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>            &lt;/<span class="kw">xsl:for-each</span>&gt;</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">root</span>&gt;</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">xsl:template</span>&gt;</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xsl:stylesheet</span>&gt;</span></code></pre></div>
+<h3 id="why-muenchian-grouping-is-efficient">Why Muenchian Grouping is
+Efficient</h3>
+<p>The efficiency of the Muenchian method relies on the XSLT engine's
+key index. Building the index requires a single pass over the source
+document. Subsequent lookups via <code>key()</code> operate in constant
+<span class="math inline">\(O(1)\)</span> or logarithmic <span
+class="math inline">\(O(\log n)\)</span> time. Because node uniqueness
+is verified via index pointers rather than linear tree traversals, the
+method scales reliably even when processing large XML documents
+containing tens of thousands of records.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

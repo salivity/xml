@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSM XML Guide: Nodes, Ways, and Relations Explained - xml</title>
+    <meta name="description" content="The OpenStreetMap (OSM) XML data format is a structured schema used to store geospatial data via three core primitives: nodes, ways, and relations. These elements, enriched with key-value metadata tags, define points, lines, boundaries, and complex geogr">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/osm-xml-guide-nodes-ways-and-relations-explained">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="OSM XML Guide: Nodes, Ways, and Relations Explained - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/osm-xml-guide-nodes-ways-and-relations-explained" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The OpenStreetMap (OSM) XML data format is a structured schema used to store geospatial data via three core primitives: nodes, ways, and relations. These elements, enriched with key-value metadata tags, define points, lines, boundaries, and complex geogr" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="osm-xml-guide-nodes-ways-and-relations-explained">OSM XML Guide:
+Nodes, Ways, and Relations Explained</h1>
+<p>The OpenStreetMap (OSM) XML data format is a structured schema used
+to store geospatial data via three core primitives: nodes, ways, and
+relations. These elements, enriched with key-value metadata tags, define
+points, lines, boundaries, and complex geographical relationships
+globally. This article breaks down the exact XML structure and
+attributes used to represent nodes, ways, relations, and tags in
+OpenStreetMap data files.</p>
+<h2 id="the-root-element">The Root Element</h2>
+<p>Every OSM XML file begins with the root <code>&lt;osm&gt;</code>
+element, which specifies metadata such as the API version, generator
+software, and copyright details. All geographic elements exist inside
+this container.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span> <span class="ot">version=</span><span class="st">&quot;1.0&quot;</span> <span class="ot">encoding=</span><span class="st">&quot;UTF-8&quot;</span><span class="fu">?&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">osm</span> <span class="ot">version=</span><span class="st">&quot;0.6&quot;</span> <span class="ot">generator=</span><span class="st">&quot;CGImap 0.8.8&quot;</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Nodes, Ways, Relations go here --&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">osm</span>&gt;</span></code></pre></div>
+<hr />
+<h2 id="nodes-node">Nodes (<code>&lt;node&gt;</code>)</h2>
+<p>A <strong>node</strong> represents a single point on the Earth's
+surface defined by latitude and longitude coordinates. Nodes are used
+either as standalone points of interest (POIs) or as vertex components
+within ways.</p>
+<h3 id="key-attributes">Key Attributes:</h3>
+<ul>
+<li><code>id</code>: A unique positive integer identifying the
+node.</li>
+<li><code>lat</code>: Latitude in decimal degrees (WGS 84).</li>
+<li><code>lon</code>: Longitude in decimal degrees (WGS 84).</li>
+<li><code>version</code>, <code>timestamp</code>,
+<code>changeset</code>, <code>user</code>, <code>uid</code>: Standard
+metadata attributes tracking edits and user attribution.</li>
+</ul>
+<h3 id="xml-representation">XML Representation:</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">node</span> <span class="ot">id=</span><span class="st">&quot;12345678&quot;</span> <span class="ot">lat=</span><span class="st">&quot;51.5074&quot;</span> <span class="ot">lon=</span><span class="st">&quot;-0.1278&quot;</span> <span class="ot">version=</span><span class="st">&quot;1&quot;</span> <span class="ot">timestamp=</span><span class="st">&quot;2023-01-01T00:00:00Z&quot;</span> <span class="ot">changeset=</span><span class="st">&quot;1&quot;</span> <span class="ot">user=</span><span class="st">&quot;MapperName&quot;</span> <span class="ot">uid=</span><span class="st">&quot;1001&quot;</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">tag</span> <span class="ot">k=</span><span class="st">&quot;amenity&quot;</span> <span class="ot">v=</span><span class="st">&quot;cafe&quot;</span>/&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">tag</span> <span class="ot">k=</span><span class="st">&quot;name&quot;</span> <span class="ot">v=</span><span class="st">&quot;Central Coffee&quot;</span>/&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">node</span>&gt;</span></code></pre></div>
+<p>If a node is purely structural (part of a way without individual POI
+metadata), it contains no child <code>&lt;tag&gt;</code> elements.</p>
+<hr />
+<h2 id="ways-way">Ways (<code>&lt;way&gt;</code>)</h2>
+<p>A <strong>way</strong> is an ordered sequence of 2 to 2,000 nodes
+that represents linear features (such as roads, paths, and rivers) or
+area boundaries (such as buildings, forests, and lakes) when closed.</p>
+<h3 id="key-characteristics">Key Characteristics:</h3>
+<ul>
+<li><strong>Open Way:</strong> A way where the first and last node
+references are different (e.g., a street or stream).</li>
+<li><strong>Closed Way (Polygon):</strong> A way where the first and
+last node references are identical (e.g., a building outline or
+park).</li>
+</ul>
+<h3 id="xml-structure">XML Structure:</h3>
+<p>Ways contain <code>&lt;nd&gt;</code> (node reference) child elements
+defining geometry in order, followed by <code>&lt;tag&gt;</code>
+elements describing the feature.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">way</span> <span class="ot">id=</span><span class="st">&quot;98765432&quot;</span> <span class="ot">version=</span><span class="st">&quot;2&quot;</span> <span class="ot">timestamp=</span><span class="st">&quot;2023-01-02T12:00:00Z&quot;</span> <span class="ot">changeset=</span><span class="st">&quot;2&quot;</span> <span class="ot">user=</span><span class="st">&quot;MapperName&quot;</span> <span class="ot">uid=</span><span class="st">&quot;1001&quot;</span>&gt;</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">nd</span> <span class="ot">ref=</span><span class="st">&quot;12345678&quot;</span>/&gt;</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">nd</span> <span class="ot">ref=</span><span class="st">&quot;12345679&quot;</span>/&gt;</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">nd</span> <span class="ot">ref=</span><span class="st">&quot;12345680&quot;</span>/&gt;</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">nd</span> <span class="ot">ref=</span><span class="st">&quot;12345678&quot;</span>/&gt; <span class="co">&lt;!-- Identical first/last node creates a closed way --&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">tag</span> <span class="ot">k=</span><span class="st">&quot;building&quot;</span> <span class="ot">v=</span><span class="st">&quot;yes&quot;</span>/&gt;</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">tag</span> <span class="ot">k=</span><span class="st">&quot;addr:housenumber&quot;</span> <span class="ot">v=</span><span class="st">&quot;42&quot;</span>/&gt;</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">way</span>&gt;</span></code></pre></div>
+<hr />
+<h2 id="relations-relation">Relations
+(<code>&lt;relation&gt;</code>)</h2>
+<p>A <strong>relation</strong> is a container element used to model
+complex relationships between multiple nodes, ways, and even other
+relations. Common use cases include transit routes, turn restrictions,
+and multipolygons (areas with inner holes or multiple disjoint outer
+perimeters).</p>
+<h3 id="xml-structure-1">XML Structure:</h3>
+<p>Relations contain <code>&lt;member&gt;</code> child elements along
+with <code>&lt;tag&gt;</code> metadata:</p>
+<ul>
+<li><code>type</code>: The primitive type of the member
+(<code>node</code>, <code>way</code>, or <code>relation</code>).</li>
+<li><code>ref</code>: The ID of the referenced element.</li>
+<li><code>role</code>: A string defining the member's function within
+the relation (e.g., <code>outer</code>, <code>inner</code>,
+<code>stop</code>, <code>via</code>).</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">relation</span> <span class="ot">id=</span><span class="st">&quot;55443322&quot;</span> <span class="ot">version=</span><span class="st">&quot;1&quot;</span> <span class="ot">timestamp=</span><span class="st">&quot;2023-01-03T15:30:00Z&quot;</span> <span class="ot">changeset=</span><span class="st">&quot;3&quot;</span> <span class="ot">user=</span><span class="st">&quot;MapperName&quot;</span> <span class="ot">uid=</span><span class="st">&quot;1001&quot;</span>&gt;</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">member</span> <span class="ot">type=</span><span class="st">&quot;way&quot;</span> <span class="ot">ref=</span><span class="st">&quot;98765432&quot;</span> <span class="ot">role=</span><span class="st">&quot;outer&quot;</span>/&gt;</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">member</span> <span class="ot">type=</span><span class="st">&quot;way&quot;</span> <span class="ot">ref=</span><span class="st">&quot;98765433&quot;</span> <span class="ot">role=</span><span class="st">&quot;inner&quot;</span>/&gt;</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">tag</span> <span class="ot">k=</span><span class="st">&quot;type&quot;</span> <span class="ot">v=</span><span class="st">&quot;multipolygon&quot;</span>/&gt;</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">tag</span> <span class="ot">k=</span><span class="st">&quot;landuse&quot;</span> <span class="ot">v=</span><span class="st">&quot;forest&quot;</span>/&gt;</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">relation</span>&gt;</span></code></pre></div>
+<hr />
+<h2 id="tags-tag">Tags (<code>&lt;tag&gt;</code>)</h2>
+<p><strong>Tags</strong> are child elements that attach semantic meaning
+to nodes, ways, or relations. They are structured as simple key-value
+string pairs using two attributes:</p>
+<ul>
+<li><code>k</code>: The tag key (the category or property, such as
+<code>highway</code>, <code>name</code>, or <code>maxspeed</code>).</li>
+<li><code>v</code>: The tag value (the specific property value, such as
+<code>residential</code>, <code>Main Street</code>, or
+<code>50</code>).</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">tag</span> <span class="ot">k=</span><span class="st">&quot;highway&quot;</span> <span class="ot">v=</span><span class="st">&quot;residential&quot;</span>/&gt;</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">tag</span> <span class="ot">k=</span><span class="st">&quot;surface&quot;</span> <span class="ot">v=</span><span class="st">&quot;asphalt&quot;</span>/&gt;</span></code></pre></div>
+<p>Any OSM primitive without <code>&lt;tag&gt;</code> elements exists
+solely to provide geometry or structure for higher-level elements.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

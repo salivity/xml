@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Animate SVG Using SMIL Elements - xml</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) allows you to animate Scalable Vector Graphics (SVG) directly inside the XML markup without requiring external CSS or JavaScript. By embedding elements like <animate> and <animateTransform>, you can smo">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/how-to-animate-svg-using-smil-elements">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Animate SVG Using SMIL Elements - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/how-to-animate-svg-using-smil-elements" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) allows you to animate Scalable Vector Graphics (SVG) directly inside the XML markup without requiring external CSS or JavaScript. By embedding elements like <animate> and <animateTransform>, you can smo" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-to-animate-svg-using-smil-elements">How to Animate SVG Using
+SMIL Elements</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) allows you to
+animate Scalable Vector Graphics (SVG) directly inside the XML markup
+without requiring external CSS or JavaScript. By embedding elements like
+<code>&lt;animate&gt;</code> and <code>&lt;animateTransform&gt;</code>,
+you can smoothly modify numeric properties, colors, coordinate systems,
+and spatial transformations. This guide covers how to implement these
+SMIL elements to build self-contained, responsive vector animations
+directly within your SVG code.</p>
+<hr />
+<h3 id="the-animate-element">The <code>&lt;animate&gt;</code>
+Element</h3>
+<p>The <code>&lt;animate&gt;</code> element is used to modify scalar
+attributes over time, such as dimensions, coordinates, opacities, and
+fill colors. You nest the <code>&lt;animate&gt;</code> tag inside the
+target shape element or link it using an <code>href</code>
+attribute.</p>
+<h4 id="core-attributes">Core Attributes:</h4>
+<ul>
+<li><strong><code>attributeName</code></strong>: The name of the SVG
+attribute to animate (e.g., <code>x</code>, <code>y</code>,
+<code>r</code>, <code>fill</code>, <code>opacity</code>).</li>
+<li><strong><code>from</code></strong> and
+<strong><code>to</code></strong>: The start and end values of the
+animation.</li>
+<li><strong><code>dur</code></strong>: The duration of the animation
+cycle (e.g., <code>2s</code>, <code>500ms</code>).</li>
+<li><strong><code>repeatCount</code></strong>: The number of playback
+iterations (<code>indefinite</code> or a specific integer).</li>
+<li><strong><code>values</code></strong>: A semicolon-separated list of
+values defining an interpolation sequence.</li>
+<li><strong><code>fill</code></strong>: Defines the post-animation state
+(<code>freeze</code> retains the final value; <code>remove</code> resets
+to the start).</li>
+</ul>
+<h4 id="example-animating-radius-and-color">Example: Animating Radius
+and Color</h4>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">svg</span> <span class="ot">viewBox=</span><span class="st">&quot;0 0 100 100&quot;</span> <span class="ot">width=</span><span class="st">&quot;200&quot;</span> <span class="ot">height=</span><span class="st">&quot;200&quot;</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/2000/svg&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">circle</span> <span class="ot">cx=</span><span class="st">&quot;50&quot;</span> <span class="ot">cy=</span><span class="st">&quot;50&quot;</span> <span class="ot">r=</span><span class="st">&quot;20&quot;</span> <span class="ot">fill=</span><span class="st">&quot;#3498db&quot;</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Animate the radius --&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">animate</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      <span class="ot">attributeName=</span><span class="st">&quot;r&quot;</span> </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      <span class="ot">values=</span><span class="st">&quot;20; 40; 20&quot;</span> </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      <span class="ot">dur=</span><span class="st">&quot;3s&quot;</span> </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span> /&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Animate the color --&gt;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">animate</span> </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>      <span class="ot">attributeName=</span><span class="st">&quot;fill&quot;</span> </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>      <span class="ot">values=</span><span class="st">&quot;#3498db; #e74c3c; #3498db&quot;</span> </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>      <span class="ot">dur=</span><span class="st">&quot;3s&quot;</span> </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>      <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span> /&gt;</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">circle</span>&gt;</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">svg</span>&gt;</span></code></pre></div>
+<hr />
+<h3 id="the-animatetransform-element">The
+<code>&lt;animateTransform&gt;</code> Element</h3>
+<p>The <code>&lt;animateTransform&gt;</code> element specifically
+targets the SVG <code>transform</code> attribute, enabling rotation,
+scaling, translation, and skewing.</p>
+<h4 id="core-attributes-1">Core Attributes:</h4>
+<ul>
+<li><strong><code>attributeName</code></strong>: Always set to
+<code>"transform"</code>.</li>
+<li><strong><code>type</code></strong>: The transformation type
+(<code>translate</code>, <code>scale</code>, <code>rotate</code>,
+<code>skewX</code>, or <code>skewY</code>).</li>
+<li><strong><code>from</code></strong> and
+<strong><code>to</code></strong>: Transformation parameters
+corresponding to the type. For rotation, the format is
+<code>angle [centerX centerY]</code>.</li>
+<li><strong><code>additive</code></strong>: Set to <code>"sum"</code> to
+allow multiple transformations to layer over each other without
+overriding.</li>
+</ul>
+<h4 id="example-rotating-a-shape-around-its-center">Example: Rotating a
+Shape Around Its Center</h4>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">svg</span> <span class="ot">viewBox=</span><span class="st">&quot;0 0 100 100&quot;</span> <span class="ot">width=</span><span class="st">&quot;200&quot;</span> <span class="ot">height=</span><span class="st">&quot;200&quot;</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/2000/svg&quot;</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">rect</span> <span class="ot">x=</span><span class="st">&quot;35&quot;</span> <span class="ot">y=</span><span class="st">&quot;35&quot;</span> <span class="ot">width=</span><span class="st">&quot;30&quot;</span> <span class="ot">height=</span><span class="st">&quot;30&quot;</span> <span class="ot">fill=</span><span class="st">&quot;#2ecc71&quot;</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">animateTransform</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>      <span class="ot">attributeName=</span><span class="st">&quot;transform&quot;</span> </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      <span class="ot">type=</span><span class="st">&quot;rotate&quot;</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>      <span class="ot">from=</span><span class="st">&quot;0 50 50&quot;</span> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>      <span class="ot">to=</span><span class="st">&quot;360 50 50&quot;</span> </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>      <span class="ot">dur=</span><span class="st">&quot;4s&quot;</span> </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>      <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span> /&gt;</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">rect</span>&gt;</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">svg</span>&gt;</span></code></pre></div>
+<hr />
+<h3 id="advanced-controls-timing-and-triggers">Advanced Controls: Timing
+and Triggers</h3>
+<p>SMIL provides advanced event-based triggers and sequencing controls
+without scripting.</p>
+<ul>
+<li><strong>User Events</strong>: Trigger animations on interaction
+using the <code>begin</code> attribute (e.g.,
+<code>begin="click"</code>, <code>begin="mouseover"</code>).</li>
+<li><strong>Chained Sequences</strong>: Reference the completion of
+another animation using element IDs (e.g.,
+<code>begin="firstAnim.end"</code>).</li>
+<li><strong>Timing Offsets</strong>: Add delays to events (e.g.,
+<code>begin="click + 0.5s"</code>).</li>
+</ul>
+<h4 id="example-chained-and-click-triggered-animations">Example: Chained
+and Click-Triggered Animations</h4>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">svg</span> <span class="ot">viewBox=</span><span class="st">&quot;0 0 200 100&quot;</span> <span class="ot">width=</span><span class="st">&quot;400&quot;</span> <span class="ot">height=</span><span class="st">&quot;200&quot;</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/2000/svg&quot;</span>&gt;</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Interactive Circle --&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">circle</span> <span class="ot">id=</span><span class="st">&quot;triggerCircle&quot;</span> <span class="ot">cx=</span><span class="st">&quot;50&quot;</span> <span class="ot">cy=</span><span class="st">&quot;50&quot;</span> <span class="ot">r=</span><span class="st">&quot;25&quot;</span> <span class="ot">fill=</span><span class="st">&quot;#e67e22&quot;</span> <span class="ot">cursor=</span><span class="st">&quot;pointer&quot;</span>&gt;</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">animate</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>      <span class="ot">id=</span><span class="st">&quot;grow&quot;</span> </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>      <span class="ot">attributeName=</span><span class="st">&quot;r&quot;</span> </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>      <span class="ot">from=</span><span class="st">&quot;25&quot;</span> </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>      <span class="ot">to=</span><span class="st">&quot;40&quot;</span> </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>      <span class="ot">dur=</span><span class="st">&quot;0.4s&quot;</span> </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>      <span class="ot">begin=</span><span class="st">&quot;click&quot;</span> </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>      <span class="ot">fill=</span><span class="st">&quot;freeze&quot;</span> /&gt;</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">circle</span>&gt;</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Dependent Rectangle --&gt;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">rect</span> <span class="ot">x=</span><span class="st">&quot;120&quot;</span> <span class="ot">y=</span><span class="st">&quot;30&quot;</span> <span class="ot">width=</span><span class="st">&quot;40&quot;</span> <span class="ot">height=</span><span class="st">&quot;40&quot;</span> <span class="ot">fill=</span><span class="st">&quot;#9b59b6&quot;</span>&gt;</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">animateTransform</span> </span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>      <span class="ot">attributeName=</span><span class="st">&quot;transform&quot;</span> </span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>      <span class="ot">type=</span><span class="st">&quot;scale&quot;</span> </span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>      <span class="ot">from=</span><span class="st">&quot;1&quot;</span> </span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>      <span class="ot">to=</span><span class="st">&quot;1.5&quot;</span> </span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>      <span class="ot">dur=</span><span class="st">&quot;0.5s&quot;</span> </span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>      <span class="ot">begin=</span><span class="st">&quot;grow.end&quot;</span> </span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>      <span class="ot">fill=</span><span class="st">&quot;freeze&quot;</span> /&gt;</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">rect</span>&gt;</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">svg</span>&gt;</span></code></pre></div>
+<hr />
+<h3 id="key-advantages-of-smil-animation">Key Advantages of SMIL
+Animation</h3>
+<ul>
+<li><strong>Self-Contained</strong>: Animations are embedded directly in
+the SVG file, working seamlessly when embedded as
+<code>&lt;img&gt;</code> tags or used as CSS background images.</li>
+<li><strong>Declarative</strong>: High performance with native
+browser-level rendering pipelines.</li>
+<li><strong>Resolution Independence</strong>: Vector paths and
+transformations retain sharpness at all screen densities and zoom
+levels.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

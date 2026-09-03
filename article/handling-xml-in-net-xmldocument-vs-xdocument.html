@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handling XML in .NET: XmlDocument vs XDocument - xml</title>
+    <meta name="description" content="In .NET, handling XML documents in memory is primarily achieved through two distinct Document Object Models (DOMs): the legacy XmlDocument residing in the System.Xml namespace and the modern XDocument residing in System.Xml.Linq. This article provides a">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/handling-xml-in-net-xmldocument-vs-xdocument">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Handling XML in .NET: XmlDocument vs XDocument - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/handling-xml-in-net-xmldocument-vs-xdocument" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In .NET, handling XML documents in memory is primarily achieved through two distinct Document Object Models (DOMs): the legacy XmlDocument residing in the System.Xml namespace and the modern XDocument residing in System.Xml.Linq. This article provides a" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="handling-xml-in-net-xmldocument-vs-xdocument">Handling XML in
+.NET: XmlDocument vs XDocument</h1>
+<p>In .NET, handling XML documents in memory is primarily achieved
+through two distinct Document Object Models (DOMs): the legacy
+<code>XmlDocument</code> residing in the <code>System.Xml</code>
+namespace and the modern <code>XDocument</code> residing in
+<code>System.Xml.Linq</code>. This article provides a direct comparison
+of both APIs, detailing their architectural differences, querying
+mechanisms, document manipulation patterns, and performance
+considerations to help you choose the right approach for your
+applications.</p>
+<h3 id="understanding-xmldocument-systemxml">Understanding
+<code>XmlDocument</code> (<code>System.Xml</code>)</h3>
+<p>Introduced in .NET Framework 1.1, <code>XmlDocument</code> is an
+implementation of the standard W3C DOM (Level 1 and Level 2 Core)
+recommendations. It treats an XML document as a hierarchical tree of
+polymorphic nodes (<code>XmlNode</code>), including elements
+(<code>XmlElement</code>), attributes (<code>XmlAttribute</code>), text
+nodes (<code>XmlText</code>), and comments.</p>
+<p>Key characteristics of <code>XmlDocument</code> include:</p>
+<ul>
+<li><strong>Factory-Based Node Creation:</strong> Nodes cannot exist
+independently of a document. You must use factory methods on the parent
+<code>XmlDocument</code> instance (such as <code>CreateElement</code> or
+<code>CreateAttribute</code>) to instantiate components before appending
+them to the tree.</li>
+<li><strong>XPath-Driven Querying:</strong> Navigation relies heavily on
+string-based XPath expressions using methods like
+<code>SelectSingleNode</code> and <code>SelectNodes</code>, which
+require an <code>XmlNamespaceManager</code> to handle XML
+namespaces.</li>
+<li><strong>Imperative Construction:</strong> Building XML trees
+requires explicit, step-by-step code to instantiate each node, assign
+values, and append children to their respective parents.</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Example: Creating XML using XmlDocument</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>XmlDocument doc <span class="op">=</span> <span class="kw">new</span> <span class="fu">XmlDocument</span><span class="op">();</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>XmlElement root <span class="op">=</span> doc<span class="op">.</span><span class="fu">CreateElement</span><span class="op">(</span><span class="st">&quot;Users&quot;</span><span class="op">);</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>XmlElement user <span class="op">=</span> doc<span class="op">.</span><span class="fu">CreateElement</span><span class="op">(</span><span class="st">&quot;User&quot;</span><span class="op">);</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>user<span class="op">.</span><span class="fu">SetAttribute</span><span class="op">(</span><span class="st">&quot;id&quot;</span><span class="op">,</span> <span class="st">&quot;1&quot;</span><span class="op">);</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>XmlElement name <span class="op">=</span> doc<span class="op">.</span><span class="fu">CreateElement</span><span class="op">(</span><span class="st">&quot;Name&quot;</span><span class="op">);</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>name<span class="op">.</span><span class="fu">InnerText</span> <span class="op">=</span> <span class="st">&quot;Jane Doe&quot;</span><span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>user<span class="op">.</span><span class="fu">AppendChild</span><span class="op">(</span>name<span class="op">);</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>root<span class="op">.</span><span class="fu">AppendChild</span><span class="op">(</span>user<span class="op">);</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>doc<span class="op">.</span><span class="fu">AppendChild</span><span class="op">(</span>root<span class="op">);</span></span></code></pre></div>
+<h3 id="understanding-xdocument-systemxmllinq">Understanding
+<code>XDocument</code> (<code>System.Xml.Linq</code>)</h3>
+<p>Introduced in .NET Framework 3.5 alongside LINQ,
+<code>XDocument</code> is part of the LINQ to XML API. It is designed to
+overcome the verbosity and rigid hierarchy of the traditional W3C DOM by
+offering a lightweight, intuitive, and LINQ-friendly object model.</p>
+<p>Key characteristics of <code>XDocument</code> include:</p>
+<ul>
+<li><strong>Element-Centric Design:</strong> Elements are represented by
+<code>XElement</code> and attributes by <code>XAttribute</code>.
+Elements can exist independently without requiring a parent
+<code>XDocument</code> wrapper.</li>
+<li><strong>Functional Construction:</strong> Entire XML hierarchies can
+be declared in a single, nested functional expression, dramatically
+reducing boilerplate code.</li>
+<li><strong>Strongly-Typed LINQ Querying:</strong> Documents can be
+queried using standard C# LINQ syntax (such as <code>.Elements()</code>,
+<code>.Descendants()</code>, and <code>.Where()</code>), providing
+compile-time type safety, debugging support, and IntelliSense.</li>
+<li><strong>Integrated Namespace Handling:</strong> Namespaces are
+strongly typed using the <code>XNamespace</code> class, which supports
+operator overloads for seamless combination with element names
+(<code>XName</code>).</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Example: Creating XML using XDocument and Functional Construction</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>XDocument doc <span class="op">=</span> <span class="kw">new</span> <span class="fu">XDocument</span><span class="op">(</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">new</span> <span class="fu">XElement</span><span class="op">(</span><span class="st">&quot;Users&quot;</span><span class="op">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">new</span> <span class="fu">XElement</span><span class="op">(</span><span class="st">&quot;User&quot;</span><span class="op">,</span> <span class="kw">new</span> <span class="fu">XAttribute</span><span class="op">(</span><span class="st">&quot;id&quot;</span><span class="op">,</span> <span class="st">&quot;1&quot;</span><span class="op">),</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>            <span class="kw">new</span> <span class="fu">XElement</span><span class="op">(</span><span class="st">&quot;Name&quot;</span><span class="op">,</span> <span class="st">&quot;Jane Doe&quot;</span><span class="op">)</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="op">)</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">)</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="op">);</span></span></code></pre></div>
+<h3 id="key-differences-and-comparison">Key Differences and
+Comparison</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;"><code>XmlDocument</code>
+(<code>System.Xml</code>)</th>
+<th style="text-align: left;"><code>XDocument</code>
+(<code>System.Xml.Linq</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>API Architecture</strong></td>
+<td style="text-align: left;">W3C Standard DOM</td>
+<td style="text-align: left;">Modern LINQ to XML Model</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Querying</strong></td>
+<td style="text-align: left;">XPath (<code>SelectNodes</code>,
+<code>SelectSingleNode</code>)</td>
+<td style="text-align: left;">LINQ methods and XPath extensions</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Node Independence</strong></td>
+<td style="text-align: left;">Nodes require a parent
+<code>XmlDocument</code></td>
+<td style="text-align: left;"><code>XElement</code> instances can exist
+standalone</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Namespace Management</strong></td>
+<td style="text-align: left;">Requires
+<code>XmlNamespaceManager</code></td>
+<td style="text-align: left;">Native via <code>XNamespace</code> and
+<code>XName</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Memory &amp;
+Performance</strong></td>
+<td style="text-align: left;">Higher memory footprint and overhead</td>
+<td style="text-align: left;">Optimized memory usage and faster
+parsing</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Tree Construction</strong></td>
+<td style="text-align: left;">Imperative, node-by-node creation</td>
+<td style="text-align: left;">Declarative/functional construction</td>
+</tr>
+</tbody>
+</table>
+<h3 id="choosing-between-xmldocument-and-xdocument">Choosing Between
+<code>XmlDocument</code> and <code>XDocument</code></h3>
+<ul>
+<li><strong>Use <code>XDocument</code></strong> for almost all modern
+.NET development. It provides better performance, lower memory overhead,
+cleaner syntax, and seamless integration with LINQ.</li>
+<li><strong>Use <code>XmlDocument</code></strong> only when maintaining
+legacy .NET codebases that already rely on the classic W3C DOM
+structure, or when interacting with third-party APIs that explicitly
+require an <code>XmlDocument</code> or <code>XmlNode</code>
+instance.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

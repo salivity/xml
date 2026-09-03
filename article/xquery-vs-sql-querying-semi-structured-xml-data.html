@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XQuery vs SQL: Querying Semi-Structured XML Data - xml</title>
+    <meta name="description" content="Querying semi-structured XML data requires choosing between a language natively built for hierarchical structures and a relational language adapted to support them. While XQuery was designed specifically to navigate, extract, and manipulate tree-structur">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/xquery-vs-sql-querying-semi-structured-xml-data">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="XQuery vs SQL: Querying Semi-Structured XML Data - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/xquery-vs-sql-querying-semi-structured-xml-data" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Querying semi-structured XML data requires choosing between a language natively built for hierarchical structures and a relational language adapted to support them. While XQuery was designed specifically to navigate, extract, and manipulate tree-structur" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="xquery-vs-sql-querying-semi-structured-xml-data">XQuery vs SQL:
+Querying Semi-Structured XML Data</h1>
+<p>Querying semi-structured XML data requires choosing between a
+language natively built for hierarchical structures and a relational
+language adapted to support them. While XQuery was designed specifically
+to navigate, extract, and manipulate tree-structured, schema-flexible
+XML documents, SQL is fundamentally a relational query language that
+relies on standard extensions (like SQL/XML) or vendor-specific
+functions to process XML stored within relational tables. This article
+examines the core architectural, syntactical, and performance
+differences between XQuery and SQL when handling semi-structured XML
+data.</p>
+<h3 id="core-data-models-and-paradigms">Core Data Models and
+Paradigms</h3>
+<ul>
+<li><strong>XQuery (Hierarchical/Tree Model):</strong> XQuery operates
+on the XQuery and XPath Data Model (XDM), representing XML as a tree of
+ordered nodes (elements, attributes, text, and processing instructions).
+It naturally preserves document order, parent-child relationships, and
+sibling hierarchies without requiring a rigid schema.</li>
+<li><strong>SQL (Relational Model):</strong> SQL operates on
+two-dimensional tables consisting of rows and fixed columns. To handle
+XML, relational database management systems (RDBMS) treat XML as a
+specialized data type (e.g., <code>XMLType</code> or text/binary blobs)
+and rely on functions to bridge the gap between relational tuples and
+hierarchical nodes.</li>
+</ul>
+<h3 id="query-construction-and-navigation">Query Construction and
+Navigation</h3>
+<ul>
+<li><strong>XQuery Syntax (FLWOR):</strong> XQuery utilizes XPath for
+path navigation and FLWOR expressions (<code>for</code>,
+<code>let</code>, <code>where</code>, <code>order by</code>,
+<code>return</code>) to iterate through nodes, filter data, and
+construct new XML structures directly. It allows concise expressions to
+traverse nested structures of arbitrary depth (e.g.,
+<code>//book/author</code>).</li>
+<li><strong>SQL Syntax (SQL/XML Extensions):</strong> SQL relies on
+standard functions such as <code>XMLQuery()</code>,
+<code>XMLExists()</code>, and <code>XMLTable()</code> within standard
+<code>SELECT-FROM-WHERE</code> blocks. Querying nested data often
+requires shredding the XML hierarchy into relational rows and columns
+before standard SQL operations can be applied.</li>
+</ul>
+<h3
+id="handling-schema-flexibility-and-semi-structured-features">Handling
+Schema Flexibility and Semi-Structured Features</h3>
+<ul>
+<li><strong>Irregular Structures:</strong> Semi-structured XML often
+contains missing fields, repeated elements, or polymorphic types. XQuery
+handles these anomalies natively; non-existent nodes simply return empty
+sequences without causing runtime errors.</li>
+<li><strong>Rigid Typing in SQL:</strong> SQL enforces stricter type
+safety and structural assumptions. Querying XML elements that vary
+significantly in structure across records often requires extensive
+conditional logic, type casting, or multiple unnesting operations.</li>
+</ul>
+<h3 id="performance-and-storage-integration">Performance and Storage
+Integration</h3>
+<ul>
+<li><strong>Native XML Databases:</strong> XQuery is typically deployed
+against native XML or document databases that index elements, paths, and
+values directly as trees, enabling fast traversal without translation
+overhead.</li>
+<li><strong>Relational Storage:</strong> When using SQL to query XML in
+an RDBMS, performance depends heavily on how the XML is stored. Parsing
+unstructured XML columns on-the-fly introduces CPU overhead, whereas
+using functional XML indexes or shredding the XML into normalized
+relational tables improves query speed at the cost of document structure
+fidelity.</li>
+</ul>
+<h3 id="summary-of-use-cases">Summary of Use Cases</h3>
+<ul>
+<li><strong>Use XQuery when:</strong> The primary data store is a native
+XML database, documents have deep or unpredictable hierarchies,
+preservation of document order and structure is critical, or the output
+must be constructed as transformed XML/JSON.</li>
+<li><strong>Use SQL when:</strong> The data is predominantly relational
+with occasional XML attributes, queries need to join relational tables
+with embedded XML payloads, or existing relational database
+infrastructure and reporting tools must be leveraged.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

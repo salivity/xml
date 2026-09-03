@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding App.config and Web.config in .NET - xml</title>
+    <meta name="description" content="In the Microsoft .NET ecosystem, app.config and web.config are standard XML-based configuration files used to manage application behavior, environment variables, security settings, and external dependencies without modifying or recompiling the source cod">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/understanding-app-config-and-web-config-in-net">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Understanding App.config and Web.config in .NET - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/understanding-app-config-and-web-config-in-net" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In the Microsoft .NET ecosystem, app.config and web.config are standard XML-based configuration files used to manage application behavior, environment variables, security settings, and external dependencies without modifying or recompiling the source cod" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="understanding-appconfig-and-webconfig-in-net">Understanding
+App.config and Web.config in .NET</h1>
+<p>In the Microsoft .NET ecosystem, <code>app.config</code> and
+<code>web.config</code> are standard XML-based configuration files used
+to manage application behavior, environment variables, security
+settings, and external dependencies without modifying or recompiling the
+source code. This article explains the distinct purposes of these files,
+their core structural elements, and how they function to provide
+flexible, environment-specific configuration across desktop, service,
+and web-based .NET applications.</p>
+<h2 id="what-are-configuration-files-in-net">What Are Configuration
+Files in .NET?</h2>
+<p>Configuration files in .NET allow developers to decouple application
+settings from compiled code. By storing parameters such as database
+connection strings, API keys, and runtime behaviors in plain text XML,
+administrators and developers can alter application behavior across
+different environments (such as Development, Staging, and Production)
+simply by modifying the XML file.</p>
+<h2 id="differences-between-appconfig-and-webconfig">Differences Between
+App.config and Web.config</h2>
+<p>While both files share a common XML schema and fundamental purpose,
+they target different application models:</p>
+<ul>
+<li><strong><code>app.config</code> (Desktop, Console, and Service
+Applications):</strong> Used in non-web projects such as Windows Forms,
+WPF, Console Applications, and Windows Services. When the project is
+compiled, the build engine automatically renames <code>app.config</code>
+to <code>[YourExecutableName].exe.config</code> and places it in the
+output directory alongside the compiled binary.</li>
+<li><strong><code>web.config</code> (ASP.NET Web Applications):</strong>
+Specifically designed for ASP.NET applications hosted in Internet
+Information Services (IIS) or IIS Express. Unlike
+<code>app.config</code>, <code>web.config</code> is evaluated at runtime
+directly by IIS and ASP.NET. It remains named <code>web.config</code> in
+the root (or subdirectories) of the web application and can configure
+both the ASP.NET runtime and IIS web server pipeline.</li>
+</ul>
+<h2 id="primary-uses-and-core-sections">Primary Uses and Core
+Sections</h2>
+<p>Both files use predefined XML nodes to control various aspects of the
+.NET runtime:</p>
+<h3 id="1-application-settings-appsettings">1. Application Settings
+(<code>&lt;appSettings&gt;</code>)</h3>
+<p>Stores custom, key-value pairs that can be read programmatically via
+the <code>ConfigurationManager</code> class. These are commonly used for
+feature flags, external API endpoints, and operational thresholds.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">appSettings</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">add</span> <span class="ot">key=</span><span class="st">&quot;ApiBaseUrl&quot;</span> <span class="ot">value=</span><span class="st">&quot;https://api.example.com&quot;</span> /&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">add</span> <span class="ot">key=</span><span class="st">&quot;EnableLogging&quot;</span> <span class="ot">value=</span><span class="st">&quot;true&quot;</span> /&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">appSettings</span>&gt;</span></code></pre></div>
+<h3 id="2-database-connection-strings-connectionstrings">2. Database
+Connection Strings (<code>&lt;connectionStrings&gt;</code>)</h3>
+<p>Provides a centralized repository for database connection parameters.
+This isolates sensitive connection information and database provider
+definitions from business logic.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">connectionStrings</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">add</span> <span class="ot">name=</span><span class="st">&quot;MainDatabase&quot;</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>       <span class="ot">connectionString=</span><span class="st">&quot;Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;&quot;</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>       <span class="ot">providerName=</span><span class="st">&quot;System.Data.SqlClient&quot;</span> /&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">connectionStrings</span>&gt;</span></code></pre></div>
+<h3 id="3-assembly-binding-and-redirection-runtime">3. Assembly Binding
+and Redirection (<code>&lt;runtime&gt;</code>)</h3>
+<p>Controls how the .NET Common Language Runtime (CLR) locates and loads
+dependent assemblies (DLLs). If different libraries depend on different
+versions of the same shared assembly, binding redirects can map older
+version requests to a newer installed version.</p>
+<h3
+id="4-web-server-and-pipeline-settings-systemweb-and-systemwebserver">4.
+Web Server and Pipeline Settings (<code>&lt;system.web&gt;</code> and
+<code>&lt;system.webServer&gt;</code>)</h3>
+<p>Exclusive primarily to <code>web.config</code>, these sections
+configure:</p>
+<ul>
+<li><strong>Authentication and Authorization:</strong> Secures pages and
+defines access rules (e.g., Windows Authentication, Forms
+Authentication).</li>
+<li><strong>Custom Errors:</strong> Configures HTTP error redirects
+(e.g., 404, 500 pages).</li>
+<li><strong>Modules and Handlers:</strong> Manages custom HTTP request
+processing logic inside IIS.</li>
+<li><strong>Session State:</strong> Configures how and where user
+sessions are stored (InProc, StateServer, or SQL Server).</li>
+</ul>
+<h2 id="modern-net-context-net-core-and-net-5">Modern .NET Context (.NET
+Core and .NET 5+)</h2>
+<p>In modern .NET (.NET Core, .NET 6, .NET 8, and newer), the
+configuration system has largely transitioned to JSON-based files,
+primarily <code>appsettings.json</code>, managed by the generic host and
+the <code>Microsoft.Extensions.Configuration</code> framework.</p>
+<p>However, <code>web.config</code> is still utilized in modern ASP.NET
+Core applications when hosted on Windows IIS to configure the ASP.NET
+Core Module (ANCM) reverse proxy settings, and both XML files remain
+foundational to legacy .NET Framework systems worldwide.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

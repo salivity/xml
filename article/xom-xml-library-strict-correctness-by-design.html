@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XOM XML Library: Strict Correctness by Design - xml</title>
+    <meta name="description" content="The XOM (XML Object Model) library is an open-source, tree-based Java API designed by Elliotte Rusty Harold to provide simple, robust, and safe XML processing. Unlike traditional APIs such as the standard W3C Document Object Model (DOM), which often allo">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/xom-xml-library-strict-correctness-by-design">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="XOM XML Library: Strict Correctness by Design - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/xom-xml-library-strict-correctness-by-design" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The XOM (XML Object Model) library is an open-source, tree-based Java API designed by Elliotte Rusty Harold to provide simple, robust, and safe XML processing. Unlike traditional APIs such as the standard W3C Document Object Model (DOM), which often allo" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="xom-xml-library-strict-correctness-by-design">XOM XML Library:
+Strict Correctness by Design</h1>
+<p>The XOM (XML Object Model) library is an open-source, tree-based Java
+API designed by Elliotte Rusty Harold to provide simple, robust, and
+safe XML processing. Unlike traditional APIs such as the standard W3C
+Document Object Model (DOM), which often allow developers to construct
+illegal XML representations in memory, XOM guarantees that an invalid
+XML document can never be created through its API. This article explains
+what XOM is, how it differs from traditional XML models, and the
+architectural principles it employs to enforce strict XML correctness
+and structural invariants by design.</p>
+<hr />
+<h3 id="what-is-xom">What Is XOM?</h3>
+<p>XOM is a lightweight, high-performance Java library for parsing,
+building, and manipulating XML. While it shares conceptual similarities
+with DOM and JDOM—representing XML documents as hierarchical, in-memory
+tree structures—its primary differentiator is an uncompromising focus on
+correctness and predictability.</p>
+<p>In standard DOM implementations, memory structures can easily drift
+into states that violate the XML 1.0 specification, such as elements
+containing illegal characters or unmapped namespace prefixes. These
+errors are often only discovered downstream during serialization. XOM
+eliminates this category of bugs by rejecting invalid data the moment it
+is introduced.</p>
+<hr />
+<h3 id="structural-invariants-enforced-by-design">Structural Invariants
+Enforced by Design</h3>
+<p>XOM enforces strict structural rules throughout the lifecycle of an
+XML node. These invariants prevent the internal tree model from ever
+entering an inconsistent state:</p>
+<ul>
+<li><strong>Strict Single-Parent Rule:</strong> In XOM, a node (such as
+an <code>Element</code>, <code>Text</code>, or <code>Comment</code>) can
+have at most one parent. If you attempt to add an already attached node
+to another element without detaching it first, XOM immediately throws an
+<code>IllegalAddException</code>. This prevents circular references and
+multi-parent graphs.</li>
+<li><strong>Document Hierarchy Constraints:</strong> A
+<code>Document</code> object in XOM strictly enforces root-level rules:
+it must contain exactly one root <code>Element</code>, and it cannot
+contain raw <code>Text</code> nodes as direct children.</li>
+<li><strong>No Orphaned Attribute Nodes:</strong> In XOM, attributes are
+not generic nodes in the tree hierarchy. They belong strictly to their
+parent <code>Element</code>, preventing disconnected or misapplied
+attribute objects.</li>
+</ul>
+<hr />
+<h3 id="namespace-and-naming-correctness">Namespace and Naming
+Correctness</h3>
+<p>Namespace handling is one of the most common sources of subtle bugs
+in XML processing. XOM enforces strict namespace and naming invariants
+on creation and modification:</p>
+<ul>
+<li><strong>Instant Validation of Names:</strong> Element and attribute
+names are validated at the moment of instantiation. If a name violates
+XML Name or NCName production rules (such as starting with a number or
+containing illegal punctuation), an <code>IllegalNameException</code> is
+thrown immediately.</li>
+<li><strong>Namespace Consistency:</strong> Whenever an element or
+attribute is assigned a prefix, XOM requires a corresponding namespace
+URI. It prevents prefix collisions, undeclared prefixes, or the use of
+reserved prefixes like <code>xml</code> or <code>xmlns</code> in illegal
+contexts.</li>
+<li><strong>No Unchecked Mutability:</strong> Modifying a prefix or
+namespace URI causes XOM to verify the change against the surrounding
+context to ensure no prefix shadowing or namespace conflicts are
+introduced.</li>
+</ul>
+<hr />
+<h3 id="character-data-and-content-integrity">Character Data and Content
+Integrity</h3>
+<p>XOM actively validates character data to prevent the insertion of
+characters that are illegal under the XML 1.0 specification:</p>
+<ul>
+<li><strong>Illegal Character Rejection:</strong> Characters such as
+null bytes (<code>\u0000</code>) or specific low-order control
+characters (outside of allowed whitespaces like carriage returns,
+newlines, and tabs) cannot be inserted into <code>Text</code> nodes,
+attribute values, or comments.</li>
+<li><strong>Automatic Entity Encoding:</strong> When serialized, XOM
+automatically escapes reserved characters like <code>&lt;</code>,
+<code>&gt;</code>, and <code>&amp;</code>, ensuring that the resulting
+string or stream is guaranteed to be well-formed XML.</li>
+</ul>
+<hr />
+<h3 id="the-fail-fast-philosophy">The Fail-Fast Philosophy</h3>
+<p>The core design pattern of XOM is <strong>fail-fast validation via
+unchecked exceptions</strong>. Instead of relying on boolean return
+values or delayed validation during serialization, XOM constructors and
+mutation methods immediately throw specific runtime exceptions
+(subclasses of <code>XMLException</code>, such as
+<code>IllegalDataException</code> or <code>NoSuchChildException</code>)
+when an operation would violate XML rules.</p>
+<p>By eliminating silent failures and invalid intermediate states, XOM
+allows developers to trust the integrity of any <code>Document</code> or
+<code>Element</code> instance passed across application boundaries. If
+an XOM object exists in memory, it is guaranteed to represent valid,
+well-formed XML.</p></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

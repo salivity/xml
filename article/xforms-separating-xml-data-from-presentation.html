@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4Y4YXFHZS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag(){
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-R4Y4YXFHZS');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XForms: Separating XML Data from Presentation - xml</title>
+    <meta name="description" content="XForms is a standard developed by the World Wide Web Consortium (W3C) designed as the next-generation format for web forms. This article explains what XForms is, how its architecture functions, and how it strictly decouples underlying XML data models, bu">
+    <link rel="canonical" href="https://salivity.github.io/xml/article/xforms-separating-xml-data-from-presentation">
+    <link rel="icon" href="/xml/favicon.ico">
+    <link rel="stylesheet" href="/xml/css/style.css">
+    <link media="print" rel="stylesheet" href="/xml/css/print.css">
+    <script src="/xml/js/fuse.min.js"></script>
+    <script src="/xml/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="XForms: Separating XML Data from Presentation - xml" />
+    <meta property="og:url" content="https://salivity.github.io/xml/article/xforms-separating-xml-data-from-presentation" />
+    <meta property="og:image:url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/xml/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="XForms is a standard developed by the World Wide Web Consortium (W3C) designed as the next-generation format for web forms. This article explains what XForms is, how its architecture functions, and how it strictly decouples underlying XML data models, bu" />
+    <link rel="manifest" href="/xml/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/xml/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>xml</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="https://github.com/salivity" title="Github" aria-label="Go To Github Profile Page"><svg class="svg-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path></svg></a></li>
+                <li><a href="/xml/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="xforms-separating-xml-data-from-presentation">XForms: Separating
+XML Data from Presentation</h1>
+<p>XForms is a standard developed by the World Wide Web Consortium (W3C)
+designed as the next-generation format for web forms. This article
+explains what XForms is, how its architecture functions, and how it
+strictly decouples underlying XML data models, business logic, and
+validation rules from the visual presentation layer rendered in user
+interfaces.</p>
+<h3 id="what-is-xforms">What is XForms?</h3>
+<p>XForms was introduced to overcome the structural and functional
+limitations of traditional HTML forms. While standard HTML forms
+intermingle data structures, display widgets, and script-based
+validation within the same markup, XForms applies a clean architectural
+pattern to web interactions. It handles form processing, data
+validation, calculations, and submissions natively using XML formats
+without relying on heavy client-side scripting.</p>
+<h3 id="the-model-view-controller-approach">The Model-View-Controller
+Approach</h3>
+<p>At the core of XForms is the Model-View-Controller (MVC)
+architectural pattern. XForms divides the structure of a form into
+distinct, modular parts:</p>
+<ol type="1">
+<li><strong>The Model (<code>&lt;xforms:model&gt;</code>):</strong>
+Represents the data, business rules, and communication protocols.</li>
+<li><strong>The View (UI Controls):</strong> Represents the visual
+elements and controls displayed to the user.</li>
+<li><strong>The Controller (Events and Actions):</strong> Handles the
+interaction flow between the model and the view, such as updates,
+calculations, and data submissions.</li>
+</ol>
+<h3 id="how-xforms-separates-data-models-from-presentation">How XForms
+Separates Data Models from Presentation</h3>
+<p>The separation of data from UI is achieved by keeping all data
+structures inside a non-visual model container, while visual controls
+are declared independently and linked to data nodes via declarative
+bindings.</p>
+<h4 id="1-the-data-model-layer">1. The Data Model Layer</h4>
+<p>The <code>&lt;xforms:model&gt;</code> element defines the internal
+state of the form. Inside this model:</p>
+<ul>
+<li><strong>Instances (<code>&lt;xforms:instance&gt;</code>):</strong>
+Store the raw XML data documents that hold the form's initial and
+updated values.</li>
+<li><strong>Bindings (<code>&lt;xforms:bind&gt;</code>):</strong> Define
+the constraints, data types (e.g., string, integer, date), read-only
+conditions, calculations, and validation rules directly on the XML nodes
+using XPath expressions.</li>
+<li><strong>Submissions
+(<code>&lt;xforms:submission&gt;</code>):</strong> Specify how and where
+the XML data should be transmitted, including protocols, endpoints, and
+target formats.</li>
+</ul>
+<p>Because all validation and data requirements are encapsulated in the
+model, they exist independently of any visual form controls.</p>
+<h4 id="2-the-presentation-layer">2. The Presentation Layer</h4>
+<p>The visual interface is built using abstract, intent-based controls
+such as <code>&lt;xforms:input&gt;</code>,
+<code>&lt;xforms:select&gt;</code>, <code>&lt;xforms:range&gt;</code>,
+or <code>&lt;xforms:submit&gt;</code>. Instead of specifying exact
+rendering styles or embedding validation scripts, these controls define
+their <em>intent</em> and bind to specific data nodes within the model
+using the <code>ref</code> attribute (an XPath expression).</p>
+<p>For example, a generic input control binds to a data node like
+this:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">xforms:input</span> <span class="ot">ref=</span><span class="st">&quot;person/name&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">xforms:label</span>&gt;Full Name:&lt;/<span class="kw">xforms:label</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">xforms:input</span>&gt;</span></code></pre></div>
+<p>The user interface does not define whether the input is required, its
+maximum length, or its valid characters; the presentation layer simply
+renders a visual control appropriate for the target device and reflects
+the constraints declared in the model.</p>
+<h3 id="key-benefits-of-decoupled-architecture">Key Benefits of
+Decoupled Architecture</h3>
+<ul>
+<li><strong>Device Independence:</strong> Because the presentation layer
+is abstract and separated from the data, the same data model can be
+presented across different interfaces—such as desktop browsers, mobile
+screens, screen readers, or voice-driven systems—without modifying the
+business logic.</li>
+<li><strong>Simplified Maintenance:</strong> Modifications to data
+structures, validation rules, or submission endpoints are made strictly
+within the model, leaving the user interface code untouched.</li>
+<li><strong>Declarative Validation:</strong> Client-side data checking,
+dynamic calculations, and field dependencies occur automatically without
+custom JavaScript.</li>
+<li><strong>Native XML Integration:</strong> Data is collected,
+validated, and transmitted as structured XML, allowing seamless
+integration with enterprise XML pipelines and back-end web
+services.</li>
+</ul></article>
+        <div id=comments-container></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/xml'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/xml/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/xml/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>
